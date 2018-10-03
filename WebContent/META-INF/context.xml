@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/Tickets">
+    <Resource name="jdbc/InfiniteDB" auth="Container"
+              type="javax.sql.DataSource" username="sa" password="Matrix3626"
+              driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" url="jdbc:sqlserver://220.135.113.164:1578;database=un888"
+              maxActive="30" maxIdle="15" />
+</Context>

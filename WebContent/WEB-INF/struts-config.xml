@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+    <data-sources/>
+    <form-beans>
+        <form-bean name="anonymousSignOnForm" type="npa.mp.util.AnonymousSignOnForm"/><!--上線時把此移除-->
+        <form-bean name="PdaManagerForm" type="npa.mp.PdaManagerForm" /><!--資產管理/組態設定/註冊管理/黑名單管理-->
+        <form-bean name="PdaConfForm" type="npa.mp.PdaConfForm" /><!--201001for四期-載具設定檔管理-->
+        <form-bean name="RepairRecForm" type="npa.mp.RepairRecForm" /><!--201808for載具設定檔管理-->
+        <form-bean name="DeviceTypeCntForm" type="npa.mp.DeviceTypeCntForm" /><!--201806 for new 註冊數量-->
+        <form-bean name="DeviceUnregForm" type="npa.mp.DeviceUnregForm" /><!--201807 for 載具未註冊清單-->
+        <form-bean name="NetErrForm" type="npa.mp.NetErrForm" /><!--201808 for 異常資料查詢-->
+        <form-bean name="SysConfForm" type="npa.mp.SysConfForm" /><!--201012-->
+        <form-bean name="PdaManagerDetailForm" type="npa.mp.PdaManagerDetailForm" /><!--資產管理(詳細資訊)-->
+        <form-bean name="PdaManagerDetail2Form" type="npa.mp.PdaManagerDetail2Form" /><!--資產管理(詳細資訊)-->
+        <form-bean name="PinCdManagerForm" type="npa.mp.PinCdManagerForm" /><!--黑名單管理-->
+        <form-bean name="PkgManagerForm" type="npa.mp.PkgManagerForm" /><!--軟體派送管理20100505 四期-->
+        <form-bean name="MrecLogForm" type="npa.mp.MrecLogForm" /><!--M化服務紀錄相關-->
+        <form-bean name="PkgSendingForm" type="npa.mp.PkgSendingForm" /><!--派送狀態-->
+        <form-bean name="UnAuthForm" type="npa.mp.UnAuthForm" /><!--非授權軟體-->
+        <form-bean name="AuthAppForm" type="npa.mp.AuthAppForm" /><!--准用軟體 20120831 雲端-->
+        <form-bean name="SyncTimeForm" type="npa.mp.SyncTimeForm" /><!--最新同步-->
+        <form-bean name="SyncRecForm" type="npa.mp.SyncRecForm" /><!--同步紀錄-->
+        <form-bean name="UnAuthAppRptForm" type="npa.mp.UnAuthAppRptForm" /><!--安裝非准用軟體載具統計報表-->
+        <form-bean name="JBRootRptForm" type="npa.mp.JBRootRptForm" /><!--安裝非准用軟體載具統計報表-->
+        <form-bean name="LprboxManagerForm" type="npa.mp.LprboxManagerForm" /><!--2013雲端-->
+        
+        <form-bean name="CrChannel_Form" type="nmp.aa.web.cha.AP_AADS_CrChannel_Form"/> <!-- 頻道建立 -->
+        <form-bean name="ChanSubs_Form" type="nmp.aa.web.cha.AP_AADS_ChanSubs_Form"/>   <!-- 頻道訂閱 -->
+        <form-bean name="ChanSubsMng_Form" type="nmp.aa.web.cha.AP_AADS_ChanSubsMng_Form" />    <!-- 頻道訂閱管理 -->
+        
+        <form-bean name="CityRel_Form" type="nmp.aa.web.mesg.AP_AADS_CityRel_Form"/>    <!-- 地緣關係 -->
+        <form-bean name="PMsg_Form" type="nmp.aa.web.mesg.AP_AADS_PMsg_Form"/>          <!-- 個人頻道訊息建立 -->
+        <form-bean name="PMsgMng_Form" type="nmp.aa.web.mesg.AP_AADS_PMsgMng_Form"/>    <!-- 個人頻道訊息編輯頁籤-->
+        <form-bean name="UMsg_Form" type="nmp.aa.web.mesg.AP_AADS_UMsg_Form"/>          <!-- 單位頻道訊息建立 -->
+        <form-bean name="BMsg_Form" type="nmp.aa.web.mesg.AP_AADS_BMsg_Form"/>          <!-- 廣播頻道訊息建立 -->
+        <form-bean name="MsgMng_Form" type="nmp.aa.web.mesg.AP_AADS_MsgMng_Form"/>      <!-- 頻道訊息編輯頁籤-->
+        <form-bean name="MsgAudit_Form" type="nmp.aa.web.mesg.AP_AADS_MsgAudit_Form"/>  <!-- 頻道資訊審核-->
+        
+        <form-bean name="Config601_Form" type="nmp.aa.web.util.AP_AADS_Config601_Form"/>  <!-- 頻道資料量控管參數設定-->
+        
+        <form-bean name="TrackingConfForm" type="npa.mp.TrackingConfForm" /><!--20141008-->
+        
+        <form-bean name="mesgB02M_Form" type="nmp.aa.web.mesg.mesgB02M_Form"/>    <!-- 已下沒用到暫存區 -->
+        <form-bean name="mesgA04M_Form" type="nmp.aa.web.mesg.mesgA04M_Form"/>
+        <form-bean name="chaA01M_Form" type="nmp.aa.web.cha.chaA01M_Form" />
+        <form-bean name="mesgMainForm" type="nmp.aa.web.mesg.mesgMainForm" />
+    </form-beans>
+    <global-exceptions/>
+    <global-forwards/>
+    <action-mappings>  
+        <action name="anonymousSignOnForm" path="/anonymousSignOnAction" scope="request" type="npa.mp.util.AnonymousSignOnAction" parameter="method">
+            <forward name="List" path="/view/util/AnonymousSignOn.jsp"/>
+            <forward name="ListAction" path="/welcome.htm"/>
+        </action>        
+        <!--一期-->
+        <action name="PdaManagerForm" parameter="method" path="/PdaManagerAction" scope="request" type="npa.mp.PdaManagerAction" validate="false">
+            <forward name="doList_pm" path="/view/PdaManager.jsp"/><!--資產管理-->
+            <forward name="doList_bl" path="/view/BlklistManager.jsp"/><!--黑名單管理-->
+            <forward name="doList_cs" path="/view/CfgSetting.jsp"/><!--組態設定-->
+            <forward name="doList_rg" path="/view/Register.jsp"/>
+            <forward name="doQuery" path="/view/PdaManager.jsp"/>
+            <forward name="doShowDetail" path="/view/PdaManagerDetail.jsp"/>
+            <forward name="doModManager" path="/view/PdaManagerModMgr.jsp"/>
+            <forward name="doChkbl" path="/view/BlacklistChecker.jsp"/>
+        </action>
+        <action name="PdaManagerDetailForm" parameter="method" path="/PdaManagerDetailAction" scope="request" type="npa.mp.PdaManagerAction" validate="false">
+            <forward name="doList_pm" path="/view/PdaManager.jsp"/><!--資產管理-->
+            <forward name="doQuery" path="/view/PdaManager.jsp"/>
+            <forward name="doShowDetail" path="/view/PdaManagerDetail.jsp"/>
+        </action>
+        <!--二期-->
+        <action name="PdaManagerForm" parameter="method" path="/PdaManager2Action" scope="request" type="npa.mp.PdaManager2Action" validate="false">
+            <forward name="doList_pm" path="/view/PdaManager.jsp"/><!--資產管理-->
+            <forward name="doList_pm_afaria" path="/view/PdaManagerAfaria.jsp"/><!--整個AfariaDb中的資料200909-->
+            <forward name="doList_bl" path="/view/BlklistManager.jsp"/><!--黑名單管理-->
+            <forward name="doList_cs" path="/view/CfgSetting.jsp"/><!--組態設定-->
+            <forward name="doList_rg" path="/view/Register2.jsp"/>
+            <forward name="doQuery" path="/view/PdaManager2.jsp"/>
+            <forward name="doShowDetail" path="/view/PdaManagerDetail2.jsp"/>
+            <forward name="doModManager" path="/view/PdaManagerModMgr.jsp"/>
+            <forward name="doChkbl" path="/view/BlacklistChecker.jsp"/>
+            <forward name="doGetPdaInfo" path="/view/BlacklistChecker.jsp"/>
+            <forward name="doGetAllPdaInfo" path="/view/BlacklistChecker.jsp"/>
+
+            <forward name="doList_rns" path="/view/RnsSetting.jsp"/><!--20081027新增-->
+            <forward name="doList_pdaCfg" path="/view/PdaCfg.jsp"/><!--20100108新增-載具設定檔維護-->
+            <forward name="ListAction" path="/welcome.htm"/>
+            <forward name="doMaintain" path="/view/ImsiMaintain.jsp"/>
+        </action>
+
+        <!--三期-->
+        <action name="PdaConfForm" parameter="method" path="/PdaConfAction" scope="request" type="npa.mp.PdaConfAction" validate="false">
+            <forward name="doList" path="/view/PdaConf.jsp"/>
+        </action>
+
+        <action name="RepairRecForm" parameter="method" path="/RepairRecAction" scope="request" type="npa.mp.RepairRecAction" validate="false">
+            <!--載具狀態-->
+            <forward name="getRepairRec" path="/view/ChangeStatus.jsp"/>
+            
+        </action>
+        
+        <!--new 註冊數量-->
+        <action name="DeviceTypeCntForm" parameter="method" path="/DeviceTypeCntAction" scope="request" type="npa.mp.DeviceTypeCntAction" validate="false">
+            <forward name="doListRns" path="/view/DeviceTypeCnt.jsp"/>
+        </action>
+        <!--new 未註冊清單-->
+        <action name="DeviceUnregForm" parameter="method" path="/DeviceUnregAction" scope="request" type="npa.mp.DeviceUnregAction" validate="false">
+            <forward name="doListUnreg" path="/view/DeviceUnreg.jsp"/>
+        </action>
+        <!--new 異常資料-->
+        <action name="NetErrForm" parameter="method" path="/NetErrAction" scope="request" type="npa.mp.NetErrAction" validate="false">
+            <forward name="doList" path="/view/NetErr.jsp"/>
+        </action>
+        
+
+        <action name="SysConfForm" parameter="method" path="/SysConfAction" scope="request" type="npa.mp.SysConfAction" validate="false">
+            <forward name="doList" path="/view/SysConf.jsp"/>
+        </action>
+
+        <action name="PdaManagerDetail2Form" parameter="method" path="/PdaManagerDetail2Action" scope="request" type="npa.mp.PdaManager2Action" validate="false">
+            <forward name="doList_pm" path="/view/PdaManager2.jsp"/><!--資產管理-->
+            <forward name="doQuery" path="/view/PdaManager2.jsp"/>
+            <forward name="doShowDetail" path="/view/PdaManagerDetail2.jsp"/>
+        </action>
+        <action name="PinCdManagerForm" parameter="method" path="/PinCdManagerAction" scope="request" type="npa.mp.PinCdManagerAction" validate="false">
+                <!--登錄碼管理-->
+            <forward name="doList" path="/view/PinCdManager.jsp"/>
+            <forward name="doQuery" path="/view/PinCdManager.jsp"/>
+            <forward name="doShowCopyList" path="/view/PinCdManagerCopy.jsp"/>
+        </action>
+        <action name="PkgManagerForm" parameter="method" path="/PkgManagerAction" scope="request" type="npa.mp.PkgManagerAction" validate="false">
+            <!--軟體派送管理20100505 四期-->
+            <forward name="doList" path="/view/PkgManager.jsp"/>
+            <forward name="doQuery" path="/view/PkgManager.jsp"/>
+            <forward name="doCreateSendPlanList" path="/view/PkgManagerCopy.jsp"/>
+        </action>
+        <action name="MrecLogForm" parameter="method" path="/MrecLogAction" scope="request" type="npa.mp.MrecLogAction" validate="false">
+            <forward name="doList" path="/view/MrecLog.jsp"/>
+            <forward name="doQuery" path="/view/MrecLog.jsp"/>
+                <!--統計報表-->
+            <forward name="doPrint" path="/view/MrecLogRpt.jsp"/>
+            <forward name="doShowErrMsg" path="/view/MrecLogRptNoData.jsp"/>
+        </action>
+
+        <!--軟體派送-->
+        <action name="PkgSendingForm" parameter="method" path="/PkgSendingAction" scope="request" type="npa.mp.PkgSendingAction" validate="false">
+            <forward name="doList" path="/view/PkgSending.jsp"/>
+        </action>
+
+        <!--軟體派送 二期-->
+        <action name="PkgSendingForm" parameter="method" path="/PkgSending2Action" scope="request" type="npa.mp.PkgSending2Action" validate="false">
+            <forward name="doList" path="/view/PkgSending2.jsp"/>
+        </action>
+
+        <!--最新同步-->
+        <action name="SyncTimeForm" parameter="method" path="/SyncTimeAction" scope="request" type="npa.mp.SyncTimeAction" validate="false">
+            <forward name="doList" path="/view/SyncTime.jsp"/>
+        </action>
+
+        <!--同步紀錄-->
+        <action name="SyncRecForm" parameter="method" path="/SyncRecAction" scope="request" type="npa.mp.SyncRecAction" validate="false">
+            <forward name="doList" path="/view/SyncRec.jsp"/>
+        </action>
+
+        <!--非授權(准用)軟體查詢-->
+        <action name="UnAuthForm" parameter="method" path="/UnAuthAction" scope="request" type="npa.mp.UnAuthAction" validate="false">
+            <forward name="doList" path="/view/UnAuth.jsp"/>
+            <forward name="doSet" path="/view/UnAuth.jsp"/>
+        </action>
+
+        <!--准用軟體/非准用軟體移除-->
+        <action name="AuthAppForm" parameter="method" path="/AuthAppAction" scope="request" type="npa.mp.AuthAppAction" validate="false">
+            <forward name="doList" path="/view/AuthApp.jsp"/>
+            <forward name="doListRemove" path="/view/UnAuthRemove.jsp"/>
+        </action>
+
+        <!--安裝非准用軟體載具統計報表-->
+        <action name="UnAuthAppRptForm" parameter="method" path="/UnAuthAppRptAction" scope="request" type="npa.mp.UnAuthAppRptAction" validate="false">
+            <forward name="doList" path="/view/UnAuthAppRpt.jsp"/>
+        </action>
+
+        <!--破解行動裝置統計報表-->
+        <action name="JBRootRptForm" parameter="method" path="/JBRootRptAction" scope="request" type="npa.mp.JBRootRptAction" validate="false">
+            <forward name="doList" path="/view/JBRootRpt.jsp"/>
+        </action>
+
+        <!--2013雲端-->
+        <action name="LprboxManagerForm" parameter="method" path="/LprboxManagerAction" scope="request" type="npa.mp.LprboxManagerAction" validate="false">
+            <forward name="doList" path="/view/LprboxManager.jsp"/>
+        </action>
+        
+        <!-- 頻道建立管理-->
+        <action name="CrChannel_Form" path="/CrChannel_Action" type="nmp.aa.web.cha.AP_AADS_CrChannel_Action" parameter="method" scope="request">
+            <forward name="List" path="/view/cha/AP_AADS_CrChannel.jsp" />
+        </action>
+        <action name="ChanSubs_Form" path="/ChanSubs_Action" type="nmp.aa.web.cha.AP_AADS_ChanSubs_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/cha/AP_AADS_ChanSubs.jsp" />
+            <forward name="ChanInfo" path="/view/cha/AP_AADS_ChanInfo.jsp" />
+        </action>
+        <action name="ChanSubsMng_Form" path="/ChanSubsMng_Action" type="nmp.aa.web.cha.AP_AADS_ChanSubsMng_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/cha/AP_AADS_ChanSubsMng.jsp" />
+        </action>
+        <!--地緣建立管理-->        
+        <action name="CityRel_Form" path="/CityRel_Action" type="nmp.aa.web.mesg.AP_AADS_CityRel_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/AP_AADS_CityRel.jsp" />
+        </action>
+        <!--頻道訊息建立管理-->
+        <action name="PMsg_Form" path="/PMsg_Action" type="nmp.aa.web.mesg.AP_AADS_PMsg_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/AP_AADS_PMsg.jsp" />
+            <forward name="Listtmp" path="/mesgB00M.jsp" />
+            <forward name="PMsgMng" path="/PMsgMng_Action.do?method=doList" />
+        </action>
+        <action name="PMsgMng_Form" path="/PMsgMng_Action" type="nmp.aa.web.mesg.AP_AADS_PMsgMng_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/AP_AADS_PMsgMng.jsp" />
+            <forward name="PMsg" path="/PMsg_Action.do?method=doQuery" />
+            <forward name="PMsgList" path="/PMsg_Action.do?method=doList" />
+        </action>
+        <action name="UMsg_Form" path="/UMsg_Action" type="nmp.aa.web.mesg.AP_AADS_UMsg_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/AP_AADS_UMsg.jsp" />
+            <forward name="Listtmp" path="/mesgB00M.jsp" />
+            <forward name="MsgMng" path="/MsgMng_Action.do?method=doList" />
+        </action>
+        <action name="BMsg_Form" path="/BMsg_Action" type="nmp.aa.web.mesg.AP_AADS_BMsg_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/AP_AADS_BMsg.jsp" />
+            <forward name="Listtmp" path="/mesgB00M.jsp" />
+            <forward name="MsgMng" path="/MsgMng_Action.do?method=doList" />
+        </action>
+        <action name="MsgMng_Form" path="/MsgMng_Action" type="nmp.aa.web.mesg.AP_AADS_MsgMng_Action" parameter="method" scope="request">
+            <forward name="List" path="/view/mesg/AP_AADS_MsgMng.jsp" />
+            <forward name="UMsg" path="/UMsg_Action.do?method=doList" />
+            <forward name="BMsg" path="/BMsg_Action.do?method=doList" />
+            <!--forward name="pdf" path="/report/頻道資訊異動申請單.pdf" /-->
+        </action>
+        <!-- 頻道資訊審核 -->
+        <action name="MsgAudit_Form" path="/MsgAudit_Action" type="nmp.aa.web.mesg.AP_AADS_MsgAudit_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/AP_AADS_MsgAudit.jsp" />
+            <forward name="Listtmp" path="/mesgB00M.jsp" />
+            <forward name="MsgMng" path="/MsgMng_Action.do?method=doList" />
+        </action>
+        <!-- 控管參數-->
+        <action name="Config601_Form" path="/Config601_Action" type="nmp.aa.web.util.AP_AADS_Config601_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/util/AP_AADS_Config601.jsp" />
+        </action>
+        <action name="TrackingConfForm" parameter="method" path="/TrackingConfAction" scope="request" type="npa.mp.TrackingConfAction" validate="false">
+            <forward name="doList" path="/view/TrackingConf.jsp"/>
+        </action>
+        <!-- 以下沒用到暫存 -->
+        <action name="chaA01M_Form" path="/chaA01M_Action" type="nmp.aa.web.cha.chaA01M_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/cha/chaA01M.jsp" />
+        </action>
+        <action name="mesgMainForm" path="/mesgMainAction" type="nmp.aa.web.mesg.mesgMainAction" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/mesgMain.jsp" />
+        </action>
+        <action name="mesgB02M_Form" path="/mesgB02M_Action" type="nmp.aa.web.mesg.mesgB02M_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/mesgB02M.jsp" />
+        </action>
+        <action name="mesgA04M_Form" path="/mesgA04M_Action" type="nmp.aa.web.mesg.mesgA04M_Action" parameter="method" scope="request" >
+            <forward name="List" path="/view/mesg/mesgA04M.jsp" />
+        </action>
+    </action-mappings>
+    <controller/>
+    <message-resources parameter="resources.application"/>
+</struts-config>

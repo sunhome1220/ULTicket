@@ -1,0 +1,72 @@
+    <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<header id="Header">
+        <div class="container">
+            <div style="margin-left:-15px;margin-right:-15px">
+                <nav class="navbar navbar-default megamenu" role="navigation">
+                    <div class="container" style="padding-left: 0px;padding-right: 0px;">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target="#offcanvas-left"><span class="sr-only">Toggle navigation</span><i class="icon-menu"></i></button>
+                            <div class="Logo">
+                                <!--<a title="警察刑事紀錄證明書" href="index.jsp"><img id='top_img' alt="警察刑事紀錄證明書" src="assets/img/logo4.png"  width="300"  height="70"></a>-->
+                                <a title="警察刑事紀錄證明書" href="index.jsp"><img id='top_img' alt="無限創意表演團" src="assets/img/logo4.png"  width="80"  height="80"></a>
+                            </div>
+                            <div class="NAME">
+                                無限票務系統
+                            </div>
+                            <!--   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#offcanvas-right"><span class="sr-only">Toggle navigation</span><i class="icon-down-open"></i></button>-->
+                        </div>
+                        <div class="collapse navbar-collapse Topmenu" id="offcanvas-left" role="navigation" style="padding-left: 0px;padding-right: 0px;">
+                            <div id="MENU" class="menu">
+                                <ul>
+<!--                                    <li>
+                                        <a  id="first_menu" href="login.jsp">測試登入</a>
+                                    </li>-->
+                                    <li>
+                                        <a  id="first_menu" href="index.jsp">首頁</a>
+                                    </li>
+                                    <li>
+                                        <a href="reply.jsp">票根輸入</a>
+                                    </li>
+                                    <li>
+                                        <a href="apply.jsp">(未)申辦作業</a>
+                                    </li>
+                                    <li>
+                                        <a href="query.jsp">(未)查詢作業</a>
+                                    </li>
+                                    <li>
+                                        <a href="forAudience.jsp">(未)觀眾索票</a>
+                                    </li>
+                                    <li>
+                                        <a href="test.jsp">測試畫面<b class="caret"></b></a>
+                                        <ul>
+                                            <li>
+                                                <a href="test1.jsp">測試1</a>
+                                            </li>
+                                            <li>
+                                                <a href="">測試2</a>
+                                            </li>
+                                            <li>
+                                                <a href="">測試3</a>
+                                            </li>
+                                            <li>
+                                                <a href="">測試4</a>
+                                            </li>
+                                            <li>
+                                                <a href="">測試5</a>
+                                            </li>
+                                            <li>
+                                                <a href="">測試6</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    

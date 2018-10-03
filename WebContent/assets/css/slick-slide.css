@@ -1,0 +1,43 @@
+@font-face {
+	font-family: 'Pacifico';
+	src: url('pacifico.eot');
+	src: url('pacifico.eot?#iefix') format('embedded-opentype'),
+	url('pacifico.woff') format('woff'),
+	url('pacifico.ttf') format('truetype'),
+	url('pacifico.svg#Pacifico') format('svg');
+}
+
+/*slick-slide*/
+.slick-slide{background: #ccc;}
+.slick-slide .image{padding:10px;}
+.slick-slide img{display:block;width:100%;height: auto;}
+.slick-slider{margin:30px auto 50px;}
+.slick-prev:before,
+.slick-next:before{
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #444;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+section.slide{ width: 90%; margin: 0 auto;}
+section.slide .single-item{}
+section.slide .single-item img{}
+section.slide .multiple-items{}
+section.slide .multiple-items div{ border-right: 2px solid transparent; border-left: 2px solid transparent;} /*padding為圖邊和圖片之間的間距*/
+section.slide .multiple-items div img{}
+
+section.slide .variable-width{}
+section.slide .variable-width div{  border-right: 2px solid #fff; border-left: 2px solid #fff} 
+section.slide .variable-width div img{ width: 100%; height: auto;}
+
+section.slide .center{}
+section.slide .center div{ border-right: 2px solid transparent; border-left: 2px solid transparent;} /*padding為圖邊和圖片之間的間距*/
+section.slide .center div img{}
+
+
+@media (max-width: 768px) {	
+	.center{margin-left:-40px;margin-right:-40px;}
+}

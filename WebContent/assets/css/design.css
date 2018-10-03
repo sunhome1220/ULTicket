@@ -1,0 +1,128 @@
+@charset "utf-8";
+@import url('animate.css');
+/* CSS Document */
+body { font-family: "微軟正黑體",Arial,sans-serif; overflow-x: hidden; background: #ffffff; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.navbar-default { background: #2cb290 url('') no-repeat left top !important; height: 145px; border-style: none; background-image: none; border-radius: 0px; box-shadow: none; position: relative; }
+.navbar { position: relative; min-height: 50px; margin-bottom: 10px; border: 1px solid transparent;}
+.Search .btn-default { text-shadow: 0px 1px 0px #fff; filter: none; filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+border-color: #FFF; border-color: #ccc; background: #333 url('') no-repeat center center !important; color: #FFF; width: 36px; }
+.glyphicon-search:before { content: ""; }
+.Search .btn-default:hover, .Search .btn-default:focus { background-color: #e0e0e0; background-position: 0 -15px; }
+#MainContent { background: #ffffff;}
+.listbox { background: url(../../images/listbox_bg.jpg) no-repeat center top; background-size: cover; box-sizing: border-box; padding-top: 174px; padding-right: 5%; padding-left: 5%; }
+#Header{left:0px};
+#Header .accesskey a { color: #31b390; }
+
+
+@media (max-width: 991px) {
+.listbox { padding-top: 20px; padding-right: 5%; padding-left: 5%; }
+.panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+}
+
+@media (max-width: 767px) {
+.navbar-default { background: #2cb290 url('') no-repeat left top !important; height: auto; overflow: hidden; border-bottom-color: #000 }
+.navbar-header { height: 75px; }
+.panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+.NAME { font-size: 30px; left: 15%;}
+#MENU { background:#2CB273;}
+}
+@media (max-width: 320px) {
+.navbar-header { height: 60px; }
+.panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+.NAME { font-size: 25px; left: 15%;}
+}
+
+/*-------------------------------------top menu-*/
+@media (min-width: 768px) {
+#Header .menu { width: 100%; margin: 91px 0 0 0; padding: 0; text-align: center; clear: both; z-index: 999; position: relative; height:53px;}
+#Header .menu ul { list-style: none; margin: 0px 0 0 0; padding: 0; }
+#Header .menu ul a { display: block; color: #333; transition: all .2s; outline: none; text-decoration: none;}
+#Header .menu ul>li>a:hover { color: #900; background: #DFDFDF; }
+#Header .menu ul a:focus { color: #900; background: #DFDFDF; }
+#Header .menu>ul { padding: 0; font-size: 18px; line-height: 20px; display: inline-block; font-weight: bolder; }
+#Header .menu>ul>li { margin: 0px 0px 0; padding: 0; float: left; position: relative; background: url('') no-repeat right center; }
+#Header .menu>ul>li:last-child { background: none; }
+#Header .menu>ul>li>a { padding: 14px 20px 12px 20px; }
+#Header .menu ul ul { display: none; overflow: visible; width: 200px; background-color: #fff; font-size: 16px; padding: 0; position: absolute; top: auto; left: 0; text-align: left; box-shadow: rgba(0,0,0,0.5) 0 5px 12px; }
+#Header .menu li li { position: relative; float: none; vertical-align: top; margin: 0 }
+#Header .menu li li a { padding: 10px 8px; color: #fff; display: block; background-color: #333; border-bottom: 1px dotted #ccc; white-space: normal; }
+#Header .menu li li a:hover { color: #fff; background: #FF6600; }
+#Header .menu li li.hasChild>a { padding-right: 32px; background-image: url(../images/menu_a_hasChild.png); background-repeat: no-repeat; background-position: 154px 15px; }
+#Header .menu li li.hasChild>a:hover { }
+#Header .menu ul ul ul { position: absolute; top: 0; left: 170px; margin-top: -1px; }
+.panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+#Header .menu>ul>li { margin: 0; }
+#Header .menu>ul>li>a { padding: 12px 8px 12px 8px; }
+.panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+#Header .menu { text-align: left; margin: 70px 0 0 0;}
+#Header .menu ul { list-style: none; margin: 0; padding: 0; font-size: 14px; }
+#Header .menu>ul>li { margin: 0; }
+#Header .menu>ul>li>a { padding: 12px 5px 12px 5px; }
+.panel-title {margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+#MENU {margin-top:90px !important;}
+#first_menu{margin-left: 250px;}
+#top_img{width:230px;height: 60px; margin-left:0px;}
+.Logo { position: absolute; left: 10px; top: 10px; }
+.NAME { position: absolute; left: 35%; top: 10px; font-size: 40px; letter-spacing: 10px;  }
+}
+@media (max-width: 767px) {
+#Header .menu { text-align: left; margin: 0; padding-bottom: 10px; }
+#Header .menu ul { list-style: none; margin: 0px; padding: 0; overflow: hidden; font-size: 18px; line-height: 1.2; position: relative; z-index: 999 }
+#Header .menu a { display: block; padding: 10px 16px; transition: .4s; background-color: #333; color: #fff; }
+#Header .menu a:hover { text-decoration: none }
+#Header .menu>ul { padding: 0; font-size: 18px; line-height: 20px; display: inline; }
+#Header .menu>ul>li { margin: 0px 10px 0; padding: 0; float: none; position: relative; }
+#Header .menu>ul>li>a:hover { background: #FF6600; }
+#Header .menu>ul>li>a { border-bottom: 1px solid #bbb; background-image: none; display: block; }
+#Header .menu>ul>li.nav a { background-color: #eeeeee; color: #333 }
+#Header .menu li.hasChild>a { padding-right: 50px; background-image: url(../images/icon06_2.png); background-repeat: no-repeat; background-position: right 15px; }
+#Header .menu li.hasChild.closeThis>a { background-position: right -124px; }
+#Header .menu li li.hasChild>a { background-position: right 15px; }
+#Header .menu li li.hasChild.closeThis>a { background-position: right -102px; }
+#Header .menu ul ul { display: none; padding: 0px; font-size: 16px; margin: 0 0 0px; width: 100%; }
+#Header .menu li li:first-child>a { border-top: 1px solid #bbb; }
+#Header .menu li li a { border-bottom: 1px solid #fff; padding: 10px 16px; background-color: #666; color: #fff }
+#Header .menu li li li a { border-bottom: 1px solid #fff; padding: 10px 16px 10px 35px; background-color: #ccc; color: #333 }
+#Header .menu li li li li a { border-bottom: 1px solid #999; padding: 10px 16px 10px 55px; background-color: #fff; color: #333 }
+.panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
+}
+@media (min-width: 200px) {
+	.NAME {left: 25%;font-size: 15px; letter-spacing: 0px;margin-top:10px;}
+}
+@media (min-width: 300px) {
+	.NAME { left: 20%;font-size: 23px; letter-spacing: 0px;margin-top:0px;}
+}
+@media (min-width: 400px) {
+	.NAME { left: 18%;font-size: 28px;letter-spacing: 5px;}
+}
+@media (min-width: 500px) {
+	.NAME { letter-spacing: 10px;}
+	.jqGrid{margin-left: 30px;}
+}
+@media (min-width: 600px) {
+	.NAME { left: 15%;font-size: 33px;letter-spacing: 15px;}
+}
+@media (min-width: 700px) {
+	.NAME { left: 15%;font-size: 37px;letter-spacing: 18px;}
+}
+@media (min-width: 767px) {
+	.NAME { left: 34%;font-size: 37px;letter-spacing: 15px;}
+	.jqGrid{margin-left: 0px;}
+}
+@media (min-width: 800px) {
+	.NAME { left: 33%;font-size: 37px;letter-spacing: 18px;}
+}
+@media (min-width: 1000px) {
+	.NAME { font-size: 45px; left: 35%;letter-spacing: 20px;}
+}
+@media (min-width: 1100px) {
+	.NAME { font-size: 45px; left: 35%;letter-spacing: 20px;}
+}
+@media (min-width: 1200px) {
+	.NAME { font-size: 45px; left: 30%;letter-spacing: 40px;}
+	.jqGrid{margin-left: 0px;width:1170px;height:438px;}
+}

@@ -1,0 +1,453 @@
+/*2015/04/05 for jqgird 的Mobile 轉為直列資料呈現的 css*/
+/*針對JQGrid的RWD處理*/
+/*@media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {*/
+@media only screen and (max-width: 980px) {
+  /*RWD下最外層的table要距右側要有間距，且broder移除*/
+  .ui-jqgrid {
+    margin-right: 20px;
+    border: 0px !important;
+  }
+  /*RWD下移除Table 的*/
+  .ui-jqgrid .ui-jqgrid-bdiv {
+    border: 0px !important;
+  }
+  /*僅要jqGrid下的tr td 呈現-靠它才可以轉成直式*/
+  .ui-jqgrid .ui-jqgrid-btable tr,
+  .ui-jqgrid .ui-jqgrid-btable td {
+    display: block;
+  }
+  /*.ui-jqgrid table, thead, tbody,td, th,tr {
+			display: block;
+		}*/
+  /*把Header全部移除*/
+  .ui-jqgrid thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  /*RWD下移掉htable的border*/
+  .ui-jqgrid .ui-jqgrid-htable {
+    margin: 0em;
+    font-size: 15px;
+    border: 0px;
+  }
+  .ui-jqgrid tr {
+    /*border-bottom: 2px solid #690461;*/
+  }
+  /*RWD下這是讓直列每個row有間距*/
+  .ui-jqgrid tr.jqgrow {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  /* Horse edit #ecf0ee */
+  .ui-jqgrid tr.jqgrow2 {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  .ui-jqgrid td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 40% !important;
+    vertical-align: top !important;
+    /*空出左側空間*/
+    text-align: left !important;
+  }
+  /*在td前空出一個空間*/
+  .ui-jqgrid td:before {
+    position: absolute;
+    width: 38%;
+    word-break: break-all;
+    /*強制換行*/
+    left: 10px;
+    /*靠position後再右推10px*/
+    text-align: left;
+    /*border-right-width: 1px;
+                border-right-color: #CBDAB6;*/
+    /*border-right-style: dashed;*/
+    font-family: MingLiU, Helvetica, sans-serif;
+    vertical-align: bottom;
+  }
+  /*加上欄位名稱Data*/
+  .ui-jqgrid td:nth-of-type(n):before {
+    content: attr(mycolname);
+  }
+  /*讓RWD時的Header可以自動調高度！*/
+  .tablebeforeheight {
+    display: block;
+    visibility: hidden;
+    /*透過這來占空間*/
+  }
+  /*它是RWD的第一列td style*/
+  .ui-jqgrid .ui-widget-content .ui-state-default {
+    border: #d2dedb 0px solid;
+    font-weight: bold;
+    color: #4b7676;
+    width: inherit !important;
+    background-image: none;
+    background-color: #cbddd5;
+  }
+  /*處理分頁相關的*/
+  /*RWD下分頁的tabl:ui-pg-table的button呈現:*/
+  .ui-jqgrid .ui-pg-table td {
+    padding-left: 0% !important;
+    text-align: left !important;
+  }
+  /*分頁第一個的td元件:把它縮小(注意：它的ui-pg-table有兩層，不可把Icon藏掉)*/
+  .ui-jqgrid .ui-pg-table td:first-child:not(.ui-pg-button) {
+    display: none;
+  }
+  /*分頁最後的td元件(筆數的):把它靠左*/
+  .ui-jqgrid .ui-pg-table td:last-child div {
+    text-align: center !important;
+    position: relative;
+    /*讓它離分頁近一點*/
+    left: -30px;
+  }
+  td[role=gridcell]{
+
+  }
+  #QueryResult{
+
+  }
+  /*.ui-jqgrid  .ui-jqgrid-pager {
+        display: block;
+         position:relative !important;
+         text-align: left !important;
+    }*/
+  /*.ui-jqgrid .ui-pg-table tr {
+            display: block;
+        }*/
+}
+@media only screen and (max-width: 736px) {
+  /*RWD下最外層的table要距右側要有間距，且broder移除*/
+  .ui-jqgrid {
+    margin-right: 20px;
+    border: 0px !important;
+  }
+  /*RWD下移除Table 的*/
+  .ui-jqgrid .ui-jqgrid-bdiv {
+    border: 0px !important;
+  }
+  /*僅要jqGrid下的tr td 呈現-靠它才可以轉成直式*/
+  .ui-jqgrid .ui-jqgrid-btable tr,
+  .ui-jqgrid .ui-jqgrid-btable td {
+    display: block;
+  }
+  /*.ui-jqgrid table, thead, tbody,td, th,tr {
+			display: block;
+		}*/
+  /*把Header全部移除*/
+  .ui-jqgrid thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  /*RWD下移掉htable的border*/
+  .ui-jqgrid .ui-jqgrid-htable {
+    margin: 0em;
+    font-size: 15px;
+    border: 0px;
+  }
+  .ui-jqgrid tr {
+    /*border-bottom: 2px solid #690461;*/
+  }
+  /*RWD下這是讓直列每個row有間距*/
+  .ui-jqgrid tr.jqgrow {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  /* Horse edit #ecf0ee */
+  .ui-jqgrid tr.jqgrow2 {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  .ui-jqgrid td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 40% !important;
+    vertical-align: top !important;
+    /*空出左側空間*/
+    text-align: left !important;
+  }
+  /*在td前空出一個空間*/
+  .ui-jqgrid td:before {
+    position: absolute;
+    width: 38%;
+    word-break: break-all;
+    /*強制換行*/
+    left: 10px;
+    /*靠position後再右推10px*/
+    text-align: left;
+    /*border-right-width: 1px;
+                border-right-color: #CBDAB6;*/
+    /*border-right-style: dashed;*/
+    font-family: MingLiU, Helvetica, sans-serif;
+    vertical-align: bottom;
+  }
+  /*加上欄位名稱Data*/
+  .ui-jqgrid td:nth-of-type(n):before {
+    content: attr(mycolname);
+  }
+  /*讓RWD時的Header可以自動調高度！*/
+  .tablebeforeheight {
+    display: block;
+    visibility: hidden;
+    /*透過這來占空間*/
+  }
+  /*它是RWD的第一列td style*/
+  .ui-jqgrid .ui-widget-content .ui-state-default {
+    border: #d2dedb 0px solid;
+    font-weight: bold;
+    color: #4b7676;
+    width: inherit !important;
+    background-image: none;
+    background-color: #cbddd5;
+  }
+  /*處理分頁相關的*/
+  /*RWD下分頁的tabl:ui-pg-table的button呈現:*/
+  .ui-jqgrid .ui-pg-table td {
+    padding-left: 0% !important;
+    text-align: left !important;
+  }
+  /*分頁第一個的td元件:把它縮小(注意：它的ui-pg-table有兩層，不可把Icon藏掉)*/
+  .ui-jqgrid .ui-pg-table td:first-child:not(.ui-pg-button) {
+    display: none;
+  }
+  /*分頁最後的td元件(筆數的):把它靠左*/
+  .ui-jqgrid .ui-pg-table td:last-child div {
+    text-align: center !important;
+    position: relative;
+    /*讓它離分頁近一點*/
+    left: -30px;
+  }
+}
+@media only screen and (max-width: 532px) {
+  /*RWD下最外層的table要距右側要有間距，且broder移除*/
+  .ui-jqgrid {
+    margin-right: 20px;
+    border: 0px !important;
+  }
+  /*RWD下移除Table 的*/
+  .ui-jqgrid .ui-jqgrid-bdiv {
+    border: 0px !important;
+  }
+  /*僅要jqGrid下的tr td 呈現-靠它才可以轉成直式*/
+  .ui-jqgrid .ui-jqgrid-btable tr,
+  .ui-jqgrid .ui-jqgrid-btable td {
+    display: block;
+  }
+  /*.ui-jqgrid table, thead, tbody,td, th,tr {
+			display: block;
+		}*/
+  /*把Header全部移除*/
+  .ui-jqgrid thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  /*RWD下移掉htable的border*/
+  .ui-jqgrid .ui-jqgrid-htable {
+    margin: 0em;
+    font-size: 15px;
+    border: 0px;
+  }
+  .ui-jqgrid tr {
+    /*border-bottom: 2px solid #690461;*/
+  }
+  /*RWD下這是讓直列每個row有間距*/
+  .ui-jqgrid tr.jqgrow {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  /* Horse edit #ecf0ee */
+  .ui-jqgrid tr.jqgrow2 {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  .ui-jqgrid td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 40% !important;
+    vertical-align: top !important;
+    /*空出左側空間*/
+    text-align: left !important;
+  }
+  /*在td前空出一個空間*/
+  .ui-jqgrid td:before {
+    position: absolute;
+    width: 38%;
+    word-break: break-all;
+    /*強制換行*/
+    left: 10px;
+    /*靠position後再右推10px*/
+    text-align: left;
+    /*border-right-width: 1px;
+                border-right-color: #CBDAB6;*/
+    /*border-right-style: dashed;*/
+    font-family: MingLiU, Helvetica, sans-serif;
+    vertical-align: bottom;
+  }
+  /*加上欄位名稱Data*/
+  .ui-jqgrid td:nth-of-type(n):before {
+    content: attr(mycolname);
+  }
+  /*讓RWD時的Header可以自動調高度！*/
+  .tablebeforeheight {
+    display: block;
+    visibility: hidden;
+    /*透過這來占空間*/
+  }
+  /*它是RWD的第一列td style*/
+  .ui-jqgrid .ui-widget-content .ui-state-default {
+    border: #d2dedb 0px solid;
+    font-weight: bold;
+    color: #4b7676;
+    width: inherit !important;
+    background-image: none;
+    background-color: #cbddd5;
+  }
+  /*處理分頁相關的*/
+  /*RWD下分頁的tabl:ui-pg-table的button呈現:*/
+  .ui-jqgrid .ui-pg-table td {
+    padding-left: 0% !important;
+    text-align: left !important;
+  }
+  /*分頁第一個的td元件:把它縮小(注意：它的ui-pg-table有兩層，不可把Icon藏掉)*/
+  .ui-jqgrid .ui-pg-table td:first-child:not(.ui-pg-button) {
+    display: none;
+  }
+  /*分頁最後的td元件(筆數的):把它靠左*/
+  .ui-jqgrid .ui-pg-table td:last-child div {
+    text-align: center !important;
+    position: relative;
+    /*讓它離分頁近一點*/
+    left: -30px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  /*RWD下最外層的table要距右側要有間距，且broder移除*/
+  .ui-jqgrid {
+    margin-right: 20px;
+    border: 0px !important;
+  }
+  /*RWD下移除Table 的*/
+  .ui-jqgrid .ui-jqgrid-bdiv {
+    border: 0px !important;
+  }
+  /*僅要jqGrid下的tr td 呈現-靠它才可以轉成直式*/
+  .ui-jqgrid .ui-jqgrid-btable tr,
+  .ui-jqgrid .ui-jqgrid-btable td {
+    display: block;
+  }
+  /*.ui-jqgrid table, thead, tbody,td, th,tr {
+			display: block;
+		}*/
+  /*把Header全部移除*/
+  .ui-jqgrid thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  /*RWD下移掉htable的border*/
+  .ui-jqgrid .ui-jqgrid-htable {
+    margin: 0em;
+    font-size: 15px;
+    border: 0px;
+  }
+  .ui-jqgrid tr {
+    /*border-bottom: 2px solid #690461;*/
+  }
+  /*RWD下這是讓直列每個row有間距*/
+  .ui-jqgrid tr.jqgrow {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  /* Horse edit #ecf0ee */
+  .ui-jqgrid tr.jqgrow2 {
+    border: #dddddd 1px solid;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  /*內文底*/
+  .ui-jqgrid td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 40% !important;
+    vertical-align: top !important;
+    /*空出左側空間*/
+    text-align: left !important;
+  }
+  /*在td前空出一個空間*/
+  .ui-jqgrid td:before {
+    position: absolute;
+    width: 38%;
+    word-break: break-all;
+    /*強制換行*/
+    left: 10px;
+    /*靠position後再右推10px*/
+    text-align: left;
+    /*border-right-width: 1px;
+                border-right-color: #CBDAB6;*/
+    /*border-right-style: dashed;*/
+    font-family: MingLiU, Helvetica, sans-serif;
+    vertical-align: bottom;
+  }
+  /*加上欄位名稱Data*/
+  .ui-jqgrid td:nth-of-type(n):before {
+    content: attr(mycolname);
+    font-weight: bold;
+    color:green;
+  }
+  /*讓RWD時的Header可以自動調高度！*/
+  .tablebeforeheight {
+    display: block;
+    visibility: hidden;
+    /*透過這來占空間*/
+  }
+  /*它是RWD的第一列td style*/
+  .ui-jqgrid .ui-widget-content .ui-state-default {
+    border: #d2dedb 0px solid;
+    font-weight: bold;
+    color: #4b7676;
+    width: inherit !important;
+    background-image: none;
+    background-color: #cbddd5;
+  }
+  /*處理分頁相關的*/
+  /*RWD下分頁的tabl:ui-pg-table的button呈現:*/
+  .ui-jqgrid .ui-pg-table td {
+    padding-left: 0% !important;
+    text-align: left !important;
+  }
+  /*分頁第一個的td元件:把它縮小(注意：它的ui-pg-table有兩層，不可把Icon藏掉)*/
+  .ui-jqgrid .ui-pg-table td:first-child:not(.ui-pg-button) {
+    display: none;
+  }
+  /*分頁最後的td元件(筆數的):把它靠左*/
+  .ui-jqgrid .ui-pg-table td:last-child div {
+    text-align: center !important;
+    position: relative;
+    /*讓它離分頁近一點*/
+    left: -30px;
+  }
+  .jqGrid{margin-left: 20px;}
+  .ui-widget-content>td[role=gridcell]{padding-bottom: 20px !important;}
+}
