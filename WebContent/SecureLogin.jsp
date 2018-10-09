@@ -274,9 +274,13 @@ function login(id){
                             <td class="dataField">
                                 <select class="selectpicker" data-width="100px" id="TM_PR_D_UNIT_CD" name="unitLevel2">
                                     <option value="">請選擇</option>
+                                    <option value="弘恩">弘恩</option>
                                     <option value="永樂">永樂</option>
-                                    <option value="藍天">藍天</option>
+                                    <option value="合歡">合歡</option>
+                                    <option value="恆德">恆德</option>
+                                    <option value="博愛">博愛</option>
                                     <option value="復興">復興</option>
+                                    <option value="藍天">藍天</option>   
                                 </select>                                 
                             </td>
 			</tr>

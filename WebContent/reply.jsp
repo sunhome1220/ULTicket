@@ -1,3 +1,4 @@
+<%@page import="util.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" import="java.util.*"%>
 <!DOCTYPE html>
@@ -11,7 +12,9 @@
     <meta name="Category.Theme" content="170">
     <meta name="Category.Cake" content="140">
     <meta name="Category.Service" content="E10">
-    <title>無限會員管理系統</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>無限票務</title>
+    <link rel="apple-touch-icon" href="assets/img/logo.png">
     <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap-theme.min.css">	
     <link rel="stylesheet" href="assets/css/megamenu.css">
@@ -24,6 +27,9 @@
     <link rel="stylesheet" href="assets/plugins/grid/grid-Microsoft.CUF.css">
     <link rel="stylesheet" href="assets/plugins/grid/grid-mobile.css">
     <link rel="stylesheet" href="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!--    <link href="assets/css/custom-lite.css" rel="stylesheet" type="text/css" />-->
     <script>
 
@@ -33,6 +39,7 @@
             color: #FF0000;
         }
     </style>
+    
 </head>
 
 <body>
@@ -41,17 +48,37 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">票根輸入-20181014新竹公演-陳測試</h2>    
-                    
+                    <h2 id="heaerh2" class="panel-title">票根輸入&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
 <!--                    <h2 id="heaerh22" class="panel-title">此帳號本場輸入數:10</h2>-->
 <!--                    <h2 id="heaerh23" class="panel-title">本場總輸入票根數:sp;1002</h2>-->
                 </div>
-                <div class="panel-body">
-                    
+                <div class="panel-body">                        
                         <form id="Form12">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span></span>票號</label>
+                                    <label><span class=Must>*</span>場次</label> 
+                                    <select class="form-control" data-width="100px" id="eventid" name="eventid">
+                                        <option value="">請選擇</option>
+                                        <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>
+                                        <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
+                                        <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
+                                        <option value="20181129">12/29-板橋公演(票號:35001~40000)</option>
+                                        <option value="201901">國館公演</option>
+                                </select><br>                                
+                                </div><br>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span>統計資料:</span></label>
+                                    <div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您本場已輸入票根數：<a id="countSelf">...</a><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本場已輸入票根總數：<a id="countTotal">...</a>
+                                    </div>
+                                </div>                                
+                            </div><br>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span></span>票號:</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -63,35 +90,38 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-3 col-xs-6">                                    
                                     <input type="tel" id="tckno2" name="tckno2" maxlength="5" class="form-control" placeholder="票號2">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                                                        
-                                    <input id="btnContinue2" disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-6">   
+                                    <input id="btnContinue2" class="btn btn-default" disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="tel" id="tckno3" name="tckno2" maxlength="5" class="form-control" placeholder="票號3">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                    
-                                    <input id="btnContinue3" disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-6">      
+                                    <input id="btnContinue3" class="btn btn-default"  disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="tel" id="tckno4" name="tckno2" maxlength="5" class="form-control" placeholder="票號4">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                    
-                                    <input id="btnContinue4" disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-6">                                         
+                                    <input id="btnContinue4" class="btn btn-default"  disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="tel" id="tckno5" name="tckno2" maxlength="5" class="form-control" placeholder="票號5">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                    
-                                    <input id="btnContinue5" disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-6">    
+<!--                                    <button class="" id="btnContinue5" disabled>
+                                        <i class="fas fa-arrow-down"></i>連號
+                                    </button>-->
+                                    <input id="btnContinue5" class="btn btn-default"  disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
@@ -99,38 +129,27 @@
                                     <input type="tel" id="tckno6" name="tckno2" maxlength="5" class="form-control" placeholder="票號6">
                                 </div>
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    <input id="btnContinue6" disabled type="button" value="連號">
+                                    <input id="btnContinue6" class="btn btn-default"  disabled type="button" value="連號">
                                 </div>
                             </div>
-<!--                            <div class="row">
-                                <input type="tel" id="tckno5" name="tckno5" maxlength="5" class="form-control" placeholder="票號5">
-                                <input type="tel" id="tckno6" name="tckno6" maxlength="5" class="form-control" placeholder="票號6">
-                                <input type="tel" id="tckno7" name="tckno7" maxlength="5" class="form-control" placeholder="票號7">
-                                <input type="tel" id="tckno8" name="tckno8" maxlength="5" class="form-control" placeholder="票號8">
-                                    <input type="text" id="tckno9" name="tckno9" maxlength="5" class="form-control" placeholder="票號9">
-                                <input type="text" id="tckno10" name="tckno10" maxlength="5" class="form-control" placeholder="票號10">
-                            </div>-->
-
-                        </form>
-                    </section>
-                </div>
+                        </form><br>
+<!--                    </section>-->
+                
                 <div class="panel-footer">                    
                     <div align="center">
-                        <button class="btn green btn-sm" id="btnQry">
-                            <i class="fa fa-search"></i>&nbsp;確認輸入</button>
+                        <button class="btn btn-default" style="" id="btnSubmit">確認輸入</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-default" id="btnClear">清除</button>
+                        <button type="reset" class="btn btn-default" id="btnClear">清除票號</button>
                     </div>
                 </div>
-            </div>
+            
             <div>
                 <br>
                 <div class="jqGrid">
                     <table id="QueryResult" style="display: none"></table>
                 </div>
                 <div id="QueryResultpagger"></div>
-            </div>
-        </div>
+            </div>        
     </section>
 
     

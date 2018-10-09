@@ -128,8 +128,8 @@ padding: 3px; vertical-align: top; }
 .Topnav .active { background-color: transparent !important; }
 .Topnav li a { color: #FFF !important; display: block; margin: 0px; padding: 5px 8px; }
 .Topnav li a:hover { color: #FF0 !important; }
-.navbar-default .navbar-toggle { border-color: #2d987d; color: #FFF; background: #2cb290; }
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus { border-color: #2d987d; color: #FFF; background: #2cb290; }
+.navbar-default .navbar-toggle { border-color: #2d987d; color: #FFF; background: rgb(0,159,232); }
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus { border-color: #2d987d; color: #FFF; background: rgb(0,159,232); }
 .listbox .thumbnail { -webkit-box-shadow: 0 0 10px rgba(0,0,0,.3); -moz-box-shadow: 0 0 10px rgba(0,0,0,.3); box-shadow: 0 0 10px rgba(0,0,0,.3); padding: 0px 0px 2em; min-height: 380px; }
 .listbox .thumbnail .caption { padding: 0px; }
 .listbox .thumbnail h4 { font-size: 18px; line-height: 300%; font-weight: bolder; color: #FFF; margin: 0px 0px 15px !important; padding: 0px !important; text-align: center; min-height: 56px; -webkit-box-shadow: 2px 3px 6px rgba(0,0,0,.18); -moz-box-shadow: 2px 3px 6px rgba(0,0,0,.18); box-shadow: 2px 3px 6px rgba(0,0,0,.18); }

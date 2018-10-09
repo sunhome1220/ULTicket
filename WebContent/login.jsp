@@ -48,9 +48,9 @@
                         <form id="Form1">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>姓名</label> <input
+                                    <label><span class=Must>*</span>帳號</label> <input
                                         type="text" id="txtUserNum" name="txtUserNum" class="form-control"
-                                        placeholder="您的帳號">
+                                        placeholder="您的帳號(目前很多人都是自己的姓名)">
                                 </div>
                             </div>
                             <div class="row">
@@ -59,16 +59,17 @@
                                     <input type="password" id="txtPwd" name="txtPwd" class="form-control"
                                            placeholder="您的密碼">
                                 </div>
-                            </div>
+                            </div>                                                
                         </form>
                     </section>
                 </div>
                 <div class="panel-footer">
                     <div align="center">
-                        <button class="btn btn-default" id="btnQry"
-                                onClick="login();">登入</button>
+                        <button class="btn btn-default" id="btnQry" onClick="login();">登入</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="reset" class="btn btn-default" id="btnClear">清除</button>
+<!--                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-default" id="btnQry" onClick="register();">註冊</button>-->
                     </div>
                 </div>
             </div>

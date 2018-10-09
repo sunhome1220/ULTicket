@@ -27,16 +27,16 @@
 <link rel="stylesheet" href="assets/plugins/grid/grid-Microsoft.CUF.css">
 <link rel="stylesheet" href="assets/plugins/grid/grid-mobile.css">
 <script type="text/javascript">
-    var u = navigator.userAgent;    
+    var u = navigator.userAgent;
+    //alert(u);
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     if(isAndroid){
         window.location = 'indexAndroid.jsp';
     }
     else if(isiOS){
-        //alert('ios!');
     }else{
-        //alert('desktop!');
+
     }            
 </script>
 </head>
@@ -52,34 +52,17 @@
 				<div class="panel-body">
 				    <ol>
 				    <li>瀏覽器使用說明<br>
-				        本系統適用IE8(以上)、Google Chrome、FireFox、Safari瀏覽器，若有無法使用的狀況請通知我們。
+				        本系統適用IE8(以上)、Google Chrome、FireFox、Safari瀏覽器。
 				    </li>
                                     <li>登入說明<br>
-				        請先使用陳組長提供之離線版程式以取得帳號及密碼(建議不要使用與其他網站共用之帳號或密碼)                                       
-				    </li>
-                                    <li>功能選單<br>                                      
-				        若使用手機操作，選單位於畫面左上角
+				        請先使用陳組長提供之離線版程式以取得帳號及密碼                                       
 				    </li>
                                     <li>建立連結<br>
                                         目前開放功能為「票根輸入」<br>
-				        首次登入即先開啟此功能，可先將連結加入主畫面以便下次使用
+				        首次登入即先開啟此功能，可先將連結加入主畫面以便下次使用(無需再次登入)
 				    </li>
 				    <li>
-                                        我們將基於以下目的而使用您的個人資料：<br>                                        
-                                        通知您演出及上課的相關資訊和確認；                                        
-                                        透過您同意收取的通訊地址寄送票券或相關課程資訊；                                        
-				    </li>
-				    <li>
-                                        個人資料安全性：<br>
-                                        您在本網站上進行任何操作所提供的資訊將採用SSL加密協定以保護個人識別資料(建置中)。
-				    </li>
-				    <li>
-                                        您的隱私權選擇：<br>
-                                        如果您不希望我們以任何方式取得或使用您的個人資料，則請勿提供資料給我們，或您如果已經提供個人資料並且希望取消、更新或存取您的個人資料時，請寄送電子郵件通知我們。<a href="mailto:sunhome1220@gmail.com?subject=%5B%E7%84%A1%E9%99%90%E7%A5%A8%E5%8B%99%E7%AE%A1%E7%90%86-%E5%88%AA%E9%99%A4%E5%80%8B%E8%B3%87%5D&body=%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0%3A">刪除個人資料</a>。
-				    </li>
-				    <li>
-                                        意見回饋<br>
-                                        若有任何操作問題請寄送電子郵件至<a href="mailto:sunhome1220@gmail.com?subject=%5B%E7%84%A1%E9%99%90%E7%A5%A8%E5%8B%99%E7%AE%A1%E7%90%86-%E5%95%8F%E9%A1%8C%E5%8F%8D%E6%87%89%5D&body=%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0%3A">sunhome1220@gmail.com</a>
+                                        若有任何操作問題請email至<a href="mailto:sunhome1220@gmail.com?subject=%5B%E7%84%A1%E9%99%90%E7%A5%A8%E5%8B%99%E7%AE%A1%E7%90%86-%E5%95%8F%E9%A1%8C%E5%8F%8D%E6%87%89%5D&body=%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0%3A">此處</a>
 				    </li>
 				    
 				    </ol>

@@ -116,14 +116,14 @@ public class LoginFilter implements Filter {
                             }
 			    chain.doFilter(request, response);// 登入過就繼續
 			} else {
-			    String viewerURL = "SessionTimeout.jsp";
+			    String viewerURL = "login.jsp";
                             String clientIp = getClientIp(req);
-                            //TODO test
-                                user = new User();
-                                user.setUserId("TEST001");
-                                user.setLoginStatus(0);
-                                session.setAttribute("user", user);
-                                //TODO test
+//                            //TODO test
+//                                user = new User();
+////                                user.setUserId("TEST001");
+//                                user.setLoginStatus(0);
+//                                session.setAttribute("user", user);
+//                                //TODO test
                             if(clientIp.equals("127.0.0.1") || clientIp.equals("0:0:0:0:0:0:0:1")){
                                 
                                 viewerURL = "login.jsp";//是local

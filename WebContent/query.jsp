@@ -45,6 +45,14 @@
     .Must {
         color: #FF0000;
     }
+    .loginUser{
+        position: relative;
+        right:0px;
+/*        top: -20px;
+        left: 20px;*/
+/*        background-color: white;
+        width: 500px;*/
+    }
 </style>
 </head>
 
@@ -64,9 +72,13 @@
                                     <label><span class=Must>*</span>組別(依筆劃排序)</label> 
                                     <select class="form-control" data-width="100px" id="teamName" name="unitLevel2">
                                         <option value="">請選擇</option>
+                                        <option value="弘恩">弘恩</option>
                                         <option value="永樂">永樂</option>
-                                        <option value="藍天">藍天</option>
+                                        <option value="合歡">合歡</option>
+                                        <option value="恆德">恆德</option>
+                                        <option value="博愛">博愛</option>
                                         <option value="復興">復興</option>
+                                        <option value="藍天">藍天</option>                                        
                                 </select>                                 
                                 </div>
                             </div>
@@ -85,13 +97,7 @@
                                         type="text" id="txtIDNum" name="txtIDNum" class="form-control"
                                         placeholder="英文請輸入大寫">
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>出生日期</label> 
-                                    <input type="text" id="txtBirth" name="txtBirth" class="form-control">
-                                </div>
-                            </div>
+                            </div>                            
                         </form>
                     </section>
                 </div>

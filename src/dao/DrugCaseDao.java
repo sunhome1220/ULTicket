@@ -2225,4 +2225,114 @@ public class DrugCaseDao extends CJBaseDao {
         }
 
     }
+    /**
+     * 
+     * @param argJsonObj
+     * @return 
+     */
+    public String addTicnos(JSONObject argJsonObj) {
+        String strMsg = "";
+        String[] allTicNo = argJsonObj.getString("ticketnos").split(";");
+        String eventid = argJsonObj.getString("eventid");
+        String userid = argJsonObj.getString("USER_NM");
+        log.info("addTicnos:" + userid);
+        //String sql = "INSERT INTO showtick(evid,tickid,username) VALUES ('20181014',12349,'001     ')";
+        String sql = "INSERT INTO showtick(evid,tickid,username) VALUES (? ,?, ?)";
+        Object[] sqls = new Object[allTicNo.length];
+        Object[][] objs = new Object[allTicNo.length][3];
+        
+        String sqlCheck = "SELECT tickid, username FROM showtick where evid=? ";
+        String sqlCheckCond = "";
+        for(int i=0; i<allTicNo.length; i++){
+            sqlCheckCond += allTicNo[i];
+            if(i<allTicNo.length-1)sqlCheckCond += ",";
+            sqls[i] = sql;
+            objs[i][0] = eventid;
+            objs[i][1] = allTicNo[i];
+            objs[i][2] = userid;            
+        }
+        sqlCheck += " and tickid in(" + sqlCheckCond + ")";
+        
+        ArrayList<HashMap> result = this.pexecuteQuery(sqlCheck, new Object[]{eventid});
+        if(result.size()>0){
+            strMsg = "票號重複("+ result.get(0).get("tickid") + " 已由 " + result.get(0).get("username") +" 輸入)";            
+        }
+        
+        if(strMsg.length()==0){
+            int[] batchResult = this.pexecuteBatch(sqls, objs);
+            for(int j=0; j<batchResult.length; j++){
+                
+            }
+            String sqlCount = "SELECT tickid FROM showtick where evid=? and username=?";
+            int count = this.pexecuteQuery(sqlCount, new Object[]{eventid, userid}).size();
+            String sqlCountTotal = "SELECT tickid FROM showtick where evid=? ";
+            int countTotal = this.pexecuteQuery(sqlCountTotal, new Object[]{eventid}).size();
+            strMsg = "成功新增" + batchResult.length + "筆票號資料！\n\n本場您共新增:"+count+"筆票根，總計:"+countTotal+"筆資料";
+        }
+        
+        return strMsg;
+    }
+
+//    private String checkTicnoNotDuplicate(String sqlCheck) {
+//        ArrayList<HashMap> result = this.pexecuteQuery(sqlCheck, new Object[]{});
+//        if(result.size()>0){
+//            String msg = "票號重複("+ result.get(0).get("tickid") + " 已由 " + result.get(0).get("username") +" 輸入)";
+//            return msg;
+//        }else{
+//            return "";
+//        }
+//    }
+
+    /**
+     * 查詢索票狀況
+     * @param argJsonObj
+     * @return 
+     */
+    public String queryTicStatus(JSONObject argJsonObj) {
+        String sql = "SELECT evid,event,count(*) FROM proctick group by evid,event";
+        ArrayList<HashMap> tickResult = this.pexecuteQuery(sql, new Object[]{});
+        return "";
+    }
+    
+    public String getShowTicCount(JSONObject argJsonObj) {
+        int evid = argJsonObj.getInt("eventid");
+        String username = argJsonObj.getString("USER_NM");
+        String sql = "SELECT 'pcnt' as type, count(*) as cnt FROM showtick where evid=?" 
+                + " union " 
+                + " SELECT 'scnt' as type, count(*) as cnt FROM showtick where evid=? and username=? ";
+        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, evid, username});
+        JSONObject jo = new JSONObject();
+        jo.put("pcnt", result.get(0).get("cnt"));
+        jo.put("scnt", result.get(1).get("cnt"));
+        return jo.toString();
+    }
+
+    //[[\'新竹公演\', \'南門公演\', \'板橋公演\', \'國館公演\', \'板橋公演\'],[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,0]]';
+    public String queryReportData(JSONObject argJsonObj) {
+        String sql = "SELECT P.evid, P.event, P.pcnt, S.scnt FROM (SELECT evid,event,count(*) as pcnt "
+                + "FROM proctick group by evid,event) P "
+                + "left join (SELECT evid,count(*) as scnt "
+                + "FROM showtick group by evid) S " 
+                + "on P.evid=S.evid order by evid";
+        ArrayList<HashMap> list = this.pexecuteQuery(sql, new Object[]{});
+        String result = "";
+        String label = "[";
+        String reqNos = "[";
+        String showNos = "[";
+        for(int i=0; i<list.size();i++){
+            label += "\'" + list.get(i).get("event") + "\'";
+            if(i<list.size()-1) label += ",";
+            reqNos += list.get(i).get("pcnt");
+            if(i<list.size()-1) reqNos += ",";
+            String scnt = list.get(i).get("scnt").toString();
+            showNos += scnt.equals("")? 0: scnt;
+            if(i<list.size()-1) showNos += ",";
+        }
+        label += "]";
+        reqNos += "]";
+        showNos += "]";
+        
+        result = "[" + label + "," + reqNos + "," + showNos + "]";
+        return result;
+    }
 }

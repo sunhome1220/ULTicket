@@ -72,11 +72,15 @@ public class AjaxSessionExpirationFilter implements Filter {
 		// 需排除首頁會做的ajax
 		// SysParamServlet,ChangeUnitServlet,UserApplyServlet是不需要登入就可以使用的ajax
 		if ("XMLHttpRequest".equals(ajaxHeader) && !requestURI.contains("SysParamServlet") && !isSecureLogin
-			&& !requestURI.contains("ChangeUnitServlet") && !requestURI.contains("UserApplyServlet") && !requestURI.contains("ForgetPwdServlet")) {
+			&& !requestURI.contains("ChangeUnitServlet") 
+			&& !requestURI.contains("AuthServlet") 
+                        && !requestURI.contains("UserApplyServlet") 
+                        && !requestURI.contains("ForgetPwdServlet")) {
 		    //NPAUtil.showRequestInfo((HttpServletRequest)request);
 		    log.info("偵測到Ajax呼叫,但沒有登入系統因此送出error code{" + customSessionExpiredErrorCode + "}");
 		    HttpServletResponse resp = (HttpServletResponse) response;
 		    resp.sendError(this.customSessionExpiredErrorCode);
+                    resp.sendRedirect("login.jsp");
 		} else {
 		    chain.doFilter(request, response);
 		}
