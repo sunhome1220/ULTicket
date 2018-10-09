@@ -68,6 +68,22 @@ public class QueryServlet extends AjaxBaseServlet {
         String success = "";
         
         switch (argJsonObj.getString("ajaxAction")) {                        
+            case "addRecipts":  
+                msg = dao.addTicnos(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "getShowTicCount":  
+                msg = dao.getShowTicCount(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "queryTicStatus":  
+                msg = dao.queryTicStatus(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "getReportData":  
+                msg = dao.queryReportData(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
             case "getDataByStaffName":  
                 resultDataArray = dao.Get_AllCase(argJsonObj);
                 msg = "" + success;
