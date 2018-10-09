@@ -10,20 +10,23 @@
     <style>
     
     .loginUser{
-       position: relative ;
+       position: fixed ;
        right:25px;
-       top:5px;
+       top:5px;       
        color: white;
-       z-index: 999;
+       z-index: 9;
     }
 </style>
 
-        <div class="loginUser" style=""><a class="loginUser" id="username"><%=username%></a></div>            
+                 
         <div class="container">
             
-            <div style="margin-left:-15px;margin-right:-15px">                
+            <div style="margin-left:-15px;margin-right:-15px">                    
+                <a class="loginUser" id="username"><%=username%></a> 
                 <nav class="navbar navbar-default megamenu" role="navigation">
+                    
                     <div class="container" style="padding-left: 0px;padding-right: 0px;">
+                        
                         <div class="navbar-header">
                             
                             <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target="#offcanvas-left"><span class="sr-only">Toggle navigation</span><i class="icon-menu"></i></button>
@@ -33,13 +36,12 @@
                             </div>
                             
                             <div class="NAME">
-                                無限票務系統
+                                無限票務系統                                
                             </div>
-                            
-        
                             
                             <!--   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#offcanvas-right"><span class="sr-only">Toggle navigation</span><i class="icon-down-open"></i></button>-->
                         </div>
+                        
                         <div class="collapse navbar-collapse Topmenu" id="offcanvas-left" role="navigation" style="padding-left: 0px;padding-right: 0px;">
                             <div id="MENU" class="menu">
                                 <ul>

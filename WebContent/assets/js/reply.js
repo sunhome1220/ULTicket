@@ -173,8 +173,10 @@ function getTickCount(){
         async: false,
         success: function (data) {
             var jo = JSON.parse(data.infoMsg);
-            $("#countSelf").text(jo.pcnt);
-            $("#countTotal").text(jo.scnt);
+            var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
+            $("#countSelf").text(jo.showCnt);
+            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
+            $("#countReqTick").text(jo.totalReqCnt);
         },
         error: function (xhr, ajaxOptions, thrownError) {            
             alert('系統異常，無法取得票根資料!');

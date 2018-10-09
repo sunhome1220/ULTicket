@@ -71,8 +71,9 @@
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span>統計資料:</span></label>
                                     <div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本場次累計已索票數：<a id="countReqTick">...</a><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您本場已輸入票根數：<a id="countSelf">...</a><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本場已輸入票根總數：<a id="countTotal">...</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本場次總計出席人數：<a id="countTotal">...</a>
                                     </div>
                                 </div>                                
                             </div><br>

@@ -2297,13 +2297,16 @@ public class DrugCaseDao extends CJBaseDao {
     public String getShowTicCount(JSONObject argJsonObj) {
         int evid = argJsonObj.getInt("eventid");
         String username = argJsonObj.getString("USER_NM");
-        String sql = "SELECT 'pcnt' as type, count(*) as cnt FROM showtick where evid=?" 
+        String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM showtick where evid=?" 
                 + " union " 
-                + " SELECT 'scnt' as type, count(*) as cnt FROM showtick where evid=? and username=? ";
-        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, evid, username});
+                + " SELECT '2scnt' as type, count(*) as cnt FROM showtick where evid=? and username=? "
+                + " union " 
+                + " SELECT '3ptCnt' as type, count(*) as cnt FROM proctick where evid=?  ";
+        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, evid, username, evid});
         JSONObject jo = new JSONObject();
-        jo.put("pcnt", result.get(0).get("cnt"));
-        jo.put("scnt", result.get(1).get("cnt"));
+        jo.put("totalShowCnt", result.get(0).get("cnt"));//該場所有人總輸入票根
+        jo.put("showCnt", result.get(1).get("cnt"));//個人該場輸入票根
+        jo.put("totalReqCnt", result.get(2).get("cnt"));//該場總索票
         return jo.toString();
     }
 
