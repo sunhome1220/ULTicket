@@ -2329,22 +2329,23 @@ public class DrugCaseDao extends CJBaseDao {
         String username = argJsonObj.getString("USER_NM");
         
         //由票根號查出某人索票資料
-        String sql = "SELECT '1proctickCount' as type, tickname, procman, count(*) as cnt FROM proctick "
+        String sql = "SELECT '1proctickCount' as type, tickname, procman, ticktel, count(*) as cnt FROM proctick "
                         + "where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?)"
                         + " group by tickname, procman "; 
                 sql += " union "
-                        + "SELECT '2showtickCount' as type, '', '', count(*) as cnt FROM showtick where tickid in(" 
+                        + "SELECT '2showtickCount' as type, '', '','', count(*) as cnt FROM showtick where tickid in(" 
                         + "SELECT tickid FROM proctick where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?))"; 
         ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, tickid, evid, tickid});
         JSONObject jo = new JSONObject();
-        final String proctickCount = result.get(0).get("cnt").toString();
-        jo.put("reqTickNo", proctickCount);//
-        jo.put("procman", proctickCount.equals("0")? "查無索票紀錄!": result.get(0).get("procman"));//
-        String reqAudienceName = proctickCount.equals("0")? "-": result.get(0).get("tickname").toString();
+        final String proCnt = result.get(0).get("cnt").toString();
+        jo.put("reqTickNo", proCnt);//
+        jo.put("procman", proCnt.equals("0")? "查無索票紀錄!": result.get(0).get("procman"));//
+        String reqAudienceName = proCnt.equals("0")? "-": result.get(0).get("tickname").toString();
         jo.put("reqName", reqAudienceName);//
-        jo.put("showTickNo", proctickCount.equals("0")? 0: result.get(result.size()-1).get("cnt"));//
+        jo.put("reqTel", proCnt.equals("0")? "-": result.get(0).get("ticktel").toString());//
+        jo.put("showTickNo", proCnt.equals("0")? 0: result.get(result.size()-1).get("cnt"));//
         return jo.toString();
     }
 
