@@ -2314,18 +2314,11 @@ public class DrugCaseDao extends CJBaseDao {
     //取得已輸入回條數
     public String getTicCommentCount(JSONObject argJsonObj) {
         int evid = argJsonObj.getInt("eventid");
-        //int tickid = argJsonObj.getInt("tickid");
         String username = argJsonObj.getString("USER_NM");
         String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM tickcomment where evid=? and username=? "; 
-//                sql += " union " 
-//                + " SELECT '2scnt' as type, count(*) as cnt FROM showtick where evid=? and tickid=? ";
-//                + " union " 
-//                + " SELECT '3ptCnt' as type, count(*) as cnt FROM proctick where evid=?  ";
         ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username});
         JSONObject jo = new JSONObject();
         jo.put("countSelf", result.isEmpty()? 0: result.get(0).get("cnt"));//該場所有人總輸入票根
-//        jo.put("showCnt", result.get(1).get("cnt"));//個人該場輸入票根
-//        jo.put("totalReqCnt", result.get(2).get("cnt"));//該場總索票
         return jo.toString();
     }
     
@@ -2336,20 +2329,22 @@ public class DrugCaseDao extends CJBaseDao {
         String username = argJsonObj.getString("USER_NM");
         
         //由票根號查出某人索票資料
-        String sql = "SELECT '1proctickCount' as type, tickname, count(*) as cnt FROM proctick where tickname+ticktel in(" 
+        String sql = "SELECT '1proctickCount' as type, tickname, procman, count(*) as cnt FROM proctick "
+                        + "where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?)"
-                        + " group by tickname "; 
+                        + " group by tickname, procman "; 
                 sql += " union "
-                        + "SELECT '2showtickCount' as type, '', count(*) as cnt FROM showtick where tickid in(" 
+                        + "SELECT '2showtickCount' as type, '', '', count(*) as cnt FROM showtick where tickid in(" 
                         + "SELECT tickid FROM proctick where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?))"; 
         ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, tickid, evid, tickid});
         JSONObject jo = new JSONObject();
-        jo.put("reqTickNo", result.isEmpty()? 0: result.get(0).get("cnt"));//
-        jo.put("reqName", result.isEmpty()? 0: result.get(0).get("tickname"));//
-        jo.put("showTickNo", result.isEmpty()? 0: result.get(1).get("cnt"));//
-//        jo.put("showCnt", result.get(1).get("cnt"));//個人該場輸入票根
-//        jo.put("totalReqCnt", result.get(2).get("cnt"));//該場總索票
+        final String proctickCount = result.get(0).get("cnt").toString();
+        jo.put("reqTickNo", proctickCount);//
+        jo.put("procman", proctickCount.equals("0")? "查無索票紀錄!": result.get(0).get("procman"));//
+        String reqAudienceName = proctickCount.equals("0")? "-": result.get(0).get("tickname").toString();
+        jo.put("reqName", reqAudienceName);//
+        jo.put("showTickNo", proctickCount.equals("0")? 0: result.get(result.size()-1).get("cnt"));//
         return jo.toString();
     }
 
