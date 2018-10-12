@@ -72,8 +72,16 @@ public class QueryServlet extends AjaxBaseServlet {
                 msg = dao.addTicnos(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
-            case "getShowTicCount":  
+            case "getShowTicCount"://取得票根數量  
                 msg = dao.getShowTicCount(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "getTicCommentCount"://取得回條數量  
+                msg = dao.getTicCommentCount(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "getReqTickInfo"://以票號取得該票之索票人索票的相關資訊  
+                msg = dao.getReqTickInfo(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
             case "queryTicStatus":  

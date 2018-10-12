@@ -42,14 +42,29 @@ $(document).ready(function () {
         $("#tckno6").val(add1);  
     });
  
-    $("input[id^='tckno']").change(function(){
-        //alert(this.value);
+    $("input[id^='tckno']").change(function(){//選擇所有的name屬性以’tckno'開頭的input元素
         var ticknoValid = ticknoIsOk(this.value); 
         if(this.value.length>0 && !ticknoValid){
             alert('請確認票號是否正確');
             this.focus();
         }
-    }); //選擇所有的name屬性以’J'開頭的input元素
+    }); 
+    $("input[id^='tckno']").keyup(function(){//選擇所有的name屬性以’tckno'開頭的input元素
+        //alert(this.value);
+        if(this.value.length===5){
+            alert(this.value);
+            getReqTickInfo(this.value);
+        }
+        
+    }); 
+    $("input[id^='tckno']").blur(function(){//選擇所有的name屬性以’tckno'開頭的input元素
+        //alert(this.value);
+        var ticknoValid = ticknoIsOk(this.value); 
+        if(this.value.length>0 && !ticknoValid){
+            //alert('請確認票號是否正確');
+            //this.focus();
+        }
+    }); 
     $("#tckno1").change(function(){
         var ticknoValid = ticknoIsOk($("#tckno1").val()); 
         if(ticknoValid){
@@ -59,11 +74,7 @@ $(document).ready(function () {
             $("#btnContinue4").attr("disabled",false);
             $("#btnContinue5").attr("disabled",false);
             $("#btnContinue6").attr("disabled",false);
-        }else{
-            if($("#tckno1").val().length>0 && !ticknoValid){
-                alert('請確認票號是否正確');
-                $("#tckno1").focus();
-            }
+        }else{            
             $("#btnSubmit").attr("disabled",true);
             $("#btnContinue2").attr("disabled",true);
             $("#btnContinue3").attr("disabled",true);
@@ -134,12 +145,7 @@ function commit(allTicNo){
         success: function (data) {            
             alert(data.infoMsg);
             if(data.infoMsg.indexOf('成功')>=0){
-                $("#tckno1").val('');
-                $("#tckno2").val('');
-                $("#tckno3").val('');
-                $("#tckno4").val('');
-                $("#tckno5").val('');
-                $("#tckno6").val('');
+                //$("#tckno1").val('');                
             }
             getTickCount();
             //$.unblockUI();
@@ -160,24 +166,56 @@ function commit(allTicNo){
         }
     });
 }
-//取得已輸入票根數量
+
+//取得已輸入回條數量
 function getTickCount(){
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
         dataType: 'json',
         data: {
-            ajaxAction: 'getShowTicCount',
+            ajaxAction: 'getTicCommentCount',
             eventid: $('#eventid').val(),
             username: $('#username').val()
         },
         async: false,
         success: function (data) {
             var jo = JSON.parse(data.infoMsg);
-            var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
-            $("#countSelf").text(jo.showCnt);
-            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
-            $("#countReqTick").text(jo.totalReqCnt);
+            //var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
+            $("#countSelf").text(jo.countSelf);
+//            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
+//            $("#countReqTick").text(jo.totalReqCnt);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {            
+            alert('系統異常，無法取得票根資料!');
+        }
+    });
+}
+
+//以票號取得該票之索票人索票的相關資訊
+function getReqTickInfo(){
+    $("#reqName").text('張三');
+    $("#reqTickNo").text(4);
+    $("#showTickNo").text(3);
+    return;
+    $.ajax({
+        url: 'QueryServlet',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            ajaxAction: 'getReqTickInfo',
+            eventid: $('#eventid').val(),
+            tickid: $('#tickid').val()
+        },
+        async: false,
+        success: function (data) {
+            var jo = JSON.parse(data.infoMsg);
+            //var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
+            $("#reqName").text(jo.reqName);
+            $("#reqTickNo").text(jo.reqTickNo);
+            $("#showTickNo").text(jo.showTickNo);
+//            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
+//            $("#countReqTick").text(jo.totalReqCnt);
         },
         error: function (xhr, ajaxOptions, thrownError) {            
             alert('系統異常，無法取得票根資料!');

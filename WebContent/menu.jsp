@@ -5,7 +5,7 @@
 <header id="Header">
     <%
     User user = (User) session.getAttribute("user");    
-    String username = user!=null? user.getUserName():"尚未登入";
+    String username = user!=null? user.getUserName()+",您好":"尚未登入";
     %>
     <style>
     
@@ -57,6 +57,10 @@
                                     <li>
                                         <a href="queryTickStatus.jsp">索票出席狀況</a>
                                     </li>
+                                    <li>
+                                        <a href="replyComment.jsp">回條資料輸入</a>
+                                    </li>
+                                    
 <!--                                    <li>
                                         <a href="apply.jsp">(未)申辦作業</a>
                                     </li>-->
