@@ -2272,6 +2272,41 @@ public class DrugCaseDao extends CJBaseDao {
         
         return strMsg;
     }
+    
+    public String addComment(JSONObject argJsonObj) {
+        String strMsg = "";
+        String[] allInterest = argJsonObj.getString("interest").split(";");
+        String eventid = argJsonObj.getString("eventid");
+        String tickid = argJsonObj.getString("tickid");
+        String audiencename = argJsonObj.getString("audiencename");
+        String audiencecomment = argJsonObj.getString("audiencecomment");
+        String comment = argJsonObj.getString("comment");
+        int callTimes = argJsonObj.getInt("callTimes");
+        String userid = argJsonObj.getString("USER_NM");
+        log.info("addTicnos:" + userid);
+        //String sql = "INSERT INTO showtick(evid,tickid,username) VALUES ('20181014',12349,'001     ')";
+        String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,rate,"
+                + "     updatetime,comment,calltimes,lastestCallernm,username)  "
+                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?)";
+//        Object[] sqls = new Object[allInterest.length];
+//        Object[][] objs = new Object[allInterest.length][3];
+        Object[] objs = new Object[10];
+        objs[0] = eventid;
+        objs[1] = tickid;
+        objs[2] = audiencename;
+        objs[3] = audiencecomment;
+        objs[4] = 0;
+        objs[5] = comment;
+        objs[6] = callTimes;
+        objs[7] = "notyet";
+        objs[8] = userid;
+        
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>=0){
+            strMsg = "成功新增一筆回條資料!";
+        }
+        return strMsg;
+    }
 
 //    private String checkTicnoNotDuplicate(String sqlCheck) {
 //        ArrayList<HashMap> result = this.pexecuteQuery(sqlCheck, new Object[]{});
@@ -2332,7 +2367,7 @@ public class DrugCaseDao extends CJBaseDao {
         String sql = "SELECT '1proctickCount' as type, tickname, procman, ticktel, count(*) as cnt FROM proctick "
                         + "where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?)"
-                        + " group by tickname, procman "; 
+                        + " group by tickname, procman, ticktel "; 
                 sql += " union "
                         + "SELECT '2showtickCount' as type, '', '','', count(*) as cnt FROM showtick where tickid in(" 
                         + "SELECT tickid FROM proctick where tickname+ticktel in(" 

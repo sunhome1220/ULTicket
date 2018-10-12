@@ -1,47 +1,22 @@
 $(document).ready(function () {
-    var allTicketsNos="";
+    
+    //var allTicketsNos="";
     getTickCount();
     //$("#countSelf").attr("value", 123);
-    
     $("#btnSubmit").attr("disabled",true);
     //$("#txtBirth").datepicker();
     $("#btnSubmit").click(function(){        
-        addAllReceipts();
+        submitData();
     });
-    $("#btnContinue2").click(function(){        
-        var add1 = eval($("#tckno1").val())+1;
-        if(add1<10000) add1 = '0' + add1;
-        $("#tckno2").val(add1);  
-    });
-    $("#btnContinue3").click(function(){        
-        if($("#tckno2").val()===''){$("#btnContinue2").click();}
-        var add1 = eval($("#tckno2").val())+1;
-        if(add1<10000) add1 = "0" + add1;
-        $("#tckno3").val(add1);  
-    });
-    $("#btnContinue4").click(function(){        
-        if($("#tckno3").val()===''){$("#btnContinue3").click();}
-        var add1 = eval($("#tckno3").val())+1;
-        if(add1<10000) add1 = "0" + add1;
-        $("#tckno4").val(add1);  
-    });
-    $("#btnContinue5").click(function(){        
-        if($("#tckno4").val()===''){$("#btnContinue4").click();}
-        var add1 = eval($("#tckno4").val())+1;
-        if(add1<10000) add1 = "0" + add1;
-        $("#tckno5").val(add1);  
-        return;
-    });
+    
     $("#btnClear").click(function(){        
-       $("input[id^='tckno']").val('');        
+       $("input").val('');        
     });
-    $("#btnContinue6").click(function(){        
-        if($("#tckno5").val()===''){$("#btnContinue5").click();}
-        var add1 = eval($("#tckno5").val())+1;
-        if(add1<10000) add1 = "0" + add1;
-        $("#tckno6").val(add1);  
+    
+    $("input[name='rateStar']").change(function(){        
+       $("#btnSubmit").attr("disabled", false);
     });
- 
+    
     $("input[id^='tckno']").change(function(){//選擇所有的name屬性以’tckno'開頭的input元素
         var ticknoValid = ticknoIsOk(this.value); 
         if(this.value.length>0 && !ticknoValid){
@@ -49,13 +24,11 @@ $(document).ready(function () {
             this.focus();
         }
     }); 
-    $("input[id^='tckno']").keyup(function(){//選擇所有的name屬性以’tckno'開頭的input元素
-        //alert(this.value);
+    $("#tickid").keyup(function(){        
         if(this.value.length===5){
-            alert(this.value);
+            //alert(this.value);
             getReqTickInfo(this.value);
-        }
-        
+        }        
     }); 
     $("input[id^='tckno']").blur(function(){//選擇所有的name屬性以’tckno'開頭的input元素
         //alert(this.value);
@@ -70,17 +43,9 @@ $(document).ready(function () {
         if(ticknoValid){
             $("#btnSubmit").attr("disabled",false);
             $("#btnContinue2").attr("disabled",false);
-            $("#btnContinue3").attr("disabled",false);
-            $("#btnContinue4").attr("disabled",false);
-            $("#btnContinue5").attr("disabled",false);
-            $("#btnContinue6").attr("disabled",false);
         }else{            
             $("#btnSubmit").attr("disabled",true);
             $("#btnContinue2").attr("disabled",true);
-            $("#btnContinue3").attr("disabled",true);
-            $("#btnContinue4").attr("disabled",true);
-            $("#btnContinue5").attr("disabled",true);
-            $("#btnContinue6").attr("disabled",true);
         }
         //allTicketsNos
         //alert($("#tckno1").val());
@@ -103,60 +68,45 @@ function ticknoIsOk(ticketNo){
     }
     
 }
-function addAllReceipts() {//not yet
-    var allTicNo ="";
-    if($("#tckno1").val().length===5){allTicNo += $("#tckno1").val() + ";";}
-    if($("#tckno2").val().length===5){allTicNo += $("#tckno2").val() + ";";}
-    if($("#tckno3").val().length===5){allTicNo += $("#tckno3").val() + ";";}
-    if($("#tckno4").val().length===5){allTicNo += $("#tckno4").val() + ";";}
-    if($("#tckno5").val().length===5){allTicNo += $("#tckno5").val() + ";";}
-    if($("#tckno6").val().length===5){allTicNo += $("#tckno6").val() + ";";}
-//    $.alert.open({
-//        type: 'info',
-//        content: '即將送出，請確認以下票根號碼是否正確\\\n '+ allTicNo.replace(';','\\\n'),
-//        callback: function () {
-//            commit();
-//            //window.opener.location.reload(); //將原畫面重新整理
-//            //window.close();
-//        }
-//    });
-    var confirmMsg = '即將送出以下票根號碼：\n\n'+ allTicNo.replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n');
-    var count = allTicNo.split(';').length-1;
-    confirmMsg += '\n\n共'+ count +'張票根資料，請確定是否正確';
-    if(!confirm(confirmMsg)){
-        return;
-    }else{
-        commit(allTicNo);
-    }   
+function submitData() {//not yet
+//    var allTicNo ="";
+//    if($("#tckno1").val().length===5){allTicNo += $("#tckno1").val() + ";";}
+//    if($("#tckno2").val().length===5){allTicNo += $("#tckno2").val() + ";";}
+//    
+//    var confirmMsg = '即將送出以下票根號碼：\n\n'+ allTicNo.replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n');
+//    var count = allTicNo.split(';').length-1;
+//    confirmMsg += '\n\n共'+ count +'張票根資料，請確定是否正確';
+//    if(!confirm(confirmMsg)){
+//        return;
+//    }else{
+        commit();
+//    }   
 }
 
 //送出票根資料
-function commit(allTicNo){
+function commit(){
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
         dataType: 'json',
         data: {
-            ajaxAction: 'addRecipts',
+            ajaxAction: 'addComment',
             eventid: $('#eventid').val(),
-            ticketnos: allTicNo
+            tickid: $('#tickid').val(),
+            audiencename: $('#audiencename').val(),
+            audiencecomment: $('#audiencecomment').val(),
+            interest: '1',//$('#interest').val(),
+            comment: $('#comment').val(),
+            callTimes: 1
         },
         async: false,
         success: function (data) {            
             alert(data.infoMsg);
             if(data.infoMsg.indexOf('成功')>=0){
-                //$("#tckno1").val('');                
+                $("#tckid").val('');                
             }
             getTickCount();
-            //$.unblockUI();
-//            $.alert.open({
-//                type: 'info',
-//                content: '登入成功',
-//                callback: function () {
-//                    //window.opener.location.reload(); //將原畫面重新整理
-//                    //window.close();
-//                }
-//            });
+            
         },
         error: function (xhr, ajaxOptions, thrownError) {
             //alert('ajaxOptions=' + ajaxOptions);
@@ -194,10 +144,11 @@ function getTickCount(){
 
 //以票號取得該票之索票人索票的相關資訊
 function getReqTickInfo(){
-    $("#reqName").text('張三');
-    $("#reqTickNo").text(4);
-    $("#showTickNo").text(3);
-    return;
+    $("#procman").text('讀取中..');
+    $("#reqName").text('讀取中..');
+    $("#reqTel").text('...');
+    $("#reqTickNo").text('');
+    $("#showTickNo").text('');    
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -210,15 +161,19 @@ function getReqTickInfo(){
         async: false,
         success: function (data) {
             var jo = JSON.parse(data.infoMsg);
-            //var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
+            
+            $("#procman").text(jo.procman);
             $("#reqName").text(jo.reqName);
+            $("#reqTel").text(jo.reqTel);
+            $("#reqTel").attr("href", "tel:" + jo.reqTel);
             $("#reqTickNo").text(jo.reqTickNo);
             $("#showTickNo").text(jo.showTickNo);
-//            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
-//            $("#countReqTick").text(jo.totalReqCnt);
+            if(jo.reqTickNo === "0"){
+                $("#btnSubmit").attr("disabled",true);
+            }
         },
         error: function (xhr, ajaxOptions, thrownError) {            
-            alert('系統異常，無法取得票根資料!');
+            alert('系統異常，無法取得票券資料!');
         }
     });
 }

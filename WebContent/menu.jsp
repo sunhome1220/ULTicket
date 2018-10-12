@@ -71,7 +71,7 @@
                                     <li>
                                         <a href="forAudience.jsp">(未)觀眾索票</a>
                                     </li>
-                                    <li>
+<!--                                    <li>
                                         <a>統計資料<b class=""></b></a>
                                         <ul>
                                             <li>
@@ -82,7 +82,7 @@
                                             </li>
                                                                                       
                                         </ul>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                         </div>

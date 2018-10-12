@@ -62,17 +62,17 @@
                                         <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
                                         <option value="20181129">12/29-板橋公演(票號:35001~40000)</option>
                                         <option value="201901">國館公演</option>
-                                </select><br>                                
-                                </div><br>
+                                </select>                                
+                                </div>
+                                
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <label><span>統計資料:</span></label>
-                                    <div>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此場次您已輸入回條數目：<a id="countSelf">...</a><br>                                    
+                                    <div class="col-sm-6 col-xs-12">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此場次您已輸入回條數目：<a id="countSelf">...</a><br>                                    
                                     </div>
-                                </div>                                
-                            </div><br>
+                                <br>
+                            </div>    
+                            <br>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span></span>回條資料:</label>
@@ -80,15 +80,28 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    <input type="tel" id="tckno" name="tckno" maxlength="5" class="form-control" placeholder="五碼票號">                                    
+                                    <input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="五碼票號">                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-6">  
-                                    索票人:<a id="reqName">張測試</a><br>出席/索票數:<a id="showTickNo">2</a>/<a id="reqTickNo">4</a>
+                                    
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-4 col-xs-6">
+                                    聯絡人:<a id="procman"></a><br>                                    
+                                    索票人電話:<a id="reqTel" href="tel:"></a><br>
+                                    
+                                </div>
+                                <div class="col-sm-4 col-xs-6">
+                                    索票人:<a id="reqName"></a><br>
+                                    出席及索票數:<a id="showTickNo"></a>/<a id="reqTickNo"></a>
+                                    
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    <input type="text" id="audienceName" name="tckno2" maxlength="10" class="form-control" placeholder="觀眾姓名">
+                                    <input type="text" id="audiencename" maxlength="10" class="form-control" placeholder="觀眾姓名">
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   
 <!--                                    <input id="btnContinue2" class="btn btn-default" disabled type="button" value="連號">-->
@@ -96,7 +109,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">                                    
-                                    <textarea id="comment" name="Text1" cols="40" rows="2" placeholder="備註" class="form-control"></textarea>
+                                    <textarea id="audiencecomment" name="Text1" cols="40" rows="1" placeholder="觀眾評論備註" class="form-control"></textarea>
                                     
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   
@@ -120,12 +133,20 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-6 col-xs-12">                                    
+                                    <textarea id="comment" name="Text1" cols="40" rows="1" placeholder="備註" class="form-control"></textarea>                                    
+                                </div>
+                                <div class="col-sm-4 col-xs-6">   
+                                </div>
+                            </div>                            
+                            <div class="row">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span></span>有興趣課程:</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">                                                                        
+                                    <input name="interest" type="checkbox" value="0">無
                                     <input name="interest" type="checkbox" value="1">太鼓
                                     <input name="interest" type="checkbox" value="2">戲劇
                                     <input name="interest" type="checkbox" value="3">瑜珈
