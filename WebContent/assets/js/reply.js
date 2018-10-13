@@ -3,11 +3,11 @@ $(document).ready(function () {
     getTickCount();
     //$("#countSelf").attr("value", 123);
     
-    $("#btnSubmit").attr("disabled",true);
+    //$("#btnSubmit").attr("disabled",true);
     //$("#txtBirth").datepicker();
     $("#btnSubmit").click(function(){        
         addAllReceipts();
-    });
+    });    
     $("#btnContinue2").click(function(){        
         var add1 = eval($("#tckno1").val())+1;
         if(add1<10000) add1 = '0' + add1;
@@ -53,7 +53,7 @@ $(document).ready(function () {
     $("#tckno1").change(function(){
         var ticknoValid = ticknoIsOk($("#tckno1").val()); 
         if(ticknoValid){
-            $("#btnSubmit").attr("disabled",false);
+            //$("#btnSubmit").attr("disabled",false);
             $("#btnContinue2").attr("disabled",false);
             $("#btnContinue3").attr("disabled",false);
             $("#btnContinue4").attr("disabled",false);
@@ -64,7 +64,7 @@ $(document).ready(function () {
                 alert('請確認票號是否正確');
                 $("#tckno1").focus();
             }
-            $("#btnSubmit").attr("disabled",true);
+            //$("#btnSubmit").attr("disabled",true);
             $("#btnContinue2").attr("disabled",true);
             $("#btnContinue3").attr("disabled",true);
             $("#btnContinue4").attr("disabled",true);
@@ -100,17 +100,13 @@ function addAllReceipts() {//not yet
     if($("#tckno4").val().length===5){allTicNo += $("#tckno4").val() + ";";}
     if($("#tckno5").val().length===5){allTicNo += $("#tckno5").val() + ";";}
     if($("#tckno6").val().length===5){allTicNo += $("#tckno6").val() + ";";}
-//    $.alert.open({
-//        type: 'info',
-//        content: '即將送出，請確認以下票根號碼是否正確\\\n '+ allTicNo.replace(';','\\\n'),
-//        callback: function () {
-//            commit();
-//            //window.opener.location.reload(); //將原畫面重新整理
-//            //window.close();
-//        }
-//    });
+
     var confirmMsg = '即將送出以下票根號碼：\n\n'+ allTicNo.replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n');
     var count = allTicNo.split(';').length-1;
+    if(count===0){
+        alert('請輸入至少一筆票根號碼!');
+        return;
+    }
     confirmMsg += '\n\n共'+ count +'張票根資料，請確定是否正確';
     if(!confirm(confirmMsg)){
         return;

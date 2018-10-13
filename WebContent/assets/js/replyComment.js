@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+    $("div[id^='divHide']").hide();
     //var allTicketsNos="";
     getTickCount();
     //$("#countSelf").attr("value", 123);
@@ -8,12 +8,24 @@ $(document).ready(function () {
     $("#btnSubmit").click(function(){        
         submitData();
     });
-    
+    $("#sameAsProcman").click(function(){    
+        $("#contactperson").val($("#procman").text());        
+    });
+    $("#sameAsMe").click(function(){        
+        $("#contactperson").val($("#username").text().split(',')[0]);
+    });
     $("#btnClear").click(function(){        
        $("input").val('');        
+       $("#procman").text('');
+        $("#reqName").text('');
+        $("#reqTel").text('');
+        $("#reqTickNo").text('');
+        $("#showTickNo").text('');  
+        //$("div[id^='divHide']").hide();
     });
     
-    $("input[name='rateStar']").change(function(){        
+    $("input[name='contactStatus']").change(function(){        
+        //alert(this.value);
        $("#btnSubmit").attr("disabled", false);
     });
     
@@ -38,6 +50,14 @@ $(document).ready(function () {
             //this.focus();
         }
     }); 
+    $("input[name=interest]").change(function(){
+        var oldValue = $("#interestSelected").val();
+        if(this.checked){
+            $("#interestSelected").val(oldValue + this.value + ",");
+        }else{
+            $("#interestSelected").val(oldValue.replace(this.value + ",", ""));
+        }
+    });
     $("#tckno1").change(function(){
         var ticknoValid = ticknoIsOk($("#tckno1").val()); 
         if(ticknoValid){
@@ -85,6 +105,7 @@ function submitData() {//not yet
 
 //送出票根資料
 function commit(){
+    //alert($("input[name='contactStatus']:checked").val());
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -95,8 +116,9 @@ function commit(){
             tickid: $('#tickid').val(),
             audiencename: $('#audiencename').val(),
             audiencecomment: $('#audiencecomment').val(),
-            interest: '1',//$('#interest').val(),
+            interest: $('#interestSelected').val(),
             comment: $('#comment').val(),
+            contactStatus: $("input[name='contactStatus']:checked").val(),            
             callTimes: 1
         },
         async: false,
@@ -144,8 +166,9 @@ function getTickCount(){
 
 //以票號取得該票之索票人索票的相關資訊
 function getReqTickInfo(){
+    $("div[id^='divHide']").show();
     $("#procman").text('讀取中..');
-    $("#reqName").text('讀取中..');
+    $("#reqName").text('..');
     $("#reqTel").text('...');
     $("#reqTickNo").text('');
     $("#showTickNo").text('');    

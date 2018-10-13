@@ -42,7 +42,6 @@
 </head>
 
 <body>
-<jsp:include page="menu.jsp" />  
 <section id="MainContent">
 <div class="container" style="padding-left: 0px;padding-right: 0px;">
 			<div class="panel panel-default">
@@ -51,24 +50,22 @@
 				</div>
 				<div class="panel-body">
 				    <ol>
-				    <li>登入說明<br>
-				        請先使用PC版程式以取得帳號及密碼(建議不要使用與其他網站共用之帳號或密碼) <br>
-                                        測試階段若無帳號可先以測試帳號密碼<B>tester/tester</B>登入，正式上線(10/14)時會清除測試資料<br>
+				    <li>瀏覽器使用說明<br>
+				        本系統適用IE8(以上)、Google Chrome、FireFox、Safari瀏覽器，若有無法使用的狀況請通知我們。
+				    </li>
+                                    <li>登入說明<br>
+				        請先使用陳組長提供之離線版程式以取得帳號及密碼(建議不要使用與其他網站共用之帳號或密碼) <br>
+                                        測試階段若無帳號可先以測試帳號密碼<B>tester/tester</B>登入，正式上線時會清除測試資料<br>
 				    </li>
                                     <li>功能選單<br>                                      
-				        若使用手機操作，選單位於畫面左上角<a>(≡)</a>
+				        若使用手機操作，選單位於畫面左上角
 				    </li>
                                     <li>建立連結<br>
-                                        目前完成功能為「<a href="reply.jsp">票根輸入</a>」及「<a href="queryTickStatus.jsp">出席狀況</a>」<br>
-                                        「<a href="replyComment.jsp">回條輸入</a>」趕工中尚未完成，但也可測試，
-                                        測試階段請放心<B>自行輸入任意資料</B>，正式上線時會清除測試資料，
-                                        有任何功能上的建議也請盡量提出，謝謝！
+                                        目前開放功能為「<a href="reply.jsp">票根輸入</a>」<br>
+                                        測試階段可以<B>自行輸入任意資料</B>，正式上線時會清除測試資料<br>
+                                        首次登入即先開啟此功能，可先將連結加入主畫面以便下次使用
 				    </li>
-                                    <li>瀏覽器使用說明<br>
-				        本系統適用IE8(以上)、Google Chrome、FireFox、Safari等瀏覽器，若有無法使用的狀況請通知我們。
-				    </li>
-                                    
-<!--				    <li>
+				    <li>
                                         我們將基於以下目的而使用您的個人資料：<br>                                        
                                         通知您演出及上課的相關資訊和確認；                                        
                                         透過您同意收取的通訊地址寄送票券或相關課程資訊；                                        
@@ -80,10 +77,10 @@
 				    <li>
                                         您的隱私權選擇：<br>
                                         如果您不希望我們以任何方式取得或使用您的個人資料，則請勿提供資料給我們，或您如果已經提供個人資料並且希望取消、更新或存取您的個人資料時，請寄送電子郵件通知我們。<a href="mailto:sunhome1220@gmail.com?subject=%5B%E7%84%A1%E9%99%90%E7%A5%A8%E5%8B%99%E7%AE%A1%E7%90%86-%E5%88%AA%E9%99%A4%E5%80%8B%E8%B3%87%5D&body=%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0%3A">刪除個人資料</a>。
-				    </li>-->
+				    </li>
 				    <li>
                                         意見回饋<br>
-                                        若有任何操作問題或發現任何問題請寄送電子郵件至<a href="mailto:sunhome1220@gmail.com?subject=%5B%E7%84%A1%E9%99%90%E7%A5%A8%E5%8B%99%E7%AE%A1%E7%90%86-%E5%95%8F%E9%A1%8C%E5%8F%8D%E6%87%89%5D&body=%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0%3A">sunhome1220@gmail.com</a>
+                                        若有任何操作問題請寄送電子郵件至<a href="mailto:sunhome1220@gmail.com?subject=%5B%E7%84%A1%E9%99%90%E7%A5%A8%E5%8B%99%E7%AE%A1%E7%90%86-%E5%95%8F%E9%A1%8C%E5%8F%8D%E6%87%89%5D&body=%E5%95%8F%E9%A1%8C%E6%8F%8F%E8%BF%B0%3A">sunhome1220@gmail.com</a>
 				    </li>
 				    
 				    </ol>

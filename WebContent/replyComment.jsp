@@ -82,24 +82,32 @@
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="五碼票號">                                    
                                 </div>
-                                <div class="col-sm-4 col-xs-6">  
-                                    
+                                <div class="col-sm-4 col-xs-6">                                      
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="divHide1">
                                 <div class="col-sm-4 col-xs-6">
-                                    聯絡人:<a id="procman"></a><br>                                    
-                                    索票人電話:<a id="reqTel" href="tel:"></a><br>
-                                    
+                                    發票人:<a id="procman"></a><br>                                    
+                                    索票人電話:<a id="reqTel" href="tel:"></a><br>                                                                      
                                 </div>
                                 <div class="col-sm-4 col-xs-6">
                                     索票人:<a id="reqName"></a><br>
-                                    出席及索票數:<a id="showTickNo"></a>/<a id="reqTickNo"></a>
-                                    
+                                    出席及索票數:<a id="showTickNo"></a>/<a id="reqTickNo"></a><br>                                    
                                 </div>
                             </div>
-                            <br>
+                            <div class="row" id="divHide2">
+                                <div class="col-sm-4 col-xs-6">                                    
+                                    聯絡人:<input type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="">                                    
+                                </div>
+                                <div class="col-sm-4 col-xs-6">                                                                        
+                                    <a style="color:#42c8f4" id="sameAsProcman">同發票人</a>&nbsp;&nbsp;
+                                    <a style="color:#f441e2" id="sameAsMe">就是我</a>
+                                </div>
+                            </div>                            
                             <div class="row">
+                                
+                            </div>                            
+                            <div class="row" id="divHide3">
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="text" id="audiencename" maxlength="10" class="form-control" placeholder="觀眾姓名">
                                 </div>
@@ -107,7 +115,7 @@
 <!--                                    <input id="btnContinue2" class="btn btn-default" disabled type="button" value="連號">-->
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="divHide4">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     <textarea id="audiencecomment" name="Text1" cols="40" rows="1" placeholder="觀眾評論備註" class="form-control"></textarea>
                                     
@@ -115,44 +123,51 @@
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="divHide5">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span></span>聯絡狀況:</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="divHide6">
                                 <div class="col-sm-6 col-xs-12">     
-                                    <input name="rateStar" type="radio" value="" >尚未聯絡
-                                    <input name="rateStar" type="radio" value="2">有上課意願
-                                    <input name="rateStar" type="radio" value="1">有興趣但暫時沒時間<br>
-                                    <input name="rateStar" type="radio" value="0">電話錯誤或空號
-                                    <input name="rateStar" type="radio" value="-1">完全沒興趣
+                                    <input name="contactStatus" type="radio" value="0" >尚未聯絡
+                                    <input name="contactStatus" type="radio" value="1">有上課意願
+                                    <input name="contactStatus" type="radio" value="2">有興趣但暫無時間<br>
+                                    <input name="contactStatus" type="radio" value="3">電話錯誤或空號
+                                    <input name="contactStatus" type="radio" value="4">完全沒興趣
 <!--                                    <input type="range" id="rateStar" name="tckno2" min="1" max="3">-->
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="divHide7">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     <textarea id="comment" name="Text1" cols="40" rows="1" placeholder="備註" class="form-control"></textarea>                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>                            
-                            <div class="row">
+                            <div class="row" id="divHide8">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span></span>有興趣課程:</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="divHide9">
                                 <div class="col-sm-6 col-xs-12">                                                                        
-                                    <input name="interest" type="checkbox" value="0">無
-                                    <input name="interest" type="checkbox" value="1">太鼓
-                                    <input name="interest" type="checkbox" value="2">戲劇
-                                    <input name="interest" type="checkbox" value="3">瑜珈
-                                    <input name="interest" type="checkbox" value="4">桌球
-                                    <input name="interest" type="checkbox" value="5">桌遊
-                                    <input name="interest" type="checkbox" value="6">籃球
+                                    <input name="interest" type="checkbox" value="0">心靈課程
+                                    <input name="interest" type="checkbox" value="1">和太鼓
+                                    <input name="interest" type="checkbox" value="2">節奏樂團<br>
+                                    <input name="interest" type="checkbox" value="3">陶笛
+                                    <input name="interest" type="checkbox" value="4">桌遊
+                                    <input name="interest" type="checkbox" value="5">兒童美勞<br>
+                                    <input name="interest" type="checkbox" value="6">女性有氧瑜珈
+                                    <input name="interest" type="checkbox" value="7">流行舞蹈
+                                    <input name="interest" type="checkbox" value="8">桌球                                    
+                                    <input name="interest" type="checkbox" value="9">籃球<br>
+                                    <input name="interest" type="checkbox" value="A">手工藝
+                                    <input name="interest" type="checkbox" value="B">表演課
+                                    <input name="interest" type="checkbox" value="C">烹飪料理
+                                    <input id="interestSelected" type="hidden" value=""/>
 <!--                                    <input type="range" id="rateStar" name="tckno2" min="1" max="3">-->
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   

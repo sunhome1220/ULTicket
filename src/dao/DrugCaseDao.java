@@ -2275,19 +2275,20 @@ public class DrugCaseDao extends CJBaseDao {
     
     public String addComment(JSONObject argJsonObj) {
         String strMsg = "";
-        String[] allInterest = argJsonObj.getString("interest").split(";");
+        String[] allInterest = argJsonObj.getString("interest").split("[;,]");
         String eventid = argJsonObj.getString("eventid");
         String tickid = argJsonObj.getString("tickid");
         String audiencename = argJsonObj.getString("audiencename");
         String audiencecomment = argJsonObj.getString("audiencecomment");
         String comment = argJsonObj.getString("comment");
+        int contactStatus = argJsonObj.getInt("contactStatus");
         int callTimes = argJsonObj.getInt("callTimes");
         String userid = argJsonObj.getString("USER_NM");
-        log.info("addTicnos:" + userid);
+        log.info("addComment:" + userid);
         //String sql = "INSERT INTO showtick(evid,tickid,username) VALUES ('20181014',12349,'001     ')";
-        String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,rate,"
-                + "     updatetime,comment,calltimes,lastestCallernm,username)  "
-                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?)";
+        String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,contactStatus,"
+                + "     updatetime,comment,calltimes,lastestCallernm,username,interest)  "
+                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?,?)";
 //        Object[] sqls = new Object[allInterest.length];
 //        Object[][] objs = new Object[allInterest.length][3];
         Object[] objs = new Object[10];
@@ -2295,15 +2296,19 @@ public class DrugCaseDao extends CJBaseDao {
         objs[1] = tickid;
         objs[2] = audiencename;
         objs[3] = audiencecomment;
-        objs[4] = 0;
+        objs[4] = contactStatus;
+        
         objs[5] = comment;
         objs[6] = callTimes;
-        objs[7] = "notyet";
+        objs[7] = userid;
         objs[8] = userid;
+        objs[9] = argJsonObj.getString("interest");
         
         int result = this.pexecuteUpdate(sql, objs);        
         if(result>=0){
             strMsg = "成功新增一筆回條資料!";
+        }else{
+            strMsg = "異常！回條資料未成功新增!";
         }
         return strMsg;
     }
@@ -2378,6 +2383,9 @@ public class DrugCaseDao extends CJBaseDao {
         jo.put("reqTickNo", proCnt);//
         jo.put("procman", proCnt.equals("0")? "查無索票紀錄!": result.get(0).get("procman"));//
         String reqAudienceName = proCnt.equals("0")? "-": result.get(0).get("tickname").toString();
+        if(reqAudienceName.length()>=2){
+            reqAudienceName = reqAudienceName.substring(0, 1) + "○" + reqAudienceName.substring(2);
+        }
         jo.put("reqName", reqAudienceName);//
         jo.put("reqTel", proCnt.equals("0")? "-": result.get(0).get("ticktel").toString());//
         jo.put("showTickNo", proCnt.equals("0")? 0: result.get(result.size()-1).get("cnt"));//

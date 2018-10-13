@@ -46,19 +46,19 @@
                             <div id="MENU" class="menu">
                                 <ul>
                                     <li>
-                                        <a  id="first_menu" target="_self" href="login.jsp">重新登入</a>
+                                        <a  id="first_menu" target="detail" href="login.jsp">重新登入</a>
                                     </li>
                                     <li>
-                                        <a  id="first_menu" href="index.jsp">使用說明</a>
+                                        <a  id="first_menu" target="detail" href="index.jsp">說明</a>
                                     </li>
                                     <li>
-                                        <a href="reply.jsp">票根輸入</a>
+                                        <a href="reply.jsp" target="detail">票根輸入</a>
                                     </li>
                                     <li>
-                                        <a href="queryTickStatus.jsp">出席狀況</a>
+                                        <a href="queryTickStatus.jsp" target="detail">索票出席狀況</a>
                                     </li>
                                     <li>
-                                        <a href="replyComment.jsp">回條輸入</a>
+                                        <a href="replyComment.jsp" target="detail">回條資料輸入</a>
                                     </li>
                                     
 <!--                                    <li>
