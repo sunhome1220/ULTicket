@@ -97,7 +97,7 @@
                             </div>
                             <div class="row" id="divHide2">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    聯絡人:<input type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="">                                    
+                                    聯絡人　:<input type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="">                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-6">                                                                        
                                     <a style="color:#42c8f4" id="sameAsProcman">同發票人</a>&nbsp;&nbsp;
@@ -105,15 +105,17 @@
                                 </div>
                             </div>                            
                             <div class="row">
-                                
+                                <div class="col-sm-6 col-xs-12">
+<!--                                    <label><span></span>回條資料:</label>-->
+                                </div>
                             </div>                            
                             <div class="row" id="divHide3">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    <input type="text" id="audiencename" maxlength="10" class="form-control" placeholder="觀眾姓名">
+                                    觀眾姓名:<input type="text" id="audiencename" size="10" maxlength="10" class="" placeholder="觀眾姓名">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">   
-<!--                                    <input id="btnContinue2" class="btn btn-default" disabled type="button" value="連號">-->
-                                </div>
+                                <div class="col-sm-4 col-xs-6">                                                                        
+                                    <a style="color:#42c8g1" id="sameAsReqMan">就是索票人本人</a>&nbsp;&nbsp;                                    
+                                </div>                                
                             </div>
                             <div class="row" id="divHide4">
                                 <div class="col-sm-6 col-xs-12">                                    
@@ -140,6 +142,12 @@
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>
+                            <div class="row" id="divHide32">
+                                <div class="col-sm-6 col-xs-12">                                    
+                                    上次資料更新/聯絡時間:<a id="lastupdatetime"></a>
+                                </div>                                
+                            </div>
+                            
                             <div class="row" id="divHide7">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     <textarea id="comment" name="Text1" cols="40" rows="1" placeholder="備註" class="form-control"></textarea>                                    
