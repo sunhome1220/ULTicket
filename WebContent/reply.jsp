@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-4 col-xs-8">                                    
                                     <input type="tel" id="tckno1" name="tckno1" maxlength="5" class="form-control" placeholder="票號1">                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-6">  
@@ -91,46 +91,46 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-4 col-xs-8">                                    
                                     <input type="tel" id="tckno2" name="tckno2" maxlength="5" class="form-control" placeholder="票號2">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">   
-                                    <input id="btnContinue2" class="btn btn-default" disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-4">   
+                                    <input id="btnContinue2" class="btn btn-info btn-sm" disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-4 col-xs-8">                                    
                                     <input type="tel" id="tckno3" name="tckno2" maxlength="5" class="form-control" placeholder="票號3">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">      
-                                    <input id="btnContinue3" class="btn btn-default"  disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-4">      
+                                    <input id="btnContinue3" class="btn btn-info btn-sm"  disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-4 col-xs-8">                                    
                                     <input type="tel" id="tckno4" name="tckno2" maxlength="5" class="form-control" placeholder="票號4">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                         
-                                    <input id="btnContinue4" class="btn btn-default"  disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-4">                                         
+                                    <input id="btnContinue4" class="btn btn-info btn-sm"  disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-4 col-xs-8">                                    
                                     <input type="tel" id="tckno5" name="tckno2" maxlength="5" class="form-control" placeholder="票號5">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">    
+                                <div class="col-sm-4 col-xs-4">    
 <!--                                    <button class="" id="btnContinue5" disabled>
                                         <i class="fas fa-arrow-down"></i>連號
                                     </button>-->
-                                    <input id="btnContinue5" class="btn btn-default"  disabled type="button" value="連號">
+                                    <input id="btnContinue5" class="btn btn-info btn-sm"  disabled type="button" value="連號">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 col-xs-6">                                    
+                                <div class="col-sm-4 col-xs-8">                                    
                                     <input type="tel" id="tckno6" name="tckno2" maxlength="5" class="form-control" placeholder="票號6">
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                    
-                                    <input id="btnContinue6" class="btn btn-default"  disabled type="button" value="連號">
+                                <div class="col-sm-4 col-xs-4">                                    
+                                    <input id="btnContinue6" class="btn btn-info btn-sm"  disabled type="button" value="連號">
                                 </div>
                             </div>
                         </form><br>
@@ -138,7 +138,7 @@
                 
                 <div class="panel-footer">                    
                     <div align="center">
-                        <button class="btn btn-default" style="" id="btnSubmit">確認輸入</button>
+                        <button class="btn btn-primary" style="" id="btnSubmit">確認輸入</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="reset" class="btn btn-default" id="btnClear">清除票號</button>
                     </div>

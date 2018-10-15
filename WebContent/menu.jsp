@@ -49,7 +49,10 @@
                                         <a  id="first_menu" target="_self" href="login.jsp">重新登入</a>
                                     </li>
                                     <li>
-                                        <a  id="first_menu" href="index.jsp">使用說明</a>
+                                        <a href="index.jsp">使用說明</a>
+                                    </li>
+                                    <li>
+                                        <a href="requestTicket.jsp">索票登錄</a>
                                     </li>
                                     <li>
                                         <a href="reply.jsp">票根輸入</a>

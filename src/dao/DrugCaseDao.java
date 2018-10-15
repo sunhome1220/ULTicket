@@ -2273,9 +2273,10 @@ public class DrugCaseDao extends CJBaseDao {
         return strMsg;
     }
     
-    public String addComment(JSONObject argJsonObj) {
+    public String addComment(JSONObject argJsonObj) {//create or update
         String strMsg = "";
         String[] allInterest = argJsonObj.getString("interest").split("[;,]");
+        String action = argJsonObj.getString("action");//create or update
         String eventid = argJsonObj.getString("eventid");
         String tickid = argJsonObj.getString("tickid");
         String audiencename = argJsonObj.getString("audiencename");
@@ -2284,13 +2285,11 @@ public class DrugCaseDao extends CJBaseDao {
         int contactStatus = argJsonObj.getInt("contactStatus");
         int callTimes = argJsonObj.getInt("callTimes");
         String userid = argJsonObj.getString("USER_NM");
+
         log.info("addComment:" + userid);
-        //String sql = "INSERT INTO showtick(evid,tickid,username) VALUES ('20181014',12349,'001     ')";
         String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,contactStatus,"
                 + "     updatetime,comment,calltimes,lastestCallernm,username,interest)  "
                 + "VALUES (?,?,?,?,?,getdate(),?,?,?,?,?)";
-//        Object[] sqls = new Object[allInterest.length];
-//        Object[][] objs = new Object[allInterest.length][3];
         Object[] objs = new Object[10];
         objs[0] = eventid;
         objs[1] = tickid;
@@ -2309,6 +2308,46 @@ public class DrugCaseDao extends CJBaseDao {
             strMsg = "成功新增一筆回條資料!";
         }else{
             strMsg = "異常！回條資料未成功新增!";
+        }
+        return strMsg;
+    }
+    
+    public String updateComment(JSONObject argJsonObj) {
+        String strMsg = "";
+        String[] allInterest = argJsonObj.getString("interest").split("[;,]");        
+        String eventid = argJsonObj.getString("eventid");
+        String tickid = argJsonObj.getString("tickid");
+        String audiencename = argJsonObj.getString("audiencename");
+        String audiencecomment = argJsonObj.getString("audiencecomment");
+        String comment = argJsonObj.getString("comment");
+        int contactStatus = argJsonObj.getInt("contactStatus");
+        int callTimes = argJsonObj.getInt("callTimes");
+        String userid = argJsonObj.getString("USER_NM");
+
+        log.info("addComment:" + userid);
+        String sql = "update tickcomment set audiencename=?,audiencecomment=?, contactStatus=?, "
+                + "     updatetime=getdate(), comment=?, calltimes=?, lastestCallernm=?, username=?, interest=? "
+                + " where evid=? and tickid=? ";
+                
+        Object[] objs = new Object[10];
+        objs[0] = audiencename;
+        objs[1] = audiencecomment;
+        objs[2] = contactStatus;
+        
+        objs[3] = comment;
+        objs[4] = callTimes;
+        objs[5] = userid;
+        objs[6] = userid;
+        objs[7] = argJsonObj.getString("interest");
+        objs[8] = eventid;
+        objs[9] = tickid;
+        
+        
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>=0){
+            strMsg = "成功更新回條資料!";
+        }else{
+            strMsg = "異常！回條資料未成功更新!";
         }
         return strMsg;
     }
@@ -2384,11 +2423,26 @@ public class DrugCaseDao extends CJBaseDao {
         jo.put("procman", proCnt.equals("0")? "查無索票紀錄!": result.get(0).get("procman"));//
         String reqAudienceName = proCnt.equals("0")? "-": result.get(0).get("tickname").toString();
         if(reqAudienceName.length()>=2){
-            reqAudienceName = reqAudienceName.substring(0, 1) + "○" + reqAudienceName.substring(2);
+            //reqAudienceName = reqAudienceName.substring(0, 1) + "○" + reqAudienceName.substring(2);
         }
         jo.put("reqName", reqAudienceName);//
         jo.put("reqTel", proCnt.equals("0")? "-": result.get(0).get("ticktel").toString());//
         jo.put("showTickNo", proCnt.equals("0")? 0: result.get(result.size()-1).get("cnt"));//
+        
+        String sqlComment = "SELECT * FROM tickcomment where tickid =?"; 
+        result = this.pexecuteQuery(sqlComment, new Object[]{tickid});
+        if(result.size()>0){
+            jo.put("audiencename", result.get(0).get("audiencename").toString());
+            jo.put("audiencecomment", result.get(0).get("audiencecomment").toString());
+            jo.put("contactStatus", result.get(0).get("contactStatus").toString());
+            jo.put("comment", result.get(0).get("comment").toString());
+            jo.put("calltimes", result.get(0).get("calltimes").toString());
+            jo.put("username", result.get(0).get("username").toString());
+            jo.put("interest", result.get(0).get("interest").toString());
+            jo.put("lastupdatetime", result.get(0).get("updatetime").toString());
+        }else{
+            
+        }
         return jo.toString();
     }
 

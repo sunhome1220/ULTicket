@@ -65,7 +65,7 @@
                 </div>
                 <div class="panel-footer">
                     <div align="center">
-                        <button class="btn btn-default" id="btnQry" onClick="login();">登入</button>
+                        <button class="btn btn-primary" id="btnQry" onClick="login();">登入</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="reset" class="btn btn-default" id="btnClear">清除</button>
 <!--                        &nbsp;&nbsp;&nbsp;&nbsp;

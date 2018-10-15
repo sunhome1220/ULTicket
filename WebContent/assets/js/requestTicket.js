@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    $('#toggle1').bootstrapToggle({
+      on: '是',
+      off: '否'
+    });
+
     $("div[id^='divHide']").hide();
     //var allTicketsNos="";
     getTickCount();

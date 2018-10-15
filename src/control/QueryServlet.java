@@ -73,7 +73,12 @@ public class QueryServlet extends AjaxBaseServlet {
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
             case "addComment"://意見回條  
-                msg = dao.addComment(argJsonObj);
+                String action = argJsonObj.getString("action");
+                if(action.equals("create")){
+                    msg = dao.addComment(argJsonObj);
+                }else{
+                    msg = dao.updateComment(argJsonObj);
+                }                
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
             case "getShowTicCount"://取得票根數量  

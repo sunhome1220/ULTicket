@@ -186,7 +186,7 @@
                 
                 <div class="panel-footer">                    
                     <div align="center">
-                        <button class="btn btn-default" style="" id="btnSubmit">確認輸入</button>
+                        <button class="btn btn-primary" style="" id="btnSubmit">確認輸入</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="reset" class="btn btn-default" id="btnClear">清除重填</button>
                     </div>
