@@ -1,34 +1,108 @@
 $(document).ready(function () {
+    if (localStorage.teamname) {
+        $("#team").val(localStorage.getItem("teamname"));
+    }
+    if (localStorage.eventid) {
+        $("#eventid").val(localStorage.getItem("eventid"));
+    }
     $('#toggle1').bootstrapToggle({
       on: '是',
       off: '否'
     });
-
+    //$("#btnTickNo1").click(function(){        
+    $("button[id^='btnTickNo']").click(function(){        
+        //alert(this.value);
+        //alert(this.value);
+    });
+    $("#tckno4").attr("disabled", true);
+    $("#tckno3").attr("disabled", true);
+    $("#tckno2").attr("disabled", true);   
     $("div[id^='divHide']").hide();
     //var allTicketsNos="";
-    getTickCount();
     //$("#countSelf").attr("value", 123);
     $("#btnSubmit").attr("disabled",true);
     //$("#txtBirth").datepicker();
     $("#btnSubmit").click(function(){        
         submitData();
     });
-    $("#sameAsProcman").click(function(){    
-        $("#contactperson").val($("#procman").text());        
+    
+    $("#team").change(function(){        
+        localStorage.setItem("teamname", this.value);
     });
+    $("#eventid").change(function(){        
+        localStorage.setItem("eventid", this.value);
+    });
+    $("#tckno1").change(function(){        
+        var ticknoValid = ticknoIsOk(this.value); 
+//        alert(ticknoValid);
+        if(ticknoValid){
+            $("#btnSubmit").attr("disabled",false);
+            $("#btnContinue4").attr("disabled",false);
+        }else{            
+            $("#btnSubmit").attr("disabled",true);
+            $("#btnContinue4").attr("disabled",true);
+        }
+        //allTicketsNos
+        //alert($("#tckno1").val());
+    });
+    $("#eventid").change(function(){
+        getTickCount();
+    });
+    $("input[name='ReqTickNo']").change(function(){
+        var tickNo = eval(this.value);
+        if(tickNo===4){
+            $("#tckno4").attr("disabled", false);
+            $("#tckno3").attr("disabled", false);
+            $("#tckno2").attr("disabled", false);
+        }
+        if(tickNo===3){
+            $("#tckno4").attr("disabled", true);
+            $("#tckno3").attr("disabled", false);
+            $("#tckno2").attr("disabled", false);
+        }
+        if(tickNo===2){
+            $("#tckno4").attr("disabled", true);
+            $("#tckno3").attr("disabled", true);
+            $("#tckno2").attr("disabled", false);
+        }
+        if(tickNo===1){
+            $("#tckno4").attr("disabled", true);
+            $("#tckno3").attr("disabled", true);
+            $("#tckno2").attr("disabled", true);           
+        }
+    });
+    //getTickCount();
+    
+    $("#btnContinue4").click(function(){        
+        //alert($("input[name='ReqTickNo']:checked").val());
+        var tickNo = eval($("input[name='ReqTickNo']:checked").val());
+        if(tickNo>=2){
+            var add1 = eval($("#tckno1").val())+1;
+            $("#tckno2").val(add1);  
+        }        
+        if(tickNo>=3){
+            var add1 = eval($("#tckno2").val())+1;
+            $("#tckno3").val(add1);  
+        }        
+        if(tickNo>=4){
+            var add1 = eval($("#tckno3").val())+1;
+            $("#tckno4").val(add1);  
+        }        
+        //if(add1<10000) add1 = "0" + add1;
+        
+    });
+    
     $("#sameAsMe").click(function(){        
         $("#contactperson").val($("#username").text().split(',')[0]);
     });
-    $("#sameAsReqMan").click(function(){        
-        $("#audiencename").val($("#reqName").text());
-    });
     $("#btnClear").click(function(){        
-       $("input").val('');        
+       //$("input").val('');        
        $("#procman").text('');
         $("#reqName").text('');
         $("#reqTel").text('');
         $("#reqTickNo").text('');
         $("#showTickNo").text('');  
+        $("#btnSubmit").attr("disabled",true);
         //$("div[id^='divHide']").hide();
     });
     
@@ -66,25 +140,12 @@ $(document).ready(function () {
             $("#interestSelected").val(oldValue.replace(this.value + ",", ""));
         }
     });
-    $("#tckno1").change(function(){
-        var ticknoValid = ticknoIsOk($("#tckno1").val()); 
-        if(ticknoValid){
-            $("#btnSubmit").attr("disabled",false);
-            $("#btnContinue2").attr("disabled",false);
-        }else{            
-            $("#btnSubmit").attr("disabled",true);
-            $("#btnContinue2").attr("disabled",true);
-        }
-        //allTicketsNos
-        //alert($("#tckno1").val());
-    });
-    $("#eventid").change(function(){
-        getTickCount();
-    });
+    
 });
 
     
-function ticknoIsOk(ticketNo){
+function ticknoIsOk(ticketNo){    
+    //alert($("#eventid").val());
     if($("#eventid").val()==='20181014'){
         return ticketNo>=20001 && ticketNo<=25000; 
     }else if($("#eventid").val()==='20181103'){
@@ -93,6 +154,8 @@ function ticknoIsOk(ticketNo){
         return ticketNo>=30001 && ticketNo<=35000; 
     }else if($("#eventid").val()==='20181129'){
         return ticketNo>=35001 && ticketNo<=40000; 
+    }else if($("#eventid").val()==='20190101'){
+        return ticketNo>=40001 && ticketNo<=45000; 
     }
     
 }
