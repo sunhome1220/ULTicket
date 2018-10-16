@@ -5,7 +5,7 @@ $(document).ready(function () {
     if (localStorage.eventid) {
         $("#eventid").val(localStorage.getItem("eventid"));
     }
-    $('#toggle1').bootstrapToggle({
+    $('#allowcontact').bootstrapToggle({
       on: '是',
       off: '否'
     });
@@ -46,7 +46,7 @@ $(document).ready(function () {
         //alert($("#tckno1").val());
     });
     $("#eventid").change(function(){
-        getTickCount();
+        getReqTickCount();
     });
     $("input[name='ReqTickNo']").change(function(){
         var tickNo = eval(this.value);
@@ -71,7 +71,7 @@ $(document).ready(function () {
             $("#tckno2").attr("disabled", true);           
         }
     });
-    //getTickCount();
+    //getReqTickCount();
     
     $("#btnContinue4").click(function(){        
         //alert($("input[name='ReqTickNo']:checked").val());
@@ -97,6 +97,10 @@ $(document).ready(function () {
     });
     $("#btnClear").click(function(){        
        //$("input").val('');        
+       $("#tckno1").val('');
+       $("#tckno2").val('');
+       $("#tckno3").val('');
+       $("#tckno4").val('');
        $("#procman").text('');
         $("#reqName").text('');
         $("#reqTel").text('');
@@ -152,7 +156,7 @@ function ticknoIsOk(ticketNo){
         return ticketNo>=25001 && ticketNo<=30000; 
     }else if($("#eventid").val()==='20181125'){
         return ticketNo>=30001 && ticketNo<=35000; 
-    }else if($("#eventid").val()==='20181129'){
+    }else if($("#eventid").val()==='20181229'){
         return ticketNo>=35001 && ticketNo<=40000; 
     }else if($("#eventid").val()==='20190101'){
         return ticketNo>=40001 && ticketNo<=45000; 
@@ -181,22 +185,26 @@ function commit(){
     if($("#btnSubmit").text() ==='更新資料'){
         action = 'update';
     }
+    var allTickIds = $("#tckno1").val();
+    if($("#tckno2").val()!=='') allTickIds += "," + $("#tckno2").val();
+    if($("#tckno3").val()!=='') allTickIds += "," + $("#tckno3").val();
+    if($("#tckno4").val()!=='') allTickIds += "," + $("#tckno4").val();
+    
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
         dataType: 'json',
         data: {
             action: action,
-            ajaxAction: 'addComment',
+            ajaxAction: 'addRequestTick',
             eventid: $('#eventid').val(),
-            tickid: $('#tickid').val(),
+            team: $('#team').val(),
+            procaddr: $('#procaddr').val(),
+            allowcontact: $('#allowcontact').prop("checked")? 1:0,
+            allTickIds: allTickIds,
             audiencename: $('#audiencename').val(),
-            audiencecomment: $('#audiencecomment').val(),
-            interest: $('#interestSelected').val(),
-            comment: $('#comment').val(),
-            contactStatus: $("input[name='contactStatus']:checked").val(),            
-            callTimes: 1,
-            
+            audiencetel: $('#audiencetel').val(),
+            tickmemo: $('#tickmemo').val()            
         },
         async: false,
         success: function (data) {            
@@ -204,7 +212,7 @@ function commit(){
             if(data.infoMsg.indexOf('成功')>=0){
                 $("#tckid").val('');                
             }
-            getTickCount();
+            getReqTickCount();
             
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -216,14 +224,14 @@ function commit(){
     });
 }
 
-//取得已輸入回條數量
-function getTickCount(){
+//取得已輸入索票登錄數量
+function getReqTickCount(){
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
         dataType: 'json',
         data: {
-            ajaxAction: 'getTicCommentCount',
+            ajaxAction: 'getReqTickCount',
             eventid: $('#eventid').val(),
             username: $('#username').val()
         },
