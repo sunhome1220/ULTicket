@@ -2273,6 +2273,98 @@ public class DrugCaseDao extends CJBaseDao {
         return strMsg;
     }
     
+    public String addReqTickData(JSONObject argJsonObj) {//create or update
+        String strMsg = "";
+        final String strAllTickIds = argJsonObj.getString("allTickIds");
+        String[] allTickIds = strAllTickIds.split("[,]");
+        //String action = argJsonObj.getString("action");//create or update
+        String eventid = argJsonObj.getString("eventid");
+        String event = getEventName(eventid);//argJsonObj.getString("event");
+        String teamname = argJsonObj.getString("team");
+        //String tickid = argJsonObj.getString("tickid");
+        String audiencename = argJsonObj.getString("audiencename");
+        String audiencetel = argJsonObj.getString("audiencetel");
+        String procaddr = argJsonObj.getString("procaddr");
+        String tickmemo = argJsonObj.getString("tickmemo");
+        int allowcontact = argJsonObj.getInt("allowcontact");
+        String userid = argJsonObj.getString("USER_NM");
+
+        String checkSql = "select * from proctick where evid = ? and tickid in(?)";
+        final ArrayList<HashMap> list = this.pexecuteQuery(checkSql, new Object[]{eventid, strAllTickIds});
+        if(list.size()>0){
+            return "票號重複!請重選票號";
+        }
+        
+        log.info("addReqTick:" + userid);
+        String sql = "INSERT INTO proctick (evid,event,team,procman,procaddr, "
+                + "tickid,tickname,ticktel,tickmemo,updatetime,allowcontact)   "
+                + "VALUES (?,?,?,?,?,?,?,?,?,getdate(),?)";
+        
+        Object[] objs = new Object[10];
+        objs[0] = eventid;
+        objs[1] = event;
+        objs[2] = teamname;
+        objs[3] = userid;
+        objs[4] = procaddr;
+        
+        //objs[5] = allTickIds;
+        objs[6] = audiencename;
+        objs[7] = audiencetel;
+        objs[8] = tickmemo;
+        objs[9] = allowcontact;
+        
+        int result = 0;
+        for (String tickId : allTickIds) {
+            objs[5] = tickId;
+            result += this.pexecuteUpdate(sql, objs);        
+        }
+        if(result>=0){
+            strMsg = "成功新增"+result+"筆索票登錄資料!";
+        }else{
+            strMsg = "異常！索票登錄資料未成功新增!";
+        }
+        return strMsg;
+    }
+    
+    public String updateReqTickData(JSONObject argJsonObj) {
+        String strMsg = "";
+        String[] allInterest = argJsonObj.getString("interest").split("[;,]");        
+        String eventid = argJsonObj.getString("eventid");
+        String tickid = argJsonObj.getString("tickid");
+        String audiencename = argJsonObj.getString("audiencename");
+        String audiencecomment = argJsonObj.getString("audiencecomment");
+        String comment = argJsonObj.getString("comment");
+        int contactStatus = argJsonObj.getInt("contactStatus");
+        int callTimes = argJsonObj.getInt("callTimes");
+        String userid = argJsonObj.getString("USER_NM");
+
+        log.info("addComment:" + userid);
+        String sql = "update tickcomment set audiencename=?,audiencecomment=?, contactStatus=?, "
+                + "     updatetime=getdate(), comment=?, calltimes=?, lastestCallernm=?, username=?, interest=? "
+                + " where evid=? and tickid=? ";
+                
+        Object[] objs = new Object[10];
+        objs[0] = audiencename;
+        objs[1] = audiencecomment;
+        objs[2] = contactStatus;
+        
+        objs[3] = comment;
+        objs[4] = callTimes;
+        objs[5] = userid;
+        objs[6] = userid;
+        objs[7] = argJsonObj.getString("interest");
+        objs[8] = eventid;
+        objs[9] = tickid;
+        
+        
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>=0){
+            strMsg = "成功更新回條資料!";
+        }else{
+            strMsg = "異常！回條資料未成功更新!";
+        }
+        return strMsg;
+    }
     public String addComment(JSONObject argJsonObj) {//create or update
         String strMsg = "";
         String[] allInterest = argJsonObj.getString("interest").split("[;,]");
@@ -2390,6 +2482,17 @@ public class DrugCaseDao extends CJBaseDao {
         return jo.toString();
     }
 
+    //取得已輸入索票數
+    public String getReqTickCount(JSONObject argJsonObj) {
+        int evid = argJsonObj.getInt("eventid");
+        String username = argJsonObj.getString("USER_NM");
+        String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM proctick where evid=? and username=? "; 
+        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username});
+        JSONObject jo = new JSONObject();
+        jo.put("countSelf", result.isEmpty()? 0: result.get(0).get("cnt"));//該場所有人總輸入票根
+        return jo.toString();
+    }
+    
     //取得已輸入回條數
     public String getTicCommentCount(JSONObject argJsonObj) {
         int evid = argJsonObj.getInt("eventid");
@@ -2473,5 +2576,23 @@ public class DrugCaseDao extends CJBaseDao {
         
         result = "[" + label + "," + reqNos + "," + showNos + "]";
         return result;
+    }
+
+    /**
+     * TODO:之後有獨立table後再改寫
+     * @param eventid
+     * @return 
+     */
+    private String getEventName(String eventid) {
+        if(eventid.equals("20181103"))
+            return "南門公演";
+        else if(eventid.equals("20181125"))
+            return "板橋公演(11月)";
+        else if(eventid.equals("20181229"))
+            return "板橋公演(12月)";
+        else if(eventid.equals("20190101"))
+            return "國館公演";
+        else
+            return "";
     }
 }
