@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    localStorage.setItem("lastOperation", 'replyComment.jsp');
     $("div[id^='divHide']").hide();
     //var allTicketsNos="";
     getTickCount();

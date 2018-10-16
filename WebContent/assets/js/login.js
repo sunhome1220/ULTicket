@@ -22,11 +22,15 @@ function login() {
             var jo = JSON.parse(data.infoMsg);
             //if(data.infoMsg.indexOf('登入成功')>=0){
             if(jo.msg.indexOf('登入成功')>=0){
-                window.location.href="reply.jsp";
+                if(localStorage.lastOperation){
+                    $(location).attr('href', localStorage.getItem("lastOperation"));
+                }
+                //window.location.href="reply.jsp";
                 localStorage.setItem("loginCode", jo.loginCode);                
             }else{
                 localStorage.removeItem("loginCode");
-                alert(data.infoMsg);
+                var jo2 = JSON.parse(data.infoMsg);
+                alert(jo2.msg);
             }
             
             //$.unblockUI();

@@ -1,4 +1,8 @@
 $(document).ready(function () {
+//    if(localStorage.lastOperation){
+//        $(location).attr('href', localStorage.getItem("lastOperation"));
+//    }
+    localStorage.setItem("lastOperation", 'reply.jsp');
     var allTicketsNos="";
     getTickCount();
     //$("#countSelf").attr("value", 123);

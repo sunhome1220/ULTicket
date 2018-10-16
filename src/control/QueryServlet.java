@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.rowset.CachedRowSet;
 import base.AjaxBaseServlet;
 import dao.DrugCaseDao;
+import dao.ReqTickDao;
 import java.util.ArrayList;
 import util.User;
 import org.apache.log4j.Logger;
@@ -65,15 +66,26 @@ public class QueryServlet extends AjaxBaseServlet {
         }
         
         DrugCaseDao dao = DrugCaseDao.getInstance();
+        ReqTickDao daoRT = ReqTickDao.getInstance();
         String success = "";
+        String action = "";
         
         switch (argJsonObj.getString("ajaxAction")) {                        
             case "addRecipts":  
                 msg = dao.addTicnos(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
+            case "addRequestTick"://索票登錄  
+                action = argJsonObj.getString("action");
+                if(action.equals("create")){
+                    msg = daoRT.addReqTickData(argJsonObj);
+                }else{
+                    msg = daoRT.updateReqTickData(argJsonObj);
+                }                
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
             case "addComment"://意見回條  
-                String action = argJsonObj.getString("action");
+                action = argJsonObj.getString("action");
                 if(action.equals("create")){
                     msg = dao.addComment(argJsonObj);
                 }else{
@@ -85,12 +97,16 @@ public class QueryServlet extends AjaxBaseServlet {
                 msg = dao.getShowTicCount(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
+            case "getReqTickCount"://取得索票數量  
+                msg = daoRT.getReqTickCount(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
             case "getTicCommentCount"://取得回條數量  
                 msg = dao.getTicCommentCount(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
             case "getReqTickInfo"://以票號取得該票之索票人索票的相關資訊  
-                msg = dao.getReqTickInfo(argJsonObj);
+                msg = daoRT.getReqTickInfo(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
             case "queryTicStatus":  
@@ -100,31 +116,7 @@ public class QueryServlet extends AjaxBaseServlet {
             case "getReportData":  
                 msg = dao.queryReportData(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
-                break;
-            case "getDataByStaffName":  
-                resultDataArray = dao.Get_AllCase(argJsonObj);
-                msg = "" + success;
-                this.setJqGridData(returnJasonObj, resultDataArray);
-                break;
-            case "doSaveNewCase"://儲存新案件
-                success = dao.SaveNewDrugCase(argJsonObj);
-                msg = "" + success;
-                this.setDDLData(returnJasonObj, msg);
-
-                break;
-            case "doDeleteCase":
-                DrugCaseDao DeleteCase_ByCASEID = DrugCaseDao.getInstance();
-                int success_DELETE = DeleteCase_ByCASEID.DeleteCase_ByCASEID(argJsonObj);
-//                if(success_DELETE>0){
-//                    this.setReturnMsg(returnJasonObj, MsgString.DELETE_SUCCESS);
-//                }else{
-//                    this.setReturnMsg(returnJasonObj, MsgString.DELETE_FAIL);
-//                }
-
-                this.setDDLData(returnJasonObj, success_DELETE);
-//                msg = "" + success_DELETE;
-                break;
-            
+                break;            
         }
 
     }

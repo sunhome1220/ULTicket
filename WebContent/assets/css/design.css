@@ -21,9 +21,9 @@ border-color: #FFF; border-color: #ccc; background: #333 url('') no-repeat cente
 
 @media (max-width: 767px) {
 .navbar-default { background: rgb(0,159,232) url('') no-repeat left top !important; height: auto; overflow: hidden; border-bottom-color: #000 }
-.navbar-header { height: 75px; }
+.navbar-header { height: 60px; }
 .panel-title{margin-top:0;margin-bottom:0;font-size:20px;color:inherit;font-weight:bold;}
-.NAME { font-size: 30px; left: 15%;}
+.NAME { font-size: 25px; left: 15%;}
 #MENU { background:#2CB273;}
 }
 @media (max-width: 320px) {

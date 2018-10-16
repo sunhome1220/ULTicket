@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    localStorage.setItem("lastOperation", 'requestTicket.jsp');
+    
     if (localStorage.teamname) {
         $("#team").val(localStorage.getItem("teamname"));
     }
@@ -32,9 +34,13 @@ $(document).ready(function () {
     $("#eventid").change(function(){        
         localStorage.setItem("eventid", this.value);
     });
+    $("#audiencetel").change(function(){   
+        if(this.value.length>=7){
+            getReqTickCount();
+        }
+    });
     $("#tckno1").change(function(){        
         var ticknoValid = ticknoIsOk(this.value); 
-//        alert(ticknoValid);
         if(ticknoValid){
             $("#btnSubmit").attr("disabled",false);
             $("#btnContinue4").attr("disabled",false);
@@ -42,8 +48,6 @@ $(document).ready(function () {
             $("#btnSubmit").attr("disabled",true);
             $("#btnContinue4").attr("disabled",true);
         }
-        //allTicketsNos
-        //alert($("#tckno1").val());
     });
     $("#eventid").change(function(){
         getReqTickCount();
@@ -71,10 +75,9 @@ $(document).ready(function () {
             $("#tckno2").attr("disabled", true);           
         }
     });
-    //getReqTickCount();
+    getReqTickCount();
     
     $("#btnContinue4").click(function(){        
-        //alert($("input[name='ReqTickNo']:checked").val());
         var tickNo = eval($("input[name='ReqTickNo']:checked").val());
         if(tickNo>=2){
             var add1 = eval($("#tckno1").val())+1;
@@ -87,14 +90,9 @@ $(document).ready(function () {
         if(tickNo>=4){
             var add1 = eval($("#tckno3").val())+1;
             $("#tckno4").val(add1);  
-        }        
-        //if(add1<10000) add1 = "0" + add1;
-        
+        }                
     });
     
-    $("#sameAsMe").click(function(){        
-        $("#contactperson").val($("#username").text().split(',')[0]);
-    });
     $("#btnClear").click(function(){        
        //$("input").val('');        
        $("#tckno1").val('');
@@ -110,11 +108,6 @@ $(document).ready(function () {
         //$("div[id^='divHide']").hide();
     });
     
-    $("input[name='contactStatus']").change(function(){        
-        //alert(this.value);
-       $("#btnSubmit").attr("disabled", false);
-    });
-    
     $("input[id^='tckno']").change(function(){//選擇所有的name屬性以’tckno'開頭的input元素
         var ticknoValid = ticknoIsOk(this.value); 
         if(this.value.length>0 && !ticknoValid){
@@ -124,8 +117,7 @@ $(document).ready(function () {
     }); 
     $("#tickid").keyup(function(){        
         if(this.value.length===5){
-            //alert(this.value);
-            getReqTickInfo(this.value);
+            //getReqTickInfo(this.value);
         }        
     }); 
     $("input[id^='tckno']").blur(function(){//選擇所有的name屬性以’tckno'開頭的input元素
@@ -136,14 +128,6 @@ $(document).ready(function () {
             //this.focus();
         }
     }); 
-    $("input[name=interest]").change(function(){
-        var oldValue = $("#interestSelected").val();
-        if(this.checked){
-            $("#interestSelected").val(oldValue + this.value + ",");
-        }else{
-            $("#interestSelected").val(oldValue.replace(this.value + ",", ""));
-        }
-    });
     
 });
 
@@ -164,16 +148,6 @@ function ticknoIsOk(ticketNo){
     
 }
 function submitData() {//not yet
-//    var allTicNo ="";
-//    if($("#tckno1").val().length===5){allTicNo += $("#tckno1").val() + ";";}
-//    if($("#tckno2").val().length===5){allTicNo += $("#tckno2").val() + ";";}
-//    
-//    var confirmMsg = '即將送出以下票根號碼：\n\n'+ allTicNo.replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n');
-//    var count = allTicNo.split(';').length-1;
-//    confirmMsg += '\n\n共'+ count +'張票根資料，請確定是否正確';
-//    if(!confirm(confirmMsg)){
-//        return;
-//    }else{
         commit();
 //    }   
 }
@@ -216,9 +190,6 @@ function commit(){
             
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            //alert('ajaxOptions=' + ajaxOptions);
-//            alert(xhr.status);
-//            alert(thrownError);
             alert('系統異常，請重新操作一次或通知系統管理者!');
         }
     });
@@ -233,6 +204,8 @@ function getReqTickCount(){
         data: {
             ajaxAction: 'getReqTickCount',
             eventid: $('#eventid').val(),
+            audiencename: $('#audiencename').val(),
+            audiencetel: $('#audiencetel').val(),
             username: $('#username').val()
         },
         async: false,
@@ -241,7 +214,36 @@ function getReqTickCount(){
             //var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
             $("#countSelf").text(jo.countSelf);
 //            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
-//            $("#countReqTick").text(jo.totalReqCnt);
+            $("#audienceEvidCnt").text(jo.audienceEvidCnt);
+            //alert(jo.audienceTckList);
+            
+            var alltck = jo.audienceTckList.split(',');
+            
+            if(eval(jo.audienceEvidCnt)>=1){
+                //alert('此回條已輸入');
+                $("#btnSubmit").text('更新資料');
+                $("#btnSubmit").prop('disabled', false);
+            }else{
+                $("#btnSubmit").text('確定新增');
+                //alert('未輸入過');
+            }
+            $("input[name='ReqTickNo'][value=" + eval(jo.audienceEvidCnt) + "]").click();                
+            if(eval(jo.audienceEvidCnt)>=4){
+                alert('此觀眾已索取超過四張票！');
+                $("#tckno4").val(alltck[3]);
+                
+            }else{
+                $("div[id^='divHide0']").show();
+            }
+            if(eval(jo.audienceEvidCnt)>=1){
+                $("#tckno1").val(alltck[0]);
+            }
+            if(eval(jo.audienceEvidCnt)>=2){
+                $("#tckno2").val(alltck[1]);
+            }
+            if(eval(jo.audienceEvidCnt)>=3){
+                $("#tckno3").val(alltck[2]);
+            }             
         },
         error: function (xhr, ajaxOptions, thrownError) {            
             alert('系統異常，無法取得票根資料!');

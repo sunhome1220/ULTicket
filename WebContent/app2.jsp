@@ -6,12 +6,13 @@
 <meta charset="utf-8">
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">           
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="Category.Theme" content="170">
 <meta name="Category.Cake" content="140">
 <meta name="Category.Service" content="E10">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>無限票務管理系統</title>
 <link rel="apple-touch-icon" href="assets/img/logo.png">
 <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap.min.css">
@@ -39,10 +40,31 @@
         //alert('desktop!');
     }            
 </script>
+<style>
+    body {
+  margin: 0;
+  padding: 0;
+}
+
+.frame {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  box-sizing: border-box;
+}
+</style>
 </head>
-<frameset rows="*" cols=*>
-        <frame src="login.jsp" scrolling="no" id="detail" name="detail"/>
+<body>
+<frameset row="*">
+    <iframe src="login.jsp" name="detail" class="frame"/>
+</frameset>
+</body>
+
 <!--        <frame src="menu_target.jsp" scrolling="no"/>
         <frame src="index_nomenu.jsp" scrolling="no" id="detail" name="detail"/>-->
-</frameset>
+        
 </html>
