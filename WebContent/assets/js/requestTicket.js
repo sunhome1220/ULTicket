@@ -1,6 +1,6 @@
 $(document).ready(function () {
     localStorage.setItem("lastOperation", 'requestTicket.jsp');
-    
+    var jo;
     if (localStorage.teamname) {
         $("#team").val(localStorage.getItem("teamname"));
     }
@@ -16,9 +16,11 @@ $(document).ready(function () {
         //alert(this.value);
         //alert(this.value);
     });
-    $("#tckno4").attr("disabled", true);
-    $("#tckno3").attr("disabled", true);
-    $("#tckno2").attr("disabled", true);   
+    $("input[id^=tckno]").attr("disabled", true);
+    $("#tckno1").attr("disabled", false);
+//    $("#btnAdd").hide();
+//    $("#btnMod").hide();
+    
     $("div[id^='divHide']").hide();
     //var allTicketsNos="";
     //$("#countSelf").attr("value", 123);
@@ -34,11 +36,15 @@ $(document).ready(function () {
     $("#eventid").change(function(){        
         localStorage.setItem("eventid", this.value);
     });
-    $("#audiencetel").change(function(){   
-        if(this.value.length>=7){
-            getReqTickCount();
-        }
+    $("#btnQuery").click(function(){   
+       getReqTickCount();
     });
+    
+//    $("#audiencetel").change(function(){   
+//        if(this.value.length>=7){
+//            getReqTickCount();
+//        }
+//    });
     $("#tckno1").change(function(){        
         var ticknoValid = ticknoIsOk(this.value); 
         if(ticknoValid){
@@ -54,52 +60,28 @@ $(document).ready(function () {
     });
     $("input[name='ReqTickNo']").change(function(){
         var tickNo = eval(this.value);
-        if(tickNo===4){
-            $("#tckno4").attr("disabled", false);
-            $("#tckno3").attr("disabled", false);
-            $("#tckno2").attr("disabled", false);
+        for (i = 2; i <= tickNo; i++) {
+            $("#tckno"+i).attr("disabled", false);            
         }
-        if(tickNo===3){
-            $("#tckno4").attr("disabled", true);
-            $("#tckno3").attr("disabled", false);
-            $("#tckno2").attr("disabled", false);
-        }
-        if(tickNo===2){
-            $("#tckno4").attr("disabled", true);
-            $("#tckno3").attr("disabled", true);
-            $("#tckno2").attr("disabled", false);
-        }
-        if(tickNo===1){
-            $("#tckno4").attr("disabled", true);
-            $("#tckno3").attr("disabled", true);
-            $("#tckno2").attr("disabled", true);           
-        }
+        for (i = tickNo+1; i <= 10; i++) {
+            $("#tckno"+i).attr("disabled", true); 
+            $("#tckno"+i).val('');
+        }        
     });
-    getReqTickCount();
+    //getReqTickCount();
     
     $("#btnContinue4").click(function(){        
         var tickNo = eval($("input[name='ReqTickNo']:checked").val());
-        if(tickNo>=2){
-            var add1 = eval($("#tckno1").val())+1;
-            $("#tckno2").val(add1);  
-        }        
-        if(tickNo>=3){
-            var add1 = eval($("#tckno2").val())+1;
-            $("#tckno3").val(add1);  
-        }        
-        if(tickNo>=4){
-            var add1 = eval($("#tckno3").val())+1;
-            $("#tckno4").val(add1);  
-        }                
+        var i;
+        for (i = 1; i < tickNo; i++) {
+            var add1 = eval($("#tckno"+i).val())+1;
+            $("#tckno"+(i+1)).val(add1);  
+        }                         
     });
     
     $("#btnClear").click(function(){        
-       //$("input").val('');        
-       $("#tckno1").val('');
-       $("#tckno2").val('');
-       $("#tckno3").val('');
-       $("#tckno4").val('');
-       $("#procman").text('');
+        $("input[id^=tckno]").val('');
+        $("#procman").text('');
         $("#reqName").text('');
         $("#reqTel").text('');
         $("#reqTickNo").text('');
@@ -163,6 +145,12 @@ function commit(){
     if($("#tckno2").val()!=='') allTickIds += "," + $("#tckno2").val();
     if($("#tckno3").val()!=='') allTickIds += "," + $("#tckno3").val();
     if($("#tckno4").val()!=='') allTickIds += "," + $("#tckno4").val();
+    if($("#tckno5").val()!=='') allTickIds += "," + $("#tckno5").val();
+    if($("#tckno6").val()!=='') allTickIds += "," + $("#tckno6").val();
+    if($("#tckno7").val()!=='') allTickIds += "," + $("#tckno7").val();
+    if($("#tckno8").val()!=='') allTickIds += "," + $("#tckno8").val();
+    if($("#tckno9").val()!=='') allTickIds += "," + $("#tckno9").val();
+    if($("#tckno10").val()!=='') allTickIds += "," + $("#tckno10").val();
     
     $.ajax({
         url: 'QueryServlet',
@@ -176,6 +164,7 @@ function commit(){
             procaddr: $('#procaddr').val(),
             allowcontact: $('#allowcontact').prop("checked")? 1:0,
             allTickIds: allTickIds,
+            originalAllTickNo: $("#originalAllTickNo").val(),
             audiencename: $('#audiencename').val(),
             audiencetel: $('#audiencetel').val(),
             tickmemo: $('#tickmemo').val()            
@@ -196,6 +185,7 @@ function commit(){
 }
 
 //取得已輸入索票登錄數量
+
 function getReqTickCount(){
     $.ajax({
         url: 'QueryServlet',
@@ -210,40 +200,82 @@ function getReqTickCount(){
         },
         async: false,
         success: function (data) {
-            var jo = JSON.parse(data.infoMsg);
-            //var percent = eval(jo.totalShowCnt)/eval(jo.totalReqCnt) * 100 + ' ';
+            jo = JSON.parse(data.infoMsg);
             $("#countSelf").text(jo.countSelf);
-//            $("#countTotal").text(jo.totalShowCnt + ' (' + percent.substring(0,4) + ' %)');
             $("#audienceEvidCnt").text(jo.audienceEvidCnt);
             //alert(jo.audienceTckList);
-            
+            $("#originalAllTickNo").val(jo.audienceTckList);
             var alltck = jo.audienceTckList.split(',');
+            $("#procaddr").val(jo.procaddr);
+            $("#tickmemo").val(jo.tickmemo);
+            $("#updatetime").text(jo.updatetime);
+            if(jo.allowcontact==="1"){//
+                $('#allowcontact').prop("checked",true);
+            }else{
+                $('#allowcontact').prop("checked",false);
+            }
             
-            if(eval(jo.audienceEvidCnt)>=1){
+            if(eval(jo.audienceEvidCnt)>=1
+                    && !confirm('此索票人已登記'+jo.audienceEvidCnt+'張票，是否繼續新增更多登錄資料？(若要修改資料請按:取消)')){
+//                    $("#btnAdd").show();
+//                    $("#btnMod").show();
+//                    $("#btnQuery").hide();
+
                 //alert('此回條已輸入');
+                
                 $("#btnSubmit").text('更新資料');
                 $("#btnSubmit").prop('disabled', false);
+                $("input[name='ReqTickNo'][value=" + eval(jo.audienceEvidCnt) + "]").click();     
+                if(eval(jo.audienceEvidCnt)>=1){
+                    $("#tckno1").val(alltck[0]);
+                }
+                if(eval(jo.audienceEvidCnt)>=2){
+                    $("#tckno2").val(alltck[1]);
+                }
+                if(eval(jo.audienceEvidCnt)>=3){
+                    $("#tckno3").val(alltck[2]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=4){
+                    $("#tckno4").val(alltck[3]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=5){
+                    $("#tckno5").val(alltck[4]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=6){
+                    $("#tckno6").val(alltck[5]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=7){
+                    $("#tckno7").val(alltck[6]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=8){
+                    $("#tckno8").val(alltck[7]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=9){
+                    $("#tckno9").val(alltck[8]);
+                }             
+                if(eval(jo.audienceEvidCnt)>=10){
+                    $("#tckno10").val(alltck[9]);
+                }             
+                
             }else{
+//                $("#btnAdd").show();
+//                $("#btnMod").hide();
+//                $("#btnQuery").hide();
                 $("#btnSubmit").text('確定新增');
                 //alert('未輸入過');
-            }
-            $("input[name='ReqTickNo'][value=" + eval(jo.audienceEvidCnt) + "]").click();                
-            if(eval(jo.audienceEvidCnt)>=4){
-                alert('此觀眾已索取超過四張票！');
-                $("#tckno4").val(alltck[3]);
+//                $("#procaddr").val('');
+//                $("#tickmemo").val('');
+//                $("#updatetime").val('');
                 
+            }
+            
+            if(eval(jo.audienceEvidCnt)>=4){
+                //alert('此觀眾已索取超過四張票！');
+                //$("#tckno4").val(alltck[3]);                
             }else{
                 $("div[id^='divHide0']").show();
             }
-            if(eval(jo.audienceEvidCnt)>=1){
-                $("#tckno1").val(alltck[0]);
-            }
-            if(eval(jo.audienceEvidCnt)>=2){
-                $("#tckno2").val(alltck[1]);
-            }
-            if(eval(jo.audienceEvidCnt)>=3){
-                $("#tckno3").val(alltck[2]);
-            }             
+            
         },
         error: function (xhr, ajaxOptions, thrownError) {            
             alert('系統異常，無法取得票根資料!');
