@@ -36,8 +36,25 @@ $(document).ready(function () {
     $("#eventid").change(function(){        
         localStorage.setItem("eventid", this.value);
     });
-    $("#btnQuery").click(function(){   
-       getReqTickCount();
+    $("input[name='procmanType']").change(function(){        
+        if(this.value==='S'){
+            $("#procmanOther").hide();
+        }else if(this.value==='O'){
+            $("#procmanOther").show();
+        }
+    });
+    $("#btnQuery").click(function(){  
+         
+         
+         
+        if($('#eventid').val()===''
+                || $('#audiencename').val()===''
+                || $('#audiencetel').val()===''){
+            alert('請先輸入場次、索票人姓名及電話!');
+        }else{
+            getReqTickCount();
+        }
+       
     });
     
 //    $("#audiencetel").change(function(){   
@@ -129,13 +146,9 @@ function ticknoIsOk(ticketNo){
     }
     
 }
-function submitData() {//not yet
-        commit();
-//    }   
-}
 
 //送出票根資料
-function commit(){
+function submitData(){
     //alert($("input[name='contactStatus']:checked").val());
     var action = 'create';
     if($("#btnSubmit").text() ==='更新資料'){
@@ -152,6 +165,8 @@ function commit(){
     if($("#tckno9").val()!=='') allTickIds += "," + $("#tckno9").val();
     if($("#tckno10").val()!=='') allTickIds += "," + $("#tckno10").val();
     
+    var newTickIdsCount = allTickIds.split(',').length;
+    var oldTickIdsCount = $("#originalAllTickNo").val().split(',').length;
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -175,7 +190,7 @@ function commit(){
             if(data.infoMsg.indexOf('成功')>=0){
                 $("#tckid").val('');                
             }
-            getReqTickCount();
+            //getReqTickCount();
             
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -186,7 +201,7 @@ function commit(){
 
 //取得已輸入索票登錄數量
 
-function getReqTickCount(){
+function getReqTickCount(){   
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -209,20 +224,23 @@ function getReqTickCount(){
             $("#procaddr").val(jo.procaddr);
             $("#tickmemo").val(jo.tickmemo);
             $("#updatetime").text(jo.updatetime);
-            if(jo.allowcontact==="1"){//
+            if(jo.allowcontact==='1'){//
                 $('#allowcontact').prop("checked",true);
+                $('#allowcontact').click();
             }else{
                 $('#allowcontact').prop("checked",false);
             }
-            
-            if(eval(jo.audienceEvidCnt)>=1
-                    && !confirm('此索票人已登記'+jo.audienceEvidCnt+'張票，是否繼續新增更多登錄資料？(若要修改資料請按:取消)')){
+            var confirmMsg = '此索票人已登記'+jo.audienceEvidCnt+'張票，是否要繼續登錄更多票號資料？\n若要修改資料請按:取消)';
+            if((eval(jo.audienceEvidCnt)>=1 && eval(jo.audienceEvidCnt)<=9) ||
+                    (eval(jo.audienceEvidCnt)>=10 && !confirm(confirmMsg))){
 //                    $("#btnAdd").show();
 //                    $("#btnMod").show();
 //                    $("#btnQuery").hide();
 
                 //alert('此回條已輸入');
-                
+                if(eval(jo.audienceEvidCnt)<10){
+                    alert('此索票人已登記'+jo.audienceEvidCnt+'張票');
+                }
                 $("#btnSubmit").text('更新資料');
                 $("#btnSubmit").prop('disabled', false);
                 $("input[name='ReqTickNo'][value=" + eval(jo.audienceEvidCnt) + "]").click();     
@@ -258,9 +276,13 @@ function getReqTickCount(){
                 }             
                 
             }else{
+                if(eval(jo.audienceEvidCnt)===0){
+                    alert('尚無任何索票登錄資料');
+                }
 //                $("#btnAdd").show();
 //                $("#btnMod").hide();
 //                $("#btnQuery").hide();
+                $("input[id^='tckno']").val('');
                 $("#btnSubmit").text('確定新增');
                 //alert('未輸入過');
 //                $("#procaddr").val('');
@@ -269,12 +291,12 @@ function getReqTickCount(){
                 
             }
             
-            if(eval(jo.audienceEvidCnt)>=4){
-                //alert('此觀眾已索取超過四張票！');
-                //$("#tckno4").val(alltck[3]);                
-            }else{
+//            if(eval(jo.audienceEvidCnt)>=4){
+//                //alert('此觀眾已索取超過四張票！');
+//                //$("#tckno4").val(alltck[3]);                
+//            }else{
                 $("div[id^='divHide0']").show();
-            }
+//            }
             
         },
         error: function (xhr, ajaxOptions, thrownError) {            
@@ -311,7 +333,7 @@ function getReqTickInfo(){
             $("#reqTickNo").text(jo.reqTickNo);
             $("#showTickNo").text(jo.showTickNo);
             if(jo.reqTickNo === "0"){
-                $("#btnSubmit").attr("disabled",true);
+                $("#btnSubmit").attr("disabled",true);                
             }
             $("#contactperson").val(jo.username);            
             $("input[name='contactStatus'][value=" + jo.contactStatus + "]").prop('checked', true);
