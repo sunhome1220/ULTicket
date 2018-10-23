@@ -39,33 +39,46 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">觀眾索票連結：</h2>
+                    <h2 class="panel-title">觀眾索票連結：<span class=Must>規劃設計中</span></h2>
                 </div>
                 <div class="panel-body">
                     <section>
                         <form id="Form1">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>帳號</label> <input
-                                        type="text" id="txtIDNum" name="txtIDNum" class="form-control"
-                                        placeholder="您的帳號">
+                                    <label></label> 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>密碼</label> 
-                                    <input type="password" id="txtBirth" name="txtBirth" class="form-control"
-                                           placeholder="您的密碼">
-                                </div>
+<!--                                    <label><span class=Must>*</span>場次</label> -->
+                                    <select class="form-control" data-width="100px" id="eventid" name="eventid">
+                                        <option value="">請選擇演出場次</option>
+<!--                                        <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>-->
+                                        <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
+                                        <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
+                                        <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
+                                        <option value="20190101">01/01-國館公演(票號:40001~45000)</option>
+                                </select>                                
+                                </div>    
+                                
+                            </div>
+                            <div>
+                                
                             </div>
                         </form>
+                        <div align="center">
+                            <input type="button" class="btn btn-primary" id="btnShowQRCode" value="產生觀眾索票QRCode"/>                     
+                        </div>
                     </section>
                 </div>
                 <div class="panel-footer">
-                    <div align="center">
-                        <button type="submit" class="btn btn-default" id="btnQry"
-                                onClick="Login();">產生QRCode</button>                        
+                    <div align="center" id="qrcode" style="display:none" >
+                        <div align="center">
+                                    <img src="assets/img/reqticQRCode.png" alt="Smiley face" height="70%" width="70%">
+                                </div>
                     </div>
+                    
                 </div>
             </div>
             <div>
@@ -78,266 +91,6 @@
         </div>
     </section>
 
-    <!-- 以下是Footer
-    <div id="FatFooter">
-    <div class="container">
-    <div class="row">
-    <div class="accesskey">
-    <a href="#" title="下方網站地圖區" accesskey="M">:::</a>
-    </div>
-    <nav>
-    <ul>
-    <li>
-    <a href="#">機關簡介</a>
-    <ul>
-    <li>
-    <a href="np?ctNode=12571&CtUnit=1588&BaseDSD=7&mp=1">沿革</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12949&CtUnit=2708&BaseDSD=7&mp=1">首長介紹</a>
-    </li>
-    <li>
-    <a href="sp?xdUrl=/wSite/searchMap/searchMap.jsp&ctNode=12573&mp=1">警察機關位置查詢</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12574&CtUnit=1745&BaseDSD=7&mp=1">警察體系</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12575&CtUnit=1746&BaseDSD=7&mp=1">組織架構</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12886&CtUnit=2635&BaseDSD=7&mp=1">施政重點</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12577&CtUnit=2004&BaseDSD=7&mp=1">警察機關地址電話一覽</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12578&mp=1">警察大事記</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12583&CtUnit=1596&BaseDSD=7&mp=1">警政工作年報</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12581&CtUnit=1758&BaseDSD=7&mp=1">委託研究計畫報告</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12582&CtUnit=2576&BaseDSD=7&mp=1">中華民國警察畫刊</a>
-    </li>
-    </ul>
-    </li>
-    <li>
-    <a href="#">資訊公開</a>
-    <ul>
-    <li>
-    <a href="np?ctNode=12704&CtUnit=2519&BaseDSD=7&mp=1">政府資訊公開</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12926&CtUnit=2688&BaseDSD=7&mp=1">OPEN DATA</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12551&CtUnit=1637&BaseDSD=4&mp=1">警察教育</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12552&mp=1">警政統計</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12554&CtUnit=1988&BaseDSD=7&mp=1">警察法規</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12556&CtUnit=2438&BaseDSD=7&mp=1">出版品目錄</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12924&mp=1">性別主流化專區</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12951&mp=1">行政院治安會報專區</a>
-    </li>
-    </ul>
-    </li>
-    <li>
-    <a href="#">線上申辦</a>
-    <ul>
-    <li>
-    <a target="_blank" title="(另開新視窗)" href="http://www.npa.gov.tw/NPAGip/wSite/np?ctNode=11725&mp=1">警察刑事紀錄證明書(俗稱良民證)</a>
-    </li>
-    <li>
-    <a target="_blank" title="(另開新視窗)" href="https://nv2.npa.gov.tw/NM103-604Client/">入山案件申辦系統</a>
-    </li>
-    <li>
-    <a target="_blank" title="(另開新視窗)" href="https://tm2.npa.gov.tw/NM105-505Client/">交通事故資料申請及申辦案件進度查詢</a>
-    </li>
-    </ul>
-    </li>
-    <li>
-    <a href="#">為民服務</a>
-    <ul>
-    <li>
-    <a href="np?ctNode=12868&CtUnit=2638&BaseDSD=7&mp=1">警察史蹟館參觀申請書</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12928&CtUnit=2690&BaseDSD=7&mp=1">申辦事項及電子表單</a>
-    </li>
-    <li>
-    <a target="_blank" title="(另開新視窗)" href="https://nv2.npa.gov.tw/TX105-Web/view/index.jsp">計程車駕駛人服務網</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12622&CtUnit=1579&BaseDSD=7&mp=1">110報案</a>
-    </li>
-    <li>
-    <a target="_blank" title="(另開新視窗)" href="https://nv2.npa.gov.tw/TrafficSearch/">測速執法點及拖吊保管場</a>
-    </li>
-    </ul>
-    </li>
-    <li>
-    <a href="#">溫馨關懷</a>
-    <ul>
-    <li>
-    <a href="np?ctNode=12623&mp=1">關老師愛心園地</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12863&mp=1">警察優良事蹟及社團專區</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12642&CtUnit=1610&BaseDSD=4&mp=1">保護您小秘方</a>
-    </li>
-    <li>
-    <a target="_blank" title="(另開新視窗)" href="http://www.avs.org.tw/">犯罪被害人保護(連結財團法人犯罪被害人保護協會)</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12632&CtUnit=1820&BaseDSD=7&mp=1">影音專區</a>
-    </li>
-    <li>
-    <a href="sp?xdUrl=/wSite/questionnaire/questionnaire.jsp&ctNode=12633&phylum=1&mp=1">問卷調查</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12634&CtUnit=2334&BaseDSD=7&mp=1">活動及統計專區</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12867&mp=1">防制酒駕專區</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12855&mp=1">交通事故專區</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12869&CtUnit=2639&BaseDSD=7&mp=1">各警察機關交通違規檢舉專區網頁</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12636&CtUnit=2025&BaseDSD=7&mp=1">交通安全宣導</a>
-    </li>
-    </ul>
-    </li>
-    <li>
-    <a href="#">警政單位連結</a>
-    <ul>
-    <li>
-    <a href="lp?ctNode=12637&CtUnit=1929&BaseDSD=4&mp=1">本署各業務單位</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12638&CtUnit=1686&BaseDSD=4&mp=1">警政相關單位</a>
-    </li>
-    </ul>
-    </li>
-    <li>
-    <a href="sp?xdUrl=/wSite/DatabaseQuery/sh.jsp&ctNode=12639&mp=1">婦幼專區</a>
-    </li>
-    <li>
-    <a href="#">法案預告及動態</a>
-    <ul>
-    <li>
-    <a href="lp?ctNode=12931&CtUnit=2693&BaseDSD=7&mp=1">草案預告</a>
-    </li>
-    <li>
-    <a href="lp?ctNode=12933&CtUnit=2695&BaseDSD=7&mp=1">法規命令發布</a>
-    </li>
-    </ul>
-    </li>
-    </ul>
-    </nav>
-    </div>
-    </div>
-    </div>
-    <footer id="footer">
-    <div class="container">
-    <div class="row">
-    <div class="col-sm-9 col-md-7">
-    <div class="Footer_link">
-    <div class="accesskey">
-    <a href="#" title="下方網站授權說明區" accesskey="B">:::</a>
-    </div>
-    <ul>
-    <li>
-    <a href="np?ctNode=12405&amp;mp=1" title="政府網站資料開放宣告">政府網站資料開放宣告</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12404&amp;mp=1" title="隱私權保護政策">隱私權保護政策</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12406&amp;mp=1" title="網站安全政策">網站安全政策</a>
-    </li>
-    <li>
-    <a href="np?ctNode=12407&amp;mp=1" title="保有及管理個人資料.pdf
-                ">保有及管理個人資料</a>
-    </li>
-    </ul>
-    <div class="Footer_info">
-    <div class="Phone">總機：02-2321-9011 [本電話僅具受話功能，無法顯示來電號碼，請勿受騙]</div>
-    <div class="Address">
-                                                本署各單位服務時間：08:30-17:30<br>
-                                            地址：10058 臺北市中正區忠孝東路1段7號（<a title="TgosMap" target="_blank" href="http://www.moi.gov.tw/chi/chi_about/tgos_map2.aspx?X=302726.089&amp;Y=2770889.704&amp;AddressString=10058%E8%87%BA%E5%8C%97%E5%B8%82%E4%B8%AD%E6%AD%A3%E5%8D%80%E5%BF%A0%E5%AD%9D%E6%9D%B1%E8%B7%AF%E4%B8%80%E6%AE%B57%E8%99%9F&amp;UnitName=%E5%85%A7%E6%94%BF%E9%83%A8%E8%AD%A6%E6%94%BF%E7%BD%B2+&amp;fsize=Y">位置圖</a>） </div>
-    <div class="Resolution">本網站設計支援IE9.0、Firefox及Chrome，最佳瀏覽解析度為1024 x 768</div>
-    <div class="Copyright">內政部警政署版權所有</div>
-    </div>
-    </div>
-    </div>
-    <div class="hidden-xs hidden-sm col-md-3">
-    <div class="qrcode">
-    <ul>
-    <li>
-    <a target="_nwGIP" title="內政部警政署" href="http://www.npa.gov.tw/"><img alt="內政部警政署" height="70" width="70" src="xslGip/style1/images/npa_qrcode.png"></a>
-    <p>警政署</p>
-    </li>
-    <li>
-    <a target="_nwGIP" title="警政服務(iOS版)" href="https://itunes.apple.com/tw/app/jing-zheng-fu-wu/id544121843?l=zh&mt=8"><img alt="警政服務(iOS版)" height="70" width="70" src="xslGip/style1/images/ios.png"></a>
-    <p>iOS版本</p>
-    </li>
-    <li>
-    <a target="_nwGIP" title="警政服務(Android版)" href="https://play.google.com/store/apps/details?id=tw.gov.npa.callservice&feature=search_result#?t=W251bGwsMSwxLDEsInR3Lmdvdi5ucGEuY2FsbHNlcnZpY2UiXQ"><img alt="警政服務(Android版)" height="70" width="70" src="xslGip/style1/images/android.png"></a>
-    <p>Android版本</p>
-    </li>
-    </ul>
-    <br>
-    <b>警政服務APP</b>
-    </div>
-    </div>
-    <div class="hidden-xs col-sm-3 col-md-2">
-    <div class="Footer_icon">
-    <ul>
-    <li class="MoiMark">
-    <a href="#" title="內政部網站評選優良網站"><img alt="內政部網站評選優良網站" src="xslGip/style1/images/b001.gif"></a>
-    </li>
-    <li class="Accessible_icon">
-    <a href="http://www.handicap-free.nat.gov.tw/Applications/Detail?category=20160911130355" target="_blank" title="無障礙A+標章(另開新視窗)"><img src="xslGip/style1/images/A_Plus.gif" alt="無障礙A+"></a>
-    </li>
-    <li class="Egov">
-    <a href="http://www.gov.tw/" title="連結：我的E政府(另開新視窗)" target="_blank"><img src="xslGip/style1/images/egov.png" alt="我的E政府"></a>
-    </li>
-    </ul>
-    </div>
-    <div class="Update">
-    <ul>
-    <li>更新日期：<em>2018年5月21日</em>
-    </li>
-    <li>訪客人次：<em>119705348</em>
-    </li>
-    <li>線上人數：<em>504</em>
-    </li>
-    </ul>
-    </div>
-    </div>
-    </div>
-    </div>
-    </footer>
-    -->
     <a href="#" class="scrollup"><i class="icon-up-open"></i></a>
     <script src="assets/js/jquery-1.11.2.js"></script>
     <script src="assets/plugins/bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
@@ -354,7 +107,8 @@
     <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
     <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="assets/js/datepicker-zh-TW.js"></script>
-    <script src="assets/js/query.js"></script>
+    <script src="assets/js/audienceReqTic.js"></script>
+<!--    <script src="assets/js/query.js"></script>-->
 </body>
 
 </html>

@@ -19,7 +19,7 @@
 </style>  
         <div class="container">            
             <div style="margin-left:-15px;margin-right:-15px">                    
-                <a class="loginUser" id="username"><%=username%></a> 
+                <a class="loginUser" id="username" href="login.jsp"><%=username%></a> 
                 <nav class="navbar navbar-default megamenu" role="navigation">                    
                     <div class="container" style="padding-left: 0px;padding-right: 0px;">                        
                         <div class="navbar-header">                            
@@ -38,11 +38,14 @@
                         <div class="collapse navbar-collapse Topmenu" id="offcanvas-left" role="navigation" style="padding-left: 0px;padding-right: 0px;">
                             <div id="MENU" class="menu">
                                 <ul>
-                                    <li>
+<!--                                    <li>
                                         <a  id="first_menu" target="_self" href="login.jsp">重新登入</a>
-                                    </li>
+-->                                    
                                     <li>
                                         <a href="index.jsp">使用說明</a>
+                                    </li>
+                                    <li>
+                                        <a href="forAudience.jsp">觀眾索票(demo)</a>
                                     </li>
                                     <li>
                                         <a href="requestTicket.jsp">索票登錄</a>
@@ -64,9 +67,7 @@
                                         <a href="query.jsp">出席狀況</a>
                                     </li>-->
                                     
-                                    <li>
-                                        <a href="forAudience.jsp">觀眾索票</a>
-                                    </li>
+                                    
 <!--                                    <li>
                                         <a>統計資料<b class=""></b></a>
                                         <ul>

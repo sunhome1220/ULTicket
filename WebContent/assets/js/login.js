@@ -24,6 +24,8 @@ function login() {
             if(jo.msg.indexOf('登入成功')>=0){
                 if(localStorage.lastOperation){
                     $(location).attr('href', localStorage.getItem("lastOperation"));
+                }else{
+                    $(location).attr('href', "index.jsp");
                 }
                 //window.location.href="reply.jsp";
                 localStorage.setItem("loginCode", jo.loginCode);                

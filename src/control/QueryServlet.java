@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.rowset.CachedRowSet;
 import base.AjaxBaseServlet;
-import dao.DrugCaseDao;
+import dao.TickDao;
 import dao.ReqTickDao;
 import java.util.ArrayList;
 import util.User;
@@ -65,7 +65,7 @@ public class QueryServlet extends AjaxBaseServlet {
             }
         }
         
-        DrugCaseDao dao = DrugCaseDao.getInstance();
+        TickDao dao = TickDao.getInstance();
         ReqTickDao daoRT = ReqTickDao.getInstance();
         String success = "";
         String action = "";

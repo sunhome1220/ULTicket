@@ -52,15 +52,15 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">索票登錄(無限伙伴使用)&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
+                    <h2 id="heaerh2" class="panel-title">索票登錄&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
                 </div>
                 <div class="panel-body">                        
                         <form id="Form12">
                             
-                            <div class="row">
+                            <div class="row" style="background:">
                                 <div class="col-sm-6 col-xs-6">
 <!--                                    <label><span class=Must>*</span>組別(依筆劃排序)</label> -->
-                                    <select class="form-control" data-width="100px" id="team" name="team">
+                                    <select style="background:#baefe9" class="form-control" data-width="100px" id="team" name="team">
                                         <option value="">請選擇組別(依筆劃排序)</option>                                        
                                         <option value="弘恩">弘恩</option>
                                         <option value="永樂">永樂</option>
@@ -76,7 +76,7 @@
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
 <!--                                    <label><span class=Must>*</span>場次</label> -->
-                                    <select class="form-control" data-width="100px" id="eventid" name="eventid">
+                                    <select style="background:#baefe9" class="form-control" data-width="100px" id="eventid" name="eventid">
                                         <option value="">請選擇演出場次</option>
 <!--                                        <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>-->
                                         <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
@@ -88,22 +88,25 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label title="發票人可能是自己或其他伙伴"><span class=Must>*</span>發票人</label> 
+                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您已登錄門票數目：<a id="countSelf">...</a></font><br>                                    
+                                    <br>
+                                </div>                                     
+                            </div>    
+                            
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label title="發票人可能是自己或其他伙伴"><span class=Must></span>發票人:</label> 
                                     <div class="btn-group btn-group" role="group" aria-label="可能是自己或其他伙伴">
-                                        <input type="radio" name="procmanType" id="procman1" value="S" checked><%=user.getUserName()%>
+                                        <input type="radio" name="procmanType" id="procman1" title="發票人就是您本人" value="S" checked>登錄人本人(<%=user.getUserName()%>)
                                         <input type="radio" name="procmanType" id="procman2" value="O">其他伙伴:                                        
-                                        <input type="text" id="procmanOther" title="看您是幫哪位伙伴登錄資料" placeholder="請輸入伙伴姓名"/>                                                                           
+                                        <input type="text" id="procmanOther" style="display:none" title="看您是幫哪位伙伴登錄資料" placeholder="請輸入伙伴姓名"/>                                                                           
+                                        <input type="hidden" id="loginUser" value='<%=user.getUserName()%>'/>                                                                                                                   
                                     </div>                    
                                 </div>                                
                                 <div class="col-sm-6 col-xs-5">                                    
                                     
                                 </div>                                
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;此場次您已登錄門票數目：<a id="countSelf">...</a></font><br>                                    
-                                </div>                                
-                            </div>    
                             
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">

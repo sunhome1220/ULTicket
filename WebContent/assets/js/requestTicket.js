@@ -39,22 +39,25 @@ $(document).ready(function () {
     $("input[name='procmanType']").change(function(){        
         if(this.value==='S'){
             $("#procmanOther").hide();
+            //$("#procman").val($('#loginUser').val());
         }else if(this.value==='O'){
             $("#procmanOther").show();
+            //$("#procman").val($("#procmanOther").val());//$('#loginUser').val()
         }
+        
     });
-    $("#btnQuery").click(function(){  
-         
-         
-         
-        if($('#eventid').val()===''
-                || $('#audiencename').val()===''
-                || $('#audiencetel').val()===''){
-            alert('請先輸入場次、索票人姓名及電話!');
+    $("#btnQuery").click(function(){           
+        if($('#eventid').val()===''){
+            alert('請輸入場次');
+        }else if($('#audiencename').val()===''){
+            alert('請先輸入索票人姓名');
+            $('#audiencename').focus();
+        }else if($('#audiencetel').val()===''){
+            alert('請先輸入索票人電話!');
+            $('#audiencetel').focus();
         }else{
             getReqTickCount();
-        }
-       
+        }       
     });
     
 //    $("#audiencetel").change(function(){   
@@ -167,6 +170,22 @@ function submitData(){
     
     var newTickIdsCount = allTickIds.split(',').length;
     var oldTickIdsCount = $("#originalAllTickNo").val().split(',').length;
+    var procman = "";//20181022 發票人
+
+    var procmanType =  $('input[name=procmanType]:checked').val();
+    if(procmanType==='S'){
+        procman = $('#loginUser').val();
+    }else if(procmanType==='O'){
+        procman = $('#procmanOther').val();
+    }
+    var confirmMsg = '請確認以下資料是否正確\n發票人:'+ procman
+            +'\n索票人:'+ $('#audiencename').val()
+            +'\n索票人電話:'+$('#audiencetel').val()
+            +'\n登錄票數:'+ newTickIdsCount;
+    
+    if(!confirm(confirmMsg)){
+        return;
+    }
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -176,6 +195,7 @@ function submitData(){
             ajaxAction: 'addRequestTick',
             eventid: $('#eventid').val(),
             team: $('#team').val(),
+            procman: procman,
             procaddr: $('#procaddr').val(),
             allowcontact: $('#allowcontact').prop("checked")? 1:0,
             allTickIds: allTickIds,
