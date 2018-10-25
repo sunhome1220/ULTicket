@@ -5,9 +5,13 @@ $(document).ready(function () {
     if (localStorage.loginUserId) {
         $("#txtUserNum").val(localStorage.getItem("loginUserId"));
     }
+    if (localStorage.loginUserPwd) {
+        $("#txtPwd").val(localStorage.getItem("loginUserPwd"));
+    }
 });
 function login() {
     localStorage.setItem("loginUserId", $("#txtUserNum").val());
+    localStorage.setItem("loginUserPwd", $("#txtPwd").val());
     $.ajax({
         url: 'AuthServlet',
         method: 'POST',

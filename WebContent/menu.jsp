@@ -13,20 +13,20 @@
        position: fixed ;
        right:25px;
        top:5px;       
-       color: white;
+       color: #ede911;
        z-index: 9;
+       text-shadow: 2.8px 2.8px 5.6px black;
     }
 </style>  
         <div class="container">            
             <div style="margin-left:-15px;margin-right:-15px">                    
-                <a class="loginUser" id="username" href="login.jsp"><%=username%></a> 
+                <a class="loginUser" id="username" href="login.jsp" target="detail"><%=username%></a> 
                 <nav class="navbar navbar-default megamenu" role="navigation">                    
                     <div class="container" style="padding-left: 0px;padding-right: 0px;">                        
                         <div class="navbar-header">                            
                             <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target="#offcanvas-left"><span class="sr-only">Toggle navigation</span><i class="icon-menu"></i></button>
                             <div class="Logo">
-                                <!--<a title="警察刑事紀錄證明書" href="index.jsp"><img id='top_img' alt="警察刑事紀錄證明書" src="assets/img/logo4.png"  width="300"  height="70"></a>-->
-                                <a title="警察刑事紀錄證明書" href="index.jsp"><img id='top_img' alt="無限創意表演團" src="assets/img/logo4.png"  width="80"  height="80"></a>
+                                <a href="index.jsp" target="detail"><img id='top_img' alt="無限創意表演團" src="assets/img/logo4.png"  width="80"  height="80"></a>
                             </div>                            
                             <div class="NAME">
                                 無限票務系統                                
@@ -42,25 +42,25 @@
                                         <a  id="first_menu" target="_self" href="login.jsp">重新登入</a>
 -->                                    
                                     <li>
-                                        <a href="index.jsp">說明</a>
+                                        <a href="index.jsp" target="detail" >說明</a>
                                     </li>
                                     <li>
-                                        <a href="forAudience.jsp">觀眾索票</a>
+                                        <a href="forAudience.jsp" target="detail" >觀眾索票</a>
                                     </li>
                                     <li>
-                                        <a href="requestTicket.jsp">索票登錄(簡易)</a>
+                                        <a href="requestTicket.jsp" target="detail" >索票登錄(簡易)</a>
                                     </li>
                                     <li>
-                                        <a href="requestTicketMod.jsp">索票登錄</a>
+                                        <a href="requestTicketMod.jsp" target="detail" >索票登錄</a>
                                     </li>
                                     <li>
-                                        <a href="reply.jsp">票根輸入</a>
+                                        <a href="reply.jsp" target="detail" >票根輸入</a>
                                     </li>
                                     <li>
-                                        <a href="queryTickStatus.jsp">出席狀況</a>
+                                        <a href="queryTickStatus.jsp" target="detail" >出席狀況</a>
                                     </li>
                                     <li>
-                                        <a href="replyComment.jsp">回條輸入</a>
+                                        <a href="replyComment.jsp" target="detail" >回條輸入</a>
                                     </li>
                                     
 <!--                                    <li>

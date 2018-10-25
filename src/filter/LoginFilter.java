@@ -85,6 +85,8 @@ public class LoginFilter implements Filter {
                     || requestURI.contains("CaseRealtimeImport.jsp") 
                     || requestURI.contains("Detect.jsp") 
                     || requestURI.contains("login.jsp")
+                    || requestURI.contains("app.jsp")
+                    || requestURI.contains("app2.jsp")
                     || requestURI.contains("dbConnTest.jsp") 
                     || requestURI.contains("ServerTest.jsp") 
                     || requestURI.contains("version.jsp") 
@@ -127,6 +129,7 @@ public class LoginFilter implements Filter {
                             if(clientIp.equals("127.0.0.1") || clientIp.equals("0:0:0:0:0:0:0:1")){
                                 
                                 viewerURL = "login.jsp";//是local
+                                //viewerURL = "app.jsp";//是local
                             }else{
                                 log.debug("client not local!");
                             }

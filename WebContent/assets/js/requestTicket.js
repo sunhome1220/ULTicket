@@ -214,9 +214,8 @@ function submitData(){
             alert(data.infoMsg);
             if(data.infoMsg.indexOf('成功')>=0){
                 $("#tckid").val('');                
-            }
-            //getReqTickCount();
-            
+                getReqTickCount();
+            }            
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert('系統異常，請重新操作一次或通知系統管理者!');
@@ -243,6 +242,8 @@ function getReqTickCount(){
             jo = JSON.parse(data.infoMsg);
             $("#countSelf").text(jo.countSelf);
             $("#countSelf2").text(jo.countSelf2);//幫他人登錄數
+            $("#countSelf2").prop("title", "票號:11111");
+            
             $("#audienceEvidCnt").text(jo.audienceEvidCnt);
             //alert(jo.audienceTckList);
             $("#originalAllTickNo").val(jo.audienceTckList);

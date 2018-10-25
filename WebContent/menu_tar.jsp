@@ -45,9 +45,9 @@
                         <div class="collapse navbar-collapse Topmenu" id="offcanvas-left" role="navigation" style="padding-left: 0px;padding-right: 0px;">
                             <div id="MENU" class="menu">
                                 <ul>
-                                    <li>
+<!--                                    <li>
                                         <a  id="first_menu" target="detail" href="login.jsp">重新登入</a>
-                                    </li>
+                                    </li>-->
                                     <li>
                                         <a  id="first_menu" target="detail" href="index.jsp">說明</a>
                                     </li>

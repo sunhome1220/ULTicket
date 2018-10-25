@@ -88,7 +88,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您已登錄門票數目：<a id="countSelf">...</a></font><br>                                    
+                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您已登錄門票數目：<a id="countSelf">...</a></font> (發票人是自己)<br>                                                                        
+                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您幫他人登錄數目：<a id="countSelf2">...</a></font> (發票人是別人)<br>                                    
                                     <br>
                                 </div>                                     
                             </div>    

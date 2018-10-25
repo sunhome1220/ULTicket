@@ -147,6 +147,7 @@ public class AuthServlet extends AjaxBaseServlet {
         ArrayList qsPara = new ArrayList();    
         boolean passed = false;
         String teamName = "";
+        String role = "";
         try{
             qsPara.add(userId);            
             qsPara.add(pwd);            
@@ -158,12 +159,14 @@ public class AuthServlet extends AjaxBaseServlet {
                 DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{userId});
                 HashMap m = (HashMap)list.get(0);
                 teamName = m.get("teamname").toString();                
+                role = m.get("role").toString();                
             }
         }catch(Exception e){
             
         }
         jo.put("passed", passed);
         jo.put("teamName", teamName);
+        jo.put("role", role);
         return jo;
     }
 

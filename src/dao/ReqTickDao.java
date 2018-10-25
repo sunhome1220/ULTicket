@@ -300,9 +300,9 @@ public class ReqTickDao extends CJBaseDao {
         if(eventid.equals("20181103"))
             return "南門公演";
         else if(eventid.equals("20181125"))
-            return "板橋公演(11月)";
+            return "板橋(1125)";
         else if(eventid.equals("20181229"))
-            return "板橋公演(12月)";
+            return "板橋(1229)";
         else if(eventid.equals("20190101"))
             return "國館公演";
         else

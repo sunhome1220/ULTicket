@@ -12,7 +12,7 @@
 <meta name="Category.Cake" content="140">
 <meta name="Category.Service" content="E10">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>無限票務管理系統</title>
+<title>無限票務管理</title>
 <link rel="apple-touch-icon" href="assets/img/logo.png">
 <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap-theme.min.css">	
@@ -31,7 +31,7 @@
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     if(isAndroid){
-        window.location = 'indexAndroid.jsp';
+        //window.location = 'indexAndroid.jsp';
     }
     else if(isiOS){
         //alert('ios!');
@@ -59,7 +59,7 @@
 </head>
 <body>
 <frameset row="*">
-    <iframe src="login.jsp" name="detail" class="frame"/>
+    <iframe src="requestTicket.jsp" name="detail" class="frame"/>
 </frameset>
 </body>
 
