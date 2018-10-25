@@ -42,13 +42,16 @@
                                         <a  id="first_menu" target="_self" href="login.jsp">重新登入</a>
 -->                                    
                                     <li>
-                                        <a href="index.jsp">使用說明</a>
+                                        <a href="index.jsp">說明</a>
                                     </li>
                                     <li>
-                                        <a href="forAudience.jsp">觀眾索票(demo)</a>
+                                        <a href="forAudience.jsp">觀眾索票</a>
                                     </li>
                                     <li>
-                                        <a href="requestTicket.jsp">索票登錄</a>
+                                        <a href="requestTicket.jsp">索票登錄(簡易)</a>
+                                    </li>
+                                    <li>
+                                        <a href="requestTicketMod.jsp">索票登錄</a>
                                     </li>
                                     <li>
                                         <a href="reply.jsp">票根輸入</a>

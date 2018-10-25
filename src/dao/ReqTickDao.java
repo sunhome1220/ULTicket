@@ -211,10 +211,12 @@ public class ReqTickDao extends CJBaseDao {
         String username = argJsonObj.getString("USER_NM");
         String audiencename = argJsonObj.getString("audiencename");
         String audiencetel = argJsonObj.getString("audiencetel");
-        String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM proctick where evid=? and procman=? "; 
+        String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM proctick where evid=? and (procman=? ) "; 
+        sql += " union ";
+        sql += "SELECT '3pcnt' as type, count(*) as cnt FROM proctick where evid=? and (creator=? and procman!=?)"; 
         sql += " union ";
         sql += " SELECT '2audienceEvidCnt' as type, count(*) as cnt FROM proctick where evid=? and tickname=? and ticktel=?  ";
-        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username, evid, audiencename,audiencetel});
+        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username, evid, username, username, evid, audiencename,audiencetel});
         
         String sql2 = " SELECT tickid,procaddr,tickmemo,allowcontact,updatetime FROM proctick where evid=? and tickname=? and ticktel=? order by tickid ";
         ArrayList<HashMap> result2 = this.pexecuteQuery(sql2, new Object[]{evid, audiencename,audiencetel});
@@ -231,7 +233,8 @@ public class ReqTickDao extends CJBaseDao {
         }
         
         JSONObject jo = new JSONObject();
-        jo.put("countSelf", result.isEmpty()? 0: result.get(0).get("cnt"));//該場登入者總輸入票根
+        jo.put("countSelf", result.isEmpty()? 0: result.get(0).get("cnt"));//該場登入者總輸入票
+        jo.put("countSelf2", result.isEmpty()? 0: result.get(2).get("cnt"));//該場登入者幫他人登錄總數
         jo.put("audienceEvidCnt", result.isEmpty()? 0: result.get(1).get("cnt"));//該場該索票人已索票數
         jo.put("audienceTckList", allTickid);//該場該索票人已索票清單
         jo.put("procaddr", addr);//索票地點

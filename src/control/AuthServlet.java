@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import base.AjaxBaseServlet;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import util.User;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -72,10 +73,13 @@ public class AuthServlet extends AjaxBaseServlet {
                 user.setUserId(userId);//20181004 目前帳號與姓名一樣，沒特別設欄位
                 user.setUserName(userId);
                 pwd = argJsonObj.getString("pwd");
-                if(authCheck(userId, pwd)){
+                JSONObject joR = authCheck2(userId, pwd);
+                //if(authCheck(userId, pwd)){
+                if(joR.getBoolean("passed")==true){
                     user.setLoginStatus(1);
                     result = "登入成功";//+ digestPasswordSHA256(userId + pwd);
                     jo.put("status", true);                    
+                    jo.put("teamName", joR.getString("teamName"));                    
                     jo.put("loginCode", digestPasswordSHA256(userId + autoLoginCheckStr));
                     jo.put("redirectUrl", "reply.jsp");
                     session.setAttribute("user", user);
@@ -99,7 +103,7 @@ public class AuthServlet extends AjaxBaseServlet {
                     result = "登入成功";//+ digestPasswordSHA256(userId + pwd);
                     jo.put("status", true);                    
                     jo.put("loginCode", digestPasswordSHA256(userId + autoLoginCheckStr));
-                    jo.put("redirectUrl", "reply.jsp");
+                    jo.put("redirectUrl", "reply.jsp");                    
                     session.setAttribute("user", user);                    
                 }else{
                     user.setLoginStatus(0);
@@ -118,14 +122,49 @@ public class AuthServlet extends AjaxBaseServlet {
         String sql = "SELECT * FROM emppass where empno = ? and emppass= ? ";
         ArrayList qsPara = new ArrayList();    
         boolean passed = false;
+        String teamName = "";
         try{
             qsPara.add(userId);            
             qsPara.add(pwd);            
-            passed = DBUtil.getInstance().pisExist(sql, qsPara.toArray());
+            //passed = DBUtil.getInstance().pisExist(sql, qsPara.toArray());
+            ArrayList list = DBUtil.getInstance().pexecuteQuery(sql, qsPara.toArray());
+            passed = list.size()>0;
+            if(passed){
+                sql = "update emppass set logintime = getdate() where empno = ? ";
+                DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{userId});
+                HashMap m = (HashMap)list.get(0);
+                teamName = m.get("teamname").toString();                
+            }
         }catch(Exception e){
             
         }
         return passed;
+    }
+    
+    private JSONObject authCheck2(String userId, String pwd) {
+        JSONObject jo = new JSONObject();
+        String sql = "SELECT * FROM emppass where empno = ? and emppass= ? ";
+        ArrayList qsPara = new ArrayList();    
+        boolean passed = false;
+        String teamName = "";
+        try{
+            qsPara.add(userId);            
+            qsPara.add(pwd);            
+            //passed = DBUtil.getInstance().pisExist(sql, qsPara.toArray());
+            ArrayList list = DBUtil.getInstance().pexecuteQuery(sql, qsPara.toArray());
+            passed = list.size()>0;
+            if(passed){
+                sql = "update emppass set logintime = getdate() where empno = ? ";
+                DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{userId});
+                HashMap m = (HashMap)list.get(0);
+                teamName = m.get("teamname").toString();                
+            }
+        }catch(Exception e){
+            
+        }
+        jo.put("passed", passed);
+        jo.put("teamName", teamName);
+        return jo;
     }
 
     private boolean isAccountUnique(String userId) {

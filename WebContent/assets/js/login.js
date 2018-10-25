@@ -29,6 +29,7 @@ function login() {
                 }
                 //window.location.href="reply.jsp";
                 localStorage.setItem("loginCode", jo.loginCode);                
+                localStorage.setItem("teamName", jo.teamName);                
             }else{
                 localStorage.removeItem("loginCode");
                 var jo2 = JSON.parse(data.infoMsg);

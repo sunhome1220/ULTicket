@@ -1,8 +1,12 @@
 $(document).ready(function () {
     localStorage.setItem("lastOperation", 'requestTicket.jsp');
     var jo;
-    if (localStorage.teamname) {
-        $("#team").val(localStorage.getItem("teamname"));
+//    if (localStorage.teamname) {
+//        $("#team").val(localStorage.getItem("teamname"));
+//    }
+    if (localStorage.teamName) {
+        //alert(localStorage.teamName);
+        $("#team").val(localStorage.getItem("teamName"));
     }
     if (localStorage.eventid) {
         $("#eventid").val(localStorage.getItem("eventid"));
@@ -36,6 +40,9 @@ $(document).ready(function () {
     $("#eventid").change(function(){        
         localStorage.setItem("eventid", this.value);
     });
+    if($("#eventid").val()!==''){
+        getReqTickCount();        
+    }
     $("input[name='procmanType']").change(function(){        
         if(this.value==='S'){
             $("#procmanOther").hide();
@@ -101,13 +108,11 @@ $(document).ready(function () {
     
     $("#btnClear").click(function(){        
         $("input[id^=tckno]").val('');
-        $("#procman").text('');
-        $("#reqName").text('');
-        $("#reqTel").text('');
-        $("#reqTickNo").text('');
-        $("#showTickNo").text('');  
-        $("#btnSubmit").attr("disabled",true);
-        //$("div[id^='divHide']").hide();
+        $("#audiencename").val('');
+        $("#audiencetel").val('');
+        $("#procaddr").val('');
+        $("#tickmemo").val('');
+        $("#btnSubmit").attr("disabled",true);        
     });
     
     $("input[id^='tckno']").change(function(){//選擇所有的name屬性以’tckno'開頭的input元素
@@ -237,6 +242,7 @@ function getReqTickCount(){
         success: function (data) {
             jo = JSON.parse(data.infoMsg);
             $("#countSelf").text(jo.countSelf);
+            $("#countSelf2").text(jo.countSelf2);//幫他人登錄數
             $("#audienceEvidCnt").text(jo.audienceEvidCnt);
             //alert(jo.audienceTckList);
             $("#originalAllTickNo").val(jo.audienceTckList);
@@ -296,7 +302,7 @@ function getReqTickCount(){
                 }             
                 
             }else{
-                if(eval(jo.audienceEvidCnt)===0){
+                if(eval(jo.audienceEvidCnt)===0 && $('#audiencename').val()!==''){
                     alert('尚無任何索票登錄資料');
                 }
 //                $("#btnAdd").show();

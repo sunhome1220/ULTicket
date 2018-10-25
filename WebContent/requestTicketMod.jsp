@@ -52,7 +52,7 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">索票登錄-新增&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
+                    <h2 id="heaerh2" class="panel-title">索票登錄&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
                 </div>
                 <div class="panel-body">                        
                         <form id="Form12">
@@ -88,8 +88,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您已登錄門票數目：<a id="countSelf">...</a></font> (發票人是自己)<br>                                                                        
-                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您幫他人登錄數目：<a id="countSelf2">...</a></font> (發票人是別人)<br>                                    
+                                    <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次您已登錄門票數目：<a id="countSelf">...</a></font><br>                                    
                                     <br>
                                 </div>                                     
                             </div>    
@@ -100,7 +99,7 @@
                                     <div class="btn-group btn-group" role="group" aria-label="可能是自己或其他伙伴">
                                         <input type="radio" name="procmanType" id="procman1" title="發票人就是您本人" value="S" checked>登錄人本人(<%=user.getUserName()%>)
                                         <input type="radio" name="procmanType" id="procman2" value="O">其他伙伴:                                        
-                                        <input type="text" size="8" id="procmanOther" style="display:none" title="看您是幫哪位伙伴登錄資料" placeholder="伙伴姓名"/>                                                                           
+                                        <input type="text" id="procmanOther" style="display:none" title="看您是幫哪位伙伴登錄資料" placeholder="請輸入伙伴姓名"/>                                                                           
                                         <input type="hidden" id="loginUser" value='<%=user.getUserName()%>'/>                                                                                                                   
                                     </div>                    
                                 </div>                                
@@ -123,12 +122,12 @@
                                     <input type="tel" size="10" id="audiencetel" maxlength="10" class="form-control" title="索票人電話" placeholder="索票人電話">                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-4">                                      
-<!--                                    <input id="btnQuery" class="btn btn-primary"  type="button" value="查詢索票記錄">-->
+                                    <input id="btnQuery" class="btn btn-primary"  type="button" value="查詢索票記錄">
                                     <input id="btnAdd" class="btn btn-success"  type="button" value="新增" style="display:none">
                                     <input id="btnMod" class="btn btn-danger"  type="button" value="修改" style="display:none">
                                 </div>
                             </div>
-                            <div class="row" id="divHiXX001">
+                            <div class="row" id="divHide001">
                                 <div class="col-sm-6 col-xs-4">                                    
                                     <input type="text" size="8" id="procaddr" maxlength="8" class="form-control" title="索票地點" placeholder="索票地點(選填)">                                    
                                 </div>
@@ -141,7 +140,7 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此場次該索票人已索取門票數目：<a id="countSelf">...</a>)<br>                                    
                                     </div>                                
                             </div> -->
-                            <div class="row" id="divHiXX002">
+                            <div class="row" id="divHide002">
                                 <div class="col-sm-4 col-xs-12">                                    
                                     <label>
                                       是否願意接受電話滿意度調查？
@@ -161,7 +160,7 @@
                                     <font style="color:purple">&nbsp;&nbsp;&nbsp;累計總出席及索票數:<a id="showTickNo">0</a>/<a id="reqTickNo">0</a></font><br>                                    
                                 </div>
                             </div>-->
-                            <div class="row" id="divHiXX01">
+                            <div class="row" id="divHide01">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span class=Must>*</span>登錄張數: </label> 
                                     <div class="btn-group btn-group" role="group" aria-label="索票張數">
@@ -179,12 +178,12 @@
                                 </div>                                
                             </div>    
                             
-                            <div class="row" id="divHiXX02">
+                            <div class="row" id="divHide02">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span class=Must>*</span>票號(可由系統自動連號或全部自行輸入):</label>
                                 </div>
                             </div>
-                            <div class="form-group row" id="divHiXX03">
+                            <div class="form-group row" id="divHide03">
                                 <input type="hidden" id="originalAllTickNo">                                    
                                 <div class="col-sm-4 col-xs-3">                                    
                                     <input type="tel" id="tckno1" maxlength="5" class="form-control" placeholder="票號1">                                    
@@ -228,11 +227,11 @@
                                 </div>
                                 
                             </div>
-<!--                            <div class="row"  id="divHiXX009">
+                            <div class="row"  id="divHide009">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     上次資料異動時間:<a id="updatetime"></a>
                                 </div>                                
-                            </div>-->
+                            </div>
                             
                             
                         </form>
