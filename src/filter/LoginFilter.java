@@ -85,6 +85,7 @@ public class LoginFilter implements Filter {
                     || requestURI.contains("CaseRealtimeImport.jsp") 
                     || requestURI.contains("Detect.jsp") 
                     || requestURI.contains("login.jsp")
+                    || requestURI.contains("reqTickAudi.jsp")//20181028觀眾索票，不需登入
                     || requestURI.contains("app.jsp")
                     || requestURI.contains("app2.jsp")
                     || requestURI.contains("dbConnTest.jsp") 

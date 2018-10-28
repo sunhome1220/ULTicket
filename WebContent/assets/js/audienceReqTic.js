@@ -1,6 +1,38 @@
 $(document).ready(function () {
-    $("#qrcode").hide();
+    //$("#qrcode").hide();
+    if (localStorage.teamName) {
+        $("#team").val(localStorage.getItem("teamName"));
+    }
+    if (localStorage.eventid) {
+        $("#eventid").val(localStorage.getItem("eventid"));
+    }
+    $("#eventid").change(function(){        
+        localStorage.setItem("eventid", this.value);
+    });
     $("#btnShowQRCode").click(function(){
+        var evid = $("#eventid").val();
+        var tickno = '';
+        if($("#tckno1").val()!==''){
+            tickno = $("#tckno1").val();
+        }
+        if($("#tckno2").val()!==''){
+            tickno += ','+ $("#tckno2").val();
+        }
+        if($("#tckno3").val()!==''){
+            tickno += ','+ $("#tckno3").val();
+        }
+        if($("#tckno4").val()!==''){
+            tickno += ','+ $("#tckno4").val();
+        }
+        var staffId = encodeURIComponent($("#username").text().replace(',您好',''));//%E7%8E%8B%E6%B8%AC%E8%A9%A6
+        var team = encodeURIComponent($("#team").val());
+        
+        var serverNmPort = 'http://unlimited.nctu.me:8080';
+        serverNmPort = 'http://localhost:8081';//for test
+        var text = serverNmPort + '/tick/reqTickAudi.jsp?evid='+evid+'%26tickno='+tickno+'%26procman='+staffId+'%26team='+team;
+        
+        $("#tckno4").val(text);
+        $("#qrcode").attr("src","http://chart.apis.google.com/chart?cht=qr&chl="+ text +"&chs=300x300");
         $("#qrcode").show();
      });
     //autologin();

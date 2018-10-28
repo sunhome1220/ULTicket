@@ -31,7 +31,7 @@
         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
         if (isAndroid) {
-            window.location = 'indexAndroid.jsp';
+            //window.location = 'indexAndroid.jsp';
         } else if (isiOS) {
             //alert('ios!');
         } else {
@@ -51,7 +51,7 @@
                 <div class="panel-body">
                     <ol>
                         <li>登入說明<br>
-                            請先使用PC版程式以取得帳號及密碼(建議不要使用與其他網站共用之帳號或密碼) <br>
+                            若無帳號請先註冊，註冊驗證碼請詢問各組組長(目前是固定的)<br>
                             <!--                                        測試階段若無帳號可先以測試帳號密碼<B>tester/tester</B>登入，正式上線(10/14)時會清除測試資料<br>-->
                         </li>
                         <li>功能選單<br>                                      
@@ -91,7 +91,11 @@
                             <a>2018/08/22</a>:「索票登錄」增加<a>「發票人」</a>欄位<br>發票人預設為登入者本人，
                             若幫其他伙伴輸入資料，發票人欄位請輸入伙伴的姓名。<br>                            
                             <a>2018/08/25</a>:將「索票登錄」的新增功能獨立出來成為「<a href="requestTicket.jsp">索票登錄(簡易)</a>」
-                            <br>功能較單純較易上手，若需查詢或修改請用「<a href="requestTicketMod.jsp">索票登錄</a>」                            
+                            <br>功能較單純較易上手，若需查詢或修改請用「<a href="requestTicketMod.jsp">索票登錄</a>」               
+                            <br>
+                            <a>2018/10/26</a>:增加<a>註冊</a>功能<br>驗證碼請詢問各組組長(有個簡單規則)                                               
+                            <a>2018/10/27</a>:修正Android手機無法使用的問題                                               
+                            <a>2018/10/28</a>:新增「觀眾索票」測試功能(尚未完成)                                               
                         </li>				    
                     </ol>                                    
                 </div>

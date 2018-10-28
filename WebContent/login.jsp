@@ -48,9 +48,9 @@
                         <form id="Form1">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>帳號</label> <input
-                                        type="text" id="txtUserNum" name="txtUserNum" class="form-control"
-                                        placeholder="您的帳號(目前很多人都是自己的姓名)">
+                                    <label><span class=Must>*</span>帳號</label> 
+                                    <input type="text" id="txtUserNum" name="txtUserNum" class="form-control"
+                                        placeholder="您的帳號(目前多為自己的姓名)">
                                 </div>
                             </div>
                             <div class="row">
@@ -61,16 +61,55 @@
                                 </div>
                             </div>                                                
                             
+                            <div id="divHide1" class="row" style="display:none">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must>*</span>組別</label> 
+                                    <select class="form-control" data-width="100px" id="team" name="team">
+                                        <option value="">請選擇組別(依筆劃排序)</option>                                        
+                                        <option value="弘恩">弘恩</option>
+                                        <option value="永樂">永樂</option>
+                                        <option value="合歡">合歡</option>
+                                        <option value="恆德">恆德</option>
+                                        <option value="博愛">博愛</option>
+                                        <option value="復興">復興</option>
+                                        <option value="藍天">藍天</option>   
+                                    </select>                                
+                                </div>
+                            </div>                                                
+                            <div id="divHide2" class="row" style="display:none">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must>*</span>驗證碼</label> 
+                                    <input type="text" id="authCode" name="authCode" class="form-control"
+                                        placeholder="請詢問貴組組長">
+                                </div>
+                            </div>                                                
+                            <div id="divHide3" class="row" style="display:none">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must></span>手機號碼</label> 
+                                    <input type="tel" id="tel" name="tel" class="form-control"
+                                        placeholder="手機號碼">
+                                </div>
+                            </div>                                                
+                            <div id="divHide4" class="row" style="display:none">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must></span>email</label> 
+                                    <input type="email" id="email" name="email" class="form-control"
+                                        placeholder="忘記密碼或有最新消息時可通知您">
+                                </div>
+                            </div>                                                
+                            
                         </form>
                     </section>
                 </div>
                 <div class="panel-footer">
                     <div align="center">
-                        <button class="btn btn-primary" id="btnQry" onClick="login();">登入</button>
+                        <button class="btn btn-primary" id="btnLogin" onClick="login();">登入</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-default" id="btnClear">清除</button>
-<!--                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button class="btn btn-default" id="btnQry" onClick="register();">註冊</button>-->
+<!--                        <button type="reset" class="btn btn-default" id="btnClear">清除</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;-->
+                        <button class="btn btn-warning" id="btnRegister">註冊</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-default" id="btnCancel" style="display:none" >取消註冊</button>
                     </div>
                 </div>
             </div>

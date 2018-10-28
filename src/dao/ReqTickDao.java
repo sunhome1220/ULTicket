@@ -95,6 +95,64 @@ public class ReqTickDao extends CJBaseDao {
         return strMsg;
     }
     
+    public String addReqTickDataAudi(JSONObject argJsonObj) {//20181029 for 觀眾索票
+        String strMsg = "";
+        final String strAllTickIds = argJsonObj.getString("allTickIds");
+        String[] allTickIds = strAllTickIds.split("[,]");
+        String eventid = argJsonObj.getString("eventid");
+        String event = getEventName(eventid);//argJsonObj.getString("event");
+        String teamname = argJsonObj.getString("team");
+        String procman = argJsonObj.getString("procman");
+        String audiencename = argJsonObj.getString("audiencename");
+        String audiencetel = argJsonObj.getString("audiencetel");
+        String procaddr = argJsonObj.getString("procaddr");
+        String tickmemo = argJsonObj.getString("tickmemo");
+        int allowcontact = argJsonObj.getInt("allowcontact");
+        String userid = argJsonObj.getString("USER_NM");
+
+        String checkSql = "select tickid,tickname from proctick where evid = ? and tickid in("+strAllTickIds+")";
+        final ArrayList<HashMap> list = this.pexecuteQuery(checkSql, new Object[]{eventid});
+        if(list.size()>0){
+            String msg = "";
+            for(HashMap m: list){
+                msg += "\n票號:" + m.get("tickid").toString();
+                msg += "(" + m.get("tickname").toString()+")";
+            }
+            return "票號重複!請重選票號!\n" + msg;
+        }
+        
+        log.info("addReqTick:" + userid);
+        String sql = "INSERT INTO proctick (evid,event,team,procman,procaddr, "
+                + "tickid,tickname,ticktel,tickmemo,updatetime,allowcontact,creator)   "
+                + "VALUES (?,?,?,?,?,?,?,?,?,getdate(),?,?)";
+        
+        Object[] objs = new Object[11];
+        objs[0] = eventid;
+        objs[1] = event;
+        objs[2] = teamname;
+        objs[3] = procman;
+        objs[4] = procaddr;
+        
+        //objs[5] = allTickIds;
+        objs[6] = audiencename;
+        objs[7] = audiencetel;
+        objs[8] = tickmemo;
+        objs[9] = allowcontact;
+        objs[10] = userid;
+        
+        int result = 0;
+        for (String tickId : allTickIds) {
+            objs[5] = tickId;
+            result += this.pexecuteUpdate(sql, objs);        
+        }
+        if(result>=0){
+            strMsg = "成功新增"+result+"筆索票登錄資料!";
+        }else{
+            strMsg = "異常！索票登錄資料未成功新增!";
+        }
+        return strMsg;
+    }
+    
     public String delReqTickData(JSONObject argJsonObj) {
         String strMsg = "";
         final String strAllTickIds = argJsonObj.getString("allTickIds");

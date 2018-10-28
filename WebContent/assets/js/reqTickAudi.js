@@ -1,34 +1,20 @@
 $(document).ready(function () {
+    $('#allowcontact').bootstrapToggle({
+      on: '是',
+      off: '否'
+    });
     var eventid = getUrlParameter('evid');
     var procman = getUrlParameter('procman');
     var tickno = getUrlParameter('tickno');
     if(procman){
         $("#eventid").val(eventid);
+        $("#eventid").attr("disabled", true);
         $("#procman").text(procman);
-        $("#tickno").text(tickno);
-        //alert('觀眾索票');
-        //$("div[id^=").hide();
-    }else{
-        localStorage.setItem("lastOperation", 'requestTicket.jsp');
-        if (localStorage.teamName) {
-            //alert(localStorage.teamName);
-            $("#team").val(localStorage.getItem("teamName"));
-        }
-        if (localStorage.eventid) {
-            $("#eventid").val(localStorage.getItem("eventid"));
-        }
+        $("#tickno").text(tickno);        
     }
     
-    
     var jo;
-//    if (localStorage.teamname) {
-//        $("#team").val(localStorage.getItem("teamname"));
-//    }
     
-    $('#allowcontact').bootstrapToggle({
-      on: '是',
-      off: '否'
-    });
     //$("#btnTickNo1").click(function(){        
     $("button[id^='btnTickNo']").click(function(){        
         //alert(this.value);
@@ -39,13 +25,21 @@ $(document).ready(function () {
 //    $("#btnAdd").hide();
 //    $("#btnMod").hide();
     
-    $("div[id^='divHide']").hide();
-    //var allTicketsNos="";
-    //$("#countSelf").attr("value", 123);
-    $("#btnSubmit").attr("disabled",true);
+    //$("#btnSubmit").attr("disabled",true);
     //$("#txtBirth").datepicker();
-    $("#btnSubmit").click(function(){        
-        submitData();
+    $("#btnSubmit").click(function(){     
+        if($('#audiencename').val()===''){
+            alert('請輸入您的姓名');
+            $('#audiencename').focus();
+            return;
+        }else if($('#audiencetel').val()===''){
+            alert('請先輸入您的電話，電話僅作為資料識別之用，若您不願接受滿意度調查，志工將不會去電詢問');
+            $('#audiencetel').focus();
+            return;
+        }
+        if(confirm('請確認資料是否正確\n票號:'+ tickno+'\n索票人姓名:'+ $("#audiencename").val())){
+            submitData();
+        }
     });
     
     $("#team").change(function(){        
@@ -57,16 +51,6 @@ $(document).ready(function () {
     if($("#eventid").val()!==''){
         getReqTickCount();        
     }
-    $("input[name='procmanType']").change(function(){        
-        if(this.value==='S'){
-            $("#procmanOther").hide();
-            //$("#procman").val($('#loginUser').val());
-        }else if(this.value==='O'){
-            $("#procmanOther").show();
-            //$("#procman").val($("#procmanOther").val());//$('#loginUser').val()
-        }
-        
-    });
     $("#btnQuery").click(function(){           
         if($('#eventid').val()===''){
             alert('請輸入場次');
@@ -81,127 +65,25 @@ $(document).ready(function () {
         }       
     });
     
-//    $("#audiencetel").change(function(){   
-//        if(this.value.length>=7){
-//            getReqTickCount();
-//        }
-//    });
-    $("#tckno1").change(function(){        
-        var ticknoValid = ticknoIsOk(this.value); 
-        if(ticknoValid){
-            $("#btnSubmit").attr("disabled",false);
-            $("#btnContinue4").attr("disabled",false);
-        }else{            
-            $("#btnSubmit").attr("disabled",true);
-            $("#btnContinue4").attr("disabled",true);
-        }
-    });
-    $("#eventid").change(function(){
-        getReqTickCount();
-    });
-    $("input[name='ReqTickNo']").change(function(){
-        var tickNo = eval(this.value);
-        for (i = 2; i <= tickNo; i++) {
-            $("#tckno"+i).attr("disabled", false);            
-        }
-        for (i = tickNo+1; i <= 10; i++) {
-            $("#tckno"+i).attr("disabled", true); 
-            $("#tckno"+i).val('');
-        }        
-    });
-    //getReqTickCount();
-    
-    $("#btnContinue4").click(function(){        
-        var tickNo = eval($("input[name='ReqTickNo']:checked").val());
-        var i;
-        for (i = 1; i < tickNo; i++) {
-            var add1 = eval($("#tckno"+i).val())+1;
-            $("#tckno"+(i+1)).val(add1);  
-        }                         
-    });
-    
     $("#btnClear").click(function(){        
-        $("input[id^=tckno]").val('');
         $("#audiencename").val('');
         $("#audiencetel").val('');
-        $("#procaddr").val('');
-        $("#tickmemo").val('');
+        $("#audienceEmail").val('');
         $("#btnSubmit").attr("disabled",true);        
-    });
-    
-    $("input[id^='tckno']").change(function(){//選擇所有的name屬性以’tckno'開頭的input元素
-        var ticknoValid = ticknoIsOk(this.value); 
-        if(this.value.length>0 && !ticknoValid){
-            alert('請確認票號是否正確');
-            this.focus();
-        }
-    }); 
-    $("#tickid").keyup(function(){        
-        if(this.value.length===5){
-            //getReqTickInfo(this.value);
-        }        
-    }); 
-    $("input[id^='tckno']").blur(function(){//選擇所有的name屬性以’tckno'開頭的input元素
-        //alert(this.value);
-        var ticknoValid = ticknoIsOk(this.value); 
-        if(this.value.length>0 && !ticknoValid){
-            //alert('請確認票號是否正確');
-            //this.focus();
-        }
-    }); 
-    
+    });    
 });
-
-    
-function ticknoIsOk(ticketNo){    
-    //alert($("#eventid").val());
-    if($("#eventid").val()==='20181014'){
-        return ticketNo>=20001 && ticketNo<=25000; 
-    }else if($("#eventid").val()==='20181103'){
-        return ticketNo>=25001 && ticketNo<=30000; 
-    }else if($("#eventid").val()==='20181125'){
-        return ticketNo>=30001 && ticketNo<=35000; 
-    }else if($("#eventid").val()==='20181229'){
-        return ticketNo>=35001 && ticketNo<=40000; 
-    }else if($("#eventid").val()==='20190101'){
-        return ticketNo>=40001 && ticketNo<=45000; 
-    }
-    
-}
 
 //送出票根資料
 function submitData(){
     //alert($("input[name='contactStatus']:checked").val());
     var action = 'create';
-    if($("#btnSubmit").text() ==='更新資料'){
-        action = 'update';
-    }
     var allTickIds = $("#tckno1").val();
-    if($("#tckno2").val()!=='') allTickIds += "," + $("#tckno2").val();
-    if($("#tckno3").val()!=='') allTickIds += "," + $("#tckno3").val();
-    if($("#tckno4").val()!=='') allTickIds += "," + $("#tckno4").val();
-    if($("#tckno5").val()!=='') allTickIds += "," + $("#tckno5").val();
-    if($("#tckno6").val()!=='') allTickIds += "," + $("#tckno6").val();
-    if($("#tckno7").val()!=='') allTickIds += "," + $("#tckno7").val();
-    if($("#tckno8").val()!=='') allTickIds += "," + $("#tckno8").val();
-    if($("#tckno9").val()!=='') allTickIds += "," + $("#tckno9").val();
-    if($("#tckno10").val()!=='') allTickIds += "," + $("#tckno10").val();
     
-    var newTickIdsCount = allTickIds.split(',').length;
-    var oldTickIdsCount = $("#originalAllTickNo").val().split(',').length;
-    var procman = "";//20181022 發票人
-
-    var procmanType =  $('input[name=procmanType]:checked').val();
-    if(procmanType==='S'){
-        procman = $('#loginUser').val();
-    }else if(procmanType==='O'){
-        procman = $('#procmanOther').val();
-    }
+    var procman = $('#procman').text();
     var confirmMsg = '請確認以下資料是否正確\n發票人:'+ procman
             +'\n索票人:'+ $('#audiencename').val()
-            +'\n索票人電話:'+$('#audiencetel').val()
-            +'\n登錄票數:'+ newTickIdsCount;
-    
+            +'\n索票人電話:'+$('#audiencetel').val();
+            //+'\n登錄票數:'+ newTickIdsCount;
     if(!confirm(confirmMsg)){
         return;
     }
@@ -211,7 +93,7 @@ function submitData(){
         dataType: 'json',
         data: {
             action: action,
-            ajaxAction: 'addRequestTick',
+            ajaxAction: 'addRequestTickAudi',
             eventid: $('#eventid').val(),
             team: $('#team').val(),
             procman: procman,

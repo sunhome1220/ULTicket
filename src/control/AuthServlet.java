@@ -47,33 +47,43 @@ public class AuthServlet extends AjaxBaseServlet {
                 user = new User();
                 user.setUserId(userId);//20181004 目前帳號與姓名一樣，沒特別設欄位
                 user.setUserName(userId);
+                String username = argJsonObj.getString("uid");
                 pwd = argJsonObj.getString("pwd");
-                String username = argJsonObj.getString("username");
-                String teamnm = argJsonObj.getString("teamnm");
-                if(isAccountUnique(userId)){
-                    createAccount(userId, username, teamnm, pwd);
-                    user.setLoginStatus(1);
-                    result = "登入成功";
-                    jo.put("status", true);
+                String team = argJsonObj.getString("team");
+                String tel = argJsonObj.getString("tel");
+                String email = argJsonObj.getString("email");
+                String authCode = argJsonObj.getString("authCode");
+                if(!authCode.equals("無限" + team)){
+                    result = "驗證碼錯誤";
+                    jo.put("status", false);                    
                     jo.put("msg", result);
-                    jo.put("loginCode", digestPasswordSHA256(userId+pwd));
-                    session.setAttribute("user", user);
-                    //res.sendRedirect(viewerURL);			    
                 }else{
-                    user.setLoginStatus(0);
-                    jo.put("status", false);
-                    result = "抱歉，該帳號已被註冊，請另選帳號";
-                    jo.put("msg", result);
-                }                
-                jo.toString();
-                this.setInfoMsg(returnJasonObj, result);
+                    if(isAccountUnique(userId)){
+                        result = createAccount(userId,pwd, userId, team, authCode, tel, email);
+                        user.setLoginStatus(1);
+                        //result = "新增帳號成功";
+                        jo.put("status", true);
+                        jo.put("msg", result);
+                        //jo.put("loginCode", digestPasswordSHA256(userId+pwd));
+                        session.setAttribute("user", user);
+                        //res.sendRedirect(viewerURL);			    
+                    }else{
+                        user.setLoginStatus(0);
+                        jo.put("status", false);
+                        result = "抱歉，該帳號已被註冊，請另選帳號";
+                        jo.put("msg", result);
+                    }         
+                }
+                //jo.toString();
+                this.setInfoMsg(returnJasonObj, jo.toString());
                 break;            
             case "login":  
                 user = new User();
                 user.setUserId(userId);//20181004 目前帳號與姓名一樣，沒特別設欄位
                 user.setUserName(userId);
                 pwd = argJsonObj.getString("pwd");
-                JSONObject joR = authCheck2(userId, pwd);
+                String deviceType = argJsonObj.getString("deviceType");
+                JSONObject joR = authCheck2(userId, pwd, deviceType);
                 //if(authCheck(userId, pwd)){
                 if(joR.getBoolean("passed")==true){
                     user.setLoginStatus(1);
@@ -141,7 +151,7 @@ public class AuthServlet extends AjaxBaseServlet {
         return passed;
     }
     
-    private JSONObject authCheck2(String userId, String pwd) {
+    private JSONObject authCheck2(String userId, String pwd, String deviceType) {
         JSONObject jo = new JSONObject();
         String sql = "SELECT * FROM emppass where empno = ? and emppass= ? ";
         ArrayList qsPara = new ArrayList();    
@@ -183,16 +193,27 @@ public class AuthServlet extends AjaxBaseServlet {
         return unique;
     }
 
-    private void createAccount(String userId, String userNm, String team, String pwd) {
-        String sql = "INSERT INTO showtick(empno, emppass) VALUES (? ,? ,?)";
+    private String createAccount(String userId, String pwd, String userNm, String team, String authCode, String tel, String email) {
+        String result = "註冊失敗(" + userId +")";
+        
+        String sql = "INSERT INTO emppass(empno, emppass,empname,role,updatetime,teamname,email,tel) "
+            + "VALUES (? ,? ,?, 0, getdate(), ?, ?, ?)";
         ArrayList qsPara = new ArrayList();    
-        boolean success = false;
         try{
             qsPara.add(userId);                  
-            success = !DBUtil.getInstance().pisExist(sql, qsPara.toArray());
+            qsPara.add(pwd);                  
+            qsPara.add(userNm);                  
+            qsPara.add(team);                  
+            qsPara.add(tel);                  
+            qsPara.add(email);                  
+            int cnt = DBUtil.getInstance().pexecuteUpdate(sql, qsPara.toArray());
+            if(cnt==1){
+                result = "註冊成功(" + userId +")";
+            }
         }catch(Exception e){
-            
-        }
+            result = "註冊失敗(" + userId +")";
+        }        
+        return result;
     }
     	/**
 	 * 使用MD5做加密

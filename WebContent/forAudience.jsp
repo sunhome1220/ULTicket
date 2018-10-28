@@ -44,6 +44,22 @@
                 <div class="panel-body">
                     <section>
                         <form id="Form1">
+                            <div class="row" style="background:">
+                                <div class="col-sm-6 col-xs-6">
+<!--                                    <label><span class=Must>*</span>組別(依筆劃排序)</label> -->
+                                    <select class="form-control" data-width="100px" id="team" name="team">
+                                        <option value="">請選擇組別(依筆劃排序)</option>                                        
+                                        <option value="弘恩">弘恩</option>
+                                        <option value="永樂">永樂</option>
+                                        <option value="合歡">合歡</option>
+                                        <option value="恆德">恆德</option>
+                                        <option value="博愛">博愛</option>
+                                        <option value="復興">復興</option>
+                                        <option value="藍天">藍天</option>   
+                                    </select>                                
+                                </div>                                                                                             
+                            </div>
+                            
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
                                     <label></label> 
@@ -60,11 +76,27 @@
                                         <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
                                         <option value="20190101">01/01-國館公演(票號:40001~45000)</option>
                                 </select>                                
-                                </div>    
-                                
+                                </div>                                    
                             </div>
-                            <div>
-                                
+                            <div class="row">                                
+                                <div class="col-sm-4 col-xs-6">                                    
+                                    <input type="tel" id="tckno1" maxlength="5" class="form-control" placeholder="票號1">                                    
+                                </div>                                
+                            </div>
+                            <div class="row">                                
+                                <div class="col-sm-4 col-xs-6">  
+                                    <input type="tel" id="tckno2" maxlength="5" class="form-control" placeholder="票號2">
+                                </div>                                                                                            
+                            </div>
+                            <div class="row">                                
+                                <div class="col-sm-4 col-xs-6">                                    
+                                    <input type="tel" id="tckno3" maxlength="5" class="form-control" placeholder="票號3">
+                                </div>                                
+                            </div>
+                            <div class="row">                                
+                                <div class="col-sm-4 col-xs-6">   
+                                    <input type="tel" id="tckno4" maxlength="5" class="form-control" placeholder="票號4">                                                                        
+                                </div>                                        
                             </div>
                         </form>
                         <div align="center">
@@ -73,11 +105,12 @@
                     </section>
                 </div>
                 <div class="panel-footer">
-                    <div align="center" id="qrcode" style="display:none" >
+                    <img id='qrcode' src='#' alt="QRCode" style="display:none"/>
+<!--                    <div align="center" id="qrcode" style="display:none" >
                         <div align="center">
                                     <img src="assets/img/reqticQRCode.png" alt="Smiley face" height="70%" width="70%">
                                 </div>
-                    </div>
+                    </div>-->
                     
                 </div>
             </div>
