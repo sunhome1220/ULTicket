@@ -6,15 +6,11 @@
 package dao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import base.CJBaseDao;
-import util.ExceptionUtil;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import util.User;
 
 /**
  *
@@ -244,6 +240,51 @@ public class TickDao extends CJBaseDao {
         
         result = "[" + label + "," + reqNos + "," + showNos + "]";
         return result;
+    }
+    
+    public JSONArray getDataByStaffName(JSONObject jo) {
+        ArrayList<HashMap> list = new ArrayList<>(); 
+        
+        String queryType = jo.getString("queryType");
+        int evid = jo.getInt("evid");
+        String sql = "SELECT * FROM proctick where evid = ? and ";
+        switch (queryType) {
+            case "self":
+                //自己已登錄票券(登錄人是自己,含(2)
+                sql += " creator=? ";
+                break;
+            case "others":
+                //幫別人登錄票券(登錄人是自己，但發票人是別人)
+                sql += " creator=? and procman!=? ";
+                break;
+            case "selfProc":
+                //自己已索取票券(發票人是自己)
+                sql += " procman=? ";
+                break;
+            default:
+                break;
+        }
+        sql += " order by updatetime desc";
+        final String userId = jo.getString("USER_ID");
+        
+        switch (queryType) {
+            case "self":
+                //自己已登錄票券(登錄人是自己,含(2)
+                list = this.pexecuteQuery(sql, new Object[]{evid, userId});
+                break;
+            case "others":
+                //幫別人登錄票券(登錄人是自己，但發票人是別人)
+                list = this.pexecuteQuery(sql, new Object[]{evid, userId, userId});
+                break;
+            case "selfProc":
+                //自己已索取票券(發票人是自己)
+                list = this.pexecuteQuery(sql, new Object[]{evid, userId});
+                break;
+            default:
+                break;
+        }
+        JSONArray jArray = new JSONArray();
+        return arrayList2JsonArray(jArray, list);
     }
     
 }

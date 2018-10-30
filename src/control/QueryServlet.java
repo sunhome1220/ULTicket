@@ -69,6 +69,7 @@ public class QueryServlet extends AjaxBaseServlet {
         ReqTickDao daoRT = ReqTickDao.getInstance();
         String success = "";
         String action = "";
+        JSONArray ja = new JSONArray();
         
         switch (argJsonObj.getString("ajaxAction")) {                        
             case "addRecipts":  
@@ -121,21 +122,13 @@ public class QueryServlet extends AjaxBaseServlet {
                 msg = dao.queryReportData(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;            
+            case "getDataByStaffName":  
+                ja = dao.getDataByStaffName(argJsonObj);
+//                this.setInfoMsg(returnJasonObj, msg);
+                this.setJqGridData(returnJasonObj, ja);
+                break;            
         }
 
     }
 
-    private boolean authCheck(String userId, String pwd) {
-        String sql = "SELECT * FROM emppass where empno = ? and emppass= ? ";
-        ArrayList qsPara = new ArrayList();    
-        boolean passed = false;
-        try{
-            qsPara.add(userId);            
-            qsPara.add(pwd);            
-            passed = DBUtil.getInstance().pisExist(sql, qsPara.toArray());
-        }catch(Exception e){
-            
-        }
-        return passed;
-    }
 }

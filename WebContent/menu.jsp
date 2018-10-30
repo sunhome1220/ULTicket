@@ -45,22 +45,25 @@
                                         <a href="index.jsp" >說明</a>
                                     </li>
                                     <li>
-                                        <a href="forAudience.jsp" >觀眾索票</a>
+                                        <a href="audienceRecTicQRCode.jsp" >QRCode</a>
                                     </li>
                                     <li>
-                                        <a href="requestTicket.jsp" >索票登錄-簡</a>
+                                        <a href="requestTicket.jsp" >索票-簡</a>
                                     </li>
                                     <li>
-                                        <a href="requestTicketMod.jsp" >索票登錄</a>
+                                        <a href="requestTicketMod.jsp" >索票</a>
                                     </li>
                                     <li>
-                                        <a href="reply.jsp" >票根輸入</a>
+                                        <a href="query.jsp" >查詢</a>
+                                    </li>
+                                    <li>
+                                        <a href="reply.jsp" >票根</a>
                                     </li>
                                     <li>
                                         <a href="queryTickStatus.jsp" >出席狀況</a>
                                     </li>
                                     <li>
-                                        <a href="replyComment.jsp" >回條輸入</a>
+                                        <a href="replyComment.jsp" >回條</a>
                                     </li>
                                     
 <!--                                    <li>

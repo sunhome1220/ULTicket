@@ -49,7 +49,7 @@ $(document).ready(function () {
         localStorage.setItem("eventid", this.value);
     });
     if($("#eventid").val()!==''){
-        getReqTickCount();        
+        //getReqTickCount();        
     }
     $("#btnQuery").click(function(){           
         if($('#eventid').val()===''){
@@ -61,7 +61,7 @@ $(document).ready(function () {
             alert('請先輸入索票人電話!');
             $('#audiencetel').focus();
         }else{
-            getReqTickCount();
+            //getReqTickCount();
         }       
     });
     
@@ -87,6 +87,7 @@ function submitData(){
     if(!confirm(confirmMsg)){
         return;
     }
+    alert('功能開發測試中');
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -100,7 +101,6 @@ function submitData(){
             procaddr: $('#procaddr').val(),
             allowcontact: $('#allowcontact').prop("checked")? 1:0,
             allTickIds: allTickIds,
-            originalAllTickNo: $("#originalAllTickNo").val(),
             audiencename: $('#audiencename').val(),
             audiencetel: $('#audiencetel').val(),
             tickmemo: $('#tickmemo').val()            
@@ -110,7 +110,7 @@ function submitData(){
             alert(data.infoMsg);
             if(data.infoMsg.indexOf('成功')>=0){
                 $("#tckid").val('');                
-                getReqTickCount();
+                //getReqTickCount();
             }            
         },
         error: function (xhr, ajaxOptions, thrownError) {

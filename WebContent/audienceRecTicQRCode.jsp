@@ -86,26 +86,40 @@
                             <div class="row">                                
                                 <div class="col-sm-4 col-xs-6">  
                                     <input type="tel" id="tckno2" maxlength="5" class="form-control" placeholder="票號2">
-                                </div>                                                                                            
+                                </div>
+                                <div class="col-sm-4 col-xs-5">                                         
+                                    <input id="btnContinue2" class="btn btn-success"  type="button" value="連號">
+                                </div>
                             </div>
                             <div class="row">                                
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="tel" id="tckno3" maxlength="5" class="form-control" placeholder="票號3">
                                 </div>                                
+                                <div class="col-sm-4 col-xs-5">                                         
+                                    <input id="btnContinue3" class="btn btn-success"  type="button" value="連號">
+                                </div>
                             </div>
                             <div class="row">                                
                                 <div class="col-sm-4 col-xs-6">   
                                     <input type="tel" id="tckno4" maxlength="5" class="form-control" placeholder="票號4">                                                                        
                                 </div>                                        
+                                <div class="col-sm-4 col-xs-5">                                         
+                                    <input id="btnContinue4" class="btn btn-success"  type="button" value="連號">
+                                </div>
                             </div>
+                            
                         </form>
                         <div align="center">
+                            <br>
+<!--                            <input type="tel" id="url" maxlength="5"/>-->
                             <input type="button" class="btn btn-primary" id="btnShowQRCode" value="產生觀眾索票QRCode"/>                     
                         </div>
                     </section>
                 </div>
-                <div class="panel-footer">
-                    <img id='qrcode' src='#' alt="QRCode" style="display:none"/>
+                <div id="divReqUrl" class="panel-footer" style="align-self: center">
+                    A-完整連結：<input id="qrCodeUrl"/>
+                    <input id="btnCopyUrl" class="btn btn-warning" type="button" value="複製連結"/><br>
+                    B-QRCode：<img id='qrcode' src='#' alt="QRCode"/>
 <!--                    <div align="center" id="qrcode" style="display:none" >
                         <div align="center">
                                     <img src="assets/img/reqticQRCode.png" alt="Smiley face" height="70%" width="70%">

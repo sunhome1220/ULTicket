@@ -41,19 +41,23 @@
 //        ga('send', 'pageview');
 
     </script><script type="text/javascript" src="assets/js/styleswitcher.js"></script>
-<style>
-    .Must {
-        color: #FF0000;
-    }
-    .loginUser{
-        position: relative;
-        right:0px;
-/*        top: -20px;
-        left: 20px;*/
-/*        background-color: white;
-        width: 500px;*/
-    }
-</style>
+    <style>
+        .Must {
+            color: #FF0000;
+        }
+        .loginUser{
+            position: fixed;
+            right:0px;
+            /*        top: -20px;
+                    left: 20px;*/
+            /*        background-color: white;
+                    width: 500px;*/
+        }.npaDialog{
+            position: relative;
+            right:0px;
+            top: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -69,57 +73,134 @@
                         <form id="Form1">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>組別(依筆劃排序)</label> 
-                                    <select class="form-control" data-width="100px" id="teamName" name="unitLevel2">
+                                    <!--                                    <label><span class=Must>*</span>場次</label> -->
+                                    <select class="form-control" data-width="100px" id="eventid" name="eventid">
+                                        <option value="">請選擇演出場次</option>
+                                        <!--                                        <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>-->
+                                        <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
+                                        <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
+                                        <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
+                                        <option value="20190101">01/01-國館公演(票號:40001~45000)</option>
+                                    </select>                                
+                                </div>                                
+                            </div>
+                            <!--                            <div class="row">
+                                                            <div class="col-sm-6 col-xs-12">
+                                                                <label><span class=Must>*</span>組別(依筆劃排序)</label> 
+                                                                <select class="form-control" data-width="100px" id="teamName" name="unitLevel2">
+                                                                    <option value="">請選擇</option>
+                                                                    <option value="弘恩">弘恩</option>
+                                                                    <option value="永樂">永樂</option>
+                                                                    <option value="合歡">合歡</option>
+                                                                    <option value="恆德">恆德</option>
+                                                                    <option value="博愛">博愛</option>
+                                                                    <option value="復興">復興</option>
+                                                                    <option value="藍天">藍天</option>                                        
+                                                            </select>                                 
+                                                            </div>
+                                                        </div>-->
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must>*</span>查詢類別</label> 
+                                    <select class="form-control" data-width="100px" id="queryType">
                                         <option value="">請選擇</option>
-                                        <option value="弘恩">弘恩</option>
-                                        <option value="永樂">永樂</option>
-                                        <option value="合歡">合歡</option>
-                                        <option value="恆德">恆德</option>
-                                        <option value="博愛">博愛</option>
-                                        <option value="復興">復興</option>
-                                        <option value="藍天">藍天</option>                                        
-                                </select>                                 
+                                        <option value="self" selected="">1.自己已登錄票券(登錄人是自己,含(2))</option>
+                                        <option value="others">2.幫別人登錄票券(登錄人是自己，但發票人是別人)</option>
+                                        <option value="selfProc">3.自己已索取票券(發票人是自己)</option>                                                                              
+                                    </select>                                 
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>伙伴姓名</label> 
-                                    <input
-                                        type="text" id="staffName" name="txtIDNum" class="form-control"
-                                        placeholder="伙伴姓名">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>索票人姓名</label> 
-                                    <input
-                                        type="text" id="txtIDNum" name="txtIDNum" class="form-control"
-                                        placeholder="英文請輸入大寫">
-                                </div>
-                            </div>                            
-                        </form>
+                            <!--                            <div class="row">
+                                                            <div class="col-sm-6 col-xs-12">
+                                                                <label><span class=Must>*</span>伙伴姓名</label> 
+                                                                <input
+                                                                    type="text" id="staffName" name="txtIDNum" class="form-control"
+                                                                    placeholder="伙伴姓名">
+                                                            </div>
+                                                        </div>-->
+                            <!--                            <div class="row">
+                                                            <div class="col-sm-6 col-xs-12">
+                                                                <label><span class=Must></span>登錄人姓名(只能查詢自己登錄的資料)</label> 
+                                                                <input
+                                                                    type="text" id="creator" name="creator" class="form-control"
+                                                                    placeholder="發票人姓名">
+                                                            </div>
+                                                        </div>                            -->
+                            <!--                            <div class="row">
+                                                            <div class="col-sm-6 col-xs-12">
+                                                                <label><span class=Must></span>發票人姓名(只能查詢自己登錄的資料)</label> 
+                                                                <input
+                                                                    type="text" id="procman" name="procman" class="form-control"
+                                                                    placeholder="發票人姓名">
+                                                            </div>
+                                                        </div>                            -->
+                        </form><br>
+                        <div align="center">
+                            <button type="submit" class="btn btn-default" id="btnQry">查詢</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-default" id="btnClear">清除</button>
+                        </div>
+                        <br>
+
                     </section>
                 </div>
                 <div class="panel-footer">
-                    <div align="center">
-                        <button type="submit" class="btn btn-default" id="btnQry"
-                                onClick="Query();">查詢</button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-default" id="btnClear">清除</button>
-                    </div>
+
                 </div>
             </div>
             <div>
-                <br>
-                <div class="jqGrid">
-                    <table id="QueryResult" style="display: none"></table>
-                </div>
-                <div id="QueryResultpagger"></div>
+
             </div>
         </div>
-    </section>
+        <div id="modal-update" class="npaDialog" style="display: none;width: 80%">
+        <div class="modal-body">
+            <form id="UpdateMaintainForm" enctype="multipart/form-data" method='post' action='CJDT_UploadServlet' target="_self">
+                <table border="0" width="100%" cellpadding="0" cellspacing="0"
+                       class="keyinTableGray">
 
+                    
+                    <tr>
+                        <td class="labelField" width="100">票號：</td>
+                        <td class="dataField">
+                            <input id="tickid" type="text" class="form-control" size="20"></td>
+                    </tr>                                    
+                    <tr>
+                        <td class="labelField" width="100">發票人：</td>
+                        <td class="dataField ">
+                            <input id="procman" type="text" class="form-control" size="20"></td>
+                    </tr>
+                    <tr>
+                        <td class="labelField" width="100">索票人：</td>
+                        <td class="dataField ">
+                            <input id="tickname" type="text" class="form-control" size="20"></td>
+                    </tr>
+                    <tr>
+                        <td class="labelField" width="100">索票人電話：</td>
+                        <td class="dataField ">
+                            <input id="ticktel"  type="text" class="form-control" size="20"></td>
+                    </tr>                    
+                </table>
+            </form>
+            <div class="modal-footer">
+                <button id="QS_SAVE_UPDATE" name="QS_SAVE_UPDATE"
+                        class="btn green-seagreen btn-info" type="button">
+                    <i class="fa fa-save"></i>&nbsp;儲存
+                </button>
+                &nbsp;                                
+                <button id="btnClose" name="QS_CLOSE_UPDATE"
+                        class="btn purple btn-default" type="button">
+                    <i class="fa fa-times"></i>&nbsp;關閉視窗
+                </button>
+            </div>
+        </div>
+    </div> 
+    </section>
+    <div class="jqGrid">
+        <table id="QueryResult" style="display: none"></table>
+    </div>
+    <div id="QueryResultpagger"></div>
+    
+                       
     <a href="#" class="scrollup"><i class="icon-up-open"></i></a>
     <script src="assets/js/jquery-1.11.2.js"></script>
     <script src="assets/plugins/bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>

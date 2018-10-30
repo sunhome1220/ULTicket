@@ -9,6 +9,29 @@ $(document).ready(function () {
     $("#eventid").change(function(){        
         localStorage.setItem("eventid", this.value);
     });
+    $("#btnContinue2").click(function(){        
+        var add1 = eval($("#tckno1").val())+1;
+        if(add1<10000) add1 = '0' + add1;
+        $("#tckno2").val(add1);  
+    });
+    $("#btnContinue3").click(function(){        
+        if($("#tckno2").val()===''){$("#btnContinue2").click();}
+        var add1 = eval($("#tckno2").val())+1;
+        if(add1<10000) add1 = "0" + add1;
+        $("#tckno3").val(add1);  
+    });
+    $("#btnContinue4").click(function(){        
+        if($("#tckno3").val()===''){$("#btnContinue3").click();}
+        var add1 = eval($("#tckno3").val())+1;
+        if(add1<10000) add1 = "0" + add1;
+        $("#tckno4").val(add1);  
+    });
+    $("#btnCopyUrl").click(function(){        
+        //copyUrl();
+        $("#qrCodeUrl").select();
+        document.execCommand("copy");
+        alert('已複製至剪貼簿，可直接以mail或line傳給朋友');
+    });
     $("#btnShowQRCode").click(function(){
         var evid = $("#eventid").val();
         var tickno = '';
@@ -24,14 +47,18 @@ $(document).ready(function () {
         if($("#tckno4").val()!==''){
             tickno += ','+ $("#tckno4").val();
         }
+        if(tickno===''){
+            alert('請至少輸入一張票號');return;
+        }
         var staffId = encodeURIComponent($("#username").text().replace(',您好',''));//%E7%8E%8B%E6%B8%AC%E8%A9%A6
         var team = encodeURIComponent($("#team").val());
         
         var serverNmPort = 'http://unlimited.nctu.me:8080';
-        serverNmPort = 'http://localhost:8081';//for test
+        //serverNmPort = 'http://localhost:8081';//for test
         var text = serverNmPort + '/tick/reqTickAudi.jsp?evid='+evid+'%26tickno='+tickno+'%26procman='+staffId+'%26team='+team;
         
-        $("#tckno4").val(text);
+        $("#qrCodeUrl").val(text);
+        $("#qrCodeUrl").text(text);
         $("#qrcode").attr("src","http://chart.apis.google.com/chart?cht=qr&chl="+ text +"&chs=300x300");
         $("#qrcode").show();
      });

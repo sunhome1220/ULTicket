@@ -124,5 +124,5 @@ border-color: #FFF; border-color: #ccc; background: #333 url('') no-repeat cente
 }
 @media (min-width: 1200px) {
 	.NAME { font-size: 45px; left: 30%;letter-spacing: 40px;}
-	.jqGrid{margin-left: 0px;width:1170px;height:438px;}
+	.jqGrid{margin-left: 0px;width:800px;height:438px;}
 }
