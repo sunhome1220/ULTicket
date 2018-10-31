@@ -1,13 +1,29 @@
 $(document).ready(function () {
+//    $('#allowcontact').bootstrapToggle({
+//      on: '是',
+//      off: '否'
+//    });
     if (localStorage.eventid) {
         $("#eventid").val(localStorage.getItem("eventid"));
     }
     if (localStorage.queryType) {
         $("#queryType").val(localStorage.getItem("queryType"));
     }
+    $("#btnSave").click(function(){
+        var dialogId = "#modal-update";
+        submitData();
+        //$(dialogId).hide();
+    });
+    $("#btnDelete").click(function(){
+        var dialogId = "#modal-update";
+        $(dialogId).hide();
+    });
     $("#btnClose").click(function(){
         var dialogId = "#modal-update";
         $(dialogId).hide();
+    });
+    $("#allowcontact").click(function(){
+        alert($('#allowcontact').prop("checked")? 1:0);
     });
     $("#btnQry").click(function(){
         localStorage.setItem("eventid", $("#eventid").val());
@@ -23,6 +39,48 @@ function showButton (cellvalue, options, rowObject) {
     return "<button type=\"button\" onclick=\"alert("+ options +")\">修改</button>"; // 返回的html即為欄位中的樣式
 }
 
+function submitData(){
+    var action = 'update';
+    
+    var taginc = $("#taginc").val();
+    var procman = $("#procman").val();
+    
+    var confirmMsg = '請確認是否要修改資料'+taginc+ procman;
+    
+    if(!confirm(confirmMsg)){
+        return;
+    }
+    return;
+    $.ajax({
+        url: 'QueryServlet',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            ajaxAction: 'updateRequestTick',
+            taginc: $('#taginc').val(),
+            eventid: $('#eventid').val(),
+            procman: $('#procman').val(),
+            procaddr: $('#procaddr').val(),
+            allowcontact: $('#allowcontact').prop("checked")? 1:0,
+            seatType: $("input[name='seatType']:checked").val(),            
+            confirmStatus: $("input[name='confirmStatus']:checked").val(),  
+            tickname: $('#tickname').val(),
+            ticktel: $('#ticktel').val(),
+            tickmemo: $('#tickmemo').val()            
+        },
+        async: false,
+        success: function (data) {            
+            alert(data.infoMsg);
+            if(data.infoMsg.indexOf('成功')>=0){
+                //$("#tckid").val('');                
+                //getReqTickCount();
+            }            
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('系統異常，請重新操作一次或通知系統管理者!');
+        }
+    });
+}
 function Query() {
     var selectedGridRowId;
     if($('#eventid').val()===''){
@@ -48,7 +106,8 @@ function Query() {
             pager: "#QueryResultpagger",
             rowList: [10, 20, 50],
             colNames: ["ID", "場編", "場次", "組別", "發票地",
-                "票號", "發票人",  "索票人姓名", "電話", "備註", "登錄人", "登錄時間", "操作"],
+                "票號", "發票人",  "索票人姓名", "電話", "備註", "登錄人", "異動時間", "操作", 
+                "allowcontact", "", "", "", ""],
             colModel: [{
                     name: "taginc",
                     index: "taginc",
@@ -124,6 +183,26 @@ function Query() {
                     width: '15px',
                     hidden: true,
                     formatter:showButton
+                }, {
+                    name: "allowcontact",
+                    index: "allowcontact",
+                    hidden: true
+                }, {
+                    name: "lastUpdater",
+                    index: "lastUpdater",
+                    hidden: true
+                }, {
+                    name: "seatType",
+                    index: "seatType",
+                    hidden: true
+                }, {
+                    name: "confirmStatus",
+                    index: "confirmStatus",
+                    hidden: true
+                }, {
+                    name: "createtime",
+                    index: "createtime",
+                    hidden: true
                 }],
             onCellSelect: function(rowid,e) {
                 //alert("rowid=" + rowid  );
@@ -147,10 +226,28 @@ function showUpdateDialog(rowId) {
     //$(dialogId).dialog('open');
     
     var row = $("#QueryResult").jqGrid('getRowData', rowId);
+    $("#taginc").val(row.taginc);
+    $("#event").val(row.event);
     $("#tickid").val(row.tickid);
     $("#procman").val(row.procman);
     $("#tickname").val(row.tickname);
     $("#ticktel").val(row.ticktel);
+    $("#tickmemo").val(row.tickmemo);
+    $("#procaddr").val(row.procaddr);
+    $("#creator").val(row.creator);
+    $("#updatetime").val(row.updatetime);
+    $("#createtime").val(row.createtime);
+    $("#lastUpdater").val(row.lastUpdater);
+    
+    if(row.allowcontact==='1'){//
+        $('#allowcontact').prop("checked",true);
+        //$('#allowcontact').click();        
+    }else{
+        $('#allowcontact').prop("checked",false);
+    }
+    $("#seatType").val(row.seatType);
+    $("#confirmStatus").val(row.confirmStatus);
+    
     return;
     form = $('#modal-update').find('#UpdateMaintainForm');
     var id = $("#gridList1").jqGrid('getGridParam', "selrow");
