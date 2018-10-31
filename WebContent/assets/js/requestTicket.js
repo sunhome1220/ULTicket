@@ -221,6 +221,8 @@ function submitData(){
             procman: procman,
             procaddr: $('#procaddr').val(),
             allowcontact: $('#allowcontact').prop("checked")? 1:0,
+            seatType: $("input[name='seatType']:checked").val(),            
+            confirmStatus: $("input[name='confirmStatus']:checked").val(),  
             allTickIds: allTickIds,
             originalAllTickNo: $("#originalAllTickNo").val(),
             audiencename: $('#audiencename').val(),
@@ -272,7 +274,7 @@ function getReqTickCount(){
                 $("#updatetime").text(jo.updatetime);
                 if(jo.allowcontact==='1'){//
                     $('#allowcontact').prop("checked",true);
-                    $('#allowcontact').click();
+                    //$('#allowcontact').click();//????????????
                 }else{
                     $('#allowcontact').prop("checked",false);
                 }

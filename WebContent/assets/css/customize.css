@@ -27,7 +27,7 @@ a:focus { outline: dotted 1px !important; }
 .Logo { position: absolute; left: 25px; top: 10px; }
 .NAME { position: absolute; left: 30%; top: 10px; color:#ffbb77; font-family: Microsoft JhengHei; font-size: 50px; letter-spacing: 40px; font-weight: bold; text-shadow: black 0.1em 0.1em 0.2em;}
 #MENU { width:98%; background: #ffc578;background: -webkit-linear-gradient(top, #ffc578 0%,#fb9d23 100%);background: -moz-linear-gradient(top, #ffc578 0%, #fb9d23 100%);background: linear-gradient(to bottom, #ffc578 0%,#fb9d23 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc578', endColorstr='#fb9d23',GradientType=0 );}
-.menu>ul>li{font-size:28px;}
+.menu>ul>li{font-size:26px;}
 /* site tree close/open control */
 #FatFooter { background: #fce17e url(../images/fatfooter_bg.png) repeat-x left bottom; }
 #FatFooter .FatFooterBtn { font-size: 1em; cursor: pointer; display: inline-block; width: 100px; border: none; background-color: #eee; }
@@ -550,6 +550,7 @@ padding: 3px; vertical-align: top; }
 .AdBanner .slick-list img { height: 130px; }
 }
  @media (max-width: 991px) {
+     .menu>ul>li{font-size:22px;}
 .Topnav { margin: 5px 10px 5px 180px; line-height: 120%; font-size: 12px; }
 .custom { margin-top: -8px; }
 .Search { top: 68px; }
@@ -561,6 +562,7 @@ padding: 3px; vertical-align: top; }
 .list_photo .thumbnail .img-banner { height: 120px !important; }
 }
  @media (max-width: 767px) {
+     .menu>ul>li{font-size:20px;}
 .Logo { left: 80px; top: 10px; display: none;}
 .NAME { left: 20%; top: 10px; letter-spacing: 20px; font-size: 40px;}
 #FatFooter { display: none; }
@@ -631,6 +633,7 @@ width: 49%; }
 
 }
  @media (max-width: 479px) {
+     .menu>ul>li{font-size:18px;}
 .Logo { left: 60px; top: 10px; margin-right: 60px; }
 .Logo img { width: 100%; }
 .user ul li { width: 32%; }
@@ -646,6 +649,7 @@ width: 49%; }
 .logintb .Text { width: 99%; }
 }
  @media (max-width: 320px) {
+     .menu>ul>li{font-size:16px;}
 .user ul li { width: 31%; }
 .BannerSlider { min-height: 200px; }
 .BannerSlider .slick-slide img { height: 150px; }

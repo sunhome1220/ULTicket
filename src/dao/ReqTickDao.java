@@ -10,6 +10,7 @@ import java.util.HashMap;
 import base.CJBaseDao;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import util.DateUtil;
 
 /**
  *
@@ -44,7 +45,9 @@ public class ReqTickDao extends CJBaseDao {
         String audiencetel = argJsonObj.getString("audiencetel");
         String procaddr = argJsonObj.getString("procaddr");
         String tickmemo = argJsonObj.getString("tickmemo");
-        int allowcontact = argJsonObj.getInt("allowcontact");
+        int allowcontact = argJsonObj.getInt("allowcontact");//滿意度調查
+        int seatType = argJsonObj.getInt("seatType");//座位類別
+        int confirmStatus = argJsonObj.getInt("confirmStatus");//確認
         String userid = argJsonObj.getString("USER_NM");
 
         String checkSql = "select tickid,tickname from proctick where evid = ? and tickid in("+strAllTickIds+")";
@@ -60,10 +63,10 @@ public class ReqTickDao extends CJBaseDao {
         
         log.info("addReqTick:" + userid);
         String sql = "INSERT INTO proctick (evid,event,team,procman,procaddr, "
-                + "tickid,tickname,ticktel,tickmemo,updatetime,allowcontact,creator)   "
-                + "VALUES (?,?,?,?,?,?,?,?,?,getdate(),?,?)";
+                + "tickid,tickname,ticktel,tickmemo,createtime,allowcontact,creator,seatType,confirmStatus)   "
+                + "VALUES (?,?,?,?,?,?,?,?,?,getdate(),?,?,?,?)";
         
-        Object[] objs = new Object[11];
+        Object[] objs = new Object[13];
         objs[0] = eventid;
         objs[1] = event;
         objs[2] = teamname;
@@ -76,6 +79,8 @@ public class ReqTickDao extends CJBaseDao {
         objs[8] = tickmemo;
         objs[9] = allowcontact;
         objs[10] = userid;
+        objs[11] = seatType;
+        objs[12] = confirmStatus;
         
         int result = 0;
         for (String tickId : allTickIds) {
@@ -244,6 +249,76 @@ public class ReqTickDao extends CJBaseDao {
             strMsg += "異常！索票資料未成功更新!";
         }
         return strMsg;
+    }
+    
+    //針對一筆update
+    public String updateReqTickDataOne(JSONObject argJsonObj) {
+        String strMsg = "";
+        int taginc = argJsonObj.getInt("taginc");
+        String eventid = argJsonObj.getString("eventid");
+        String procman = argJsonObj.getString("procman");//發票人
+        String tickname = argJsonObj.getString("tickname");//索票人
+        String ticktel = argJsonObj.getString("ticktel");
+        int allowcontact = argJsonObj.getInt("allowcontact");//滿意度調查
+        int seatType = argJsonObj.getInt("seatType");//
+        int confirmStatus = argJsonObj.getInt("confirmStatus");//
+        String procaddr = argJsonObj.getString("procaddr");//索票地
+        String tickmemo = argJsonObj.getString("tickmemo");//備註
+        
+        String userid = argJsonObj.getString("USER_NM");
+
+        log.info("updateReqTick:" + userid);
+        String sql = "update proctick set procman=?,procaddr=?, tickname=?, ticktel=?,tickmemo=?, "
+                + "     updatetime=getdate(), lastUpdater=?, allowcontact=? , seatType=?, confirmStatus=?"
+                + " where taginc = ? ";
+                
+        Object[] objs = new Object[10];
+        objs[0] = procman;//audiencename;
+        objs[1] = procaddr;
+        objs[2] = tickname;        
+        objs[3] = ticktel;        
+        objs[4] = tickmemo;
+        objs[5] = userid;
+        objs[6] = allowcontact;        
+        objs[7] = seatType;
+        objs[8] = confirmStatus;
+        objs[9] = taginc;
+        //objs[7] = oldAllTckIds;
+        
+        JSONObject jo = new JSONObject();
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>=1){
+            strMsg += "成功更新索票資料!";//(索票數:"+ result +")";            
+            jo.put("lastUpdater", userid);
+            jo.put("updatetime", DateUtil.getDateTime());
+        }else{
+            strMsg += "異常！索票資料未成功更新!";
+        }
+        jo.put("resultMsg", strMsg);
+        return jo.toString();
+    }
+    
+    //刪除一筆
+    public String deleteReqTickDataOne(JSONObject argJsonObj) {
+        String strMsg = "";
+        int taginc = argJsonObj.getInt("taginc");
+
+        log.info("deleteReqTick:" + taginc);
+        String sql = "delete proctick where taginc = ? ";
+                
+        Object[] objs = new Object[1];
+        objs[0] = taginc;
+        
+        JSONObject jo = new JSONObject();
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>=1){
+            strMsg += "成功刪除索票資料!";//(索票數:"+ result +")";                        
+            jo.put("updatetime", DateUtil.getDateTime());
+        }else{
+            strMsg += "異常！索票資料未刪除成功!";
+        }
+        jo.put("resultMsg", strMsg);
+        return jo.toString();
     }
     
     /**

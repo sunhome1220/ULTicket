@@ -85,6 +85,14 @@ public class QueryServlet extends AjaxBaseServlet {
                 }                
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
+            case "updateRequestTick"://update索票登錄  
+                msg = daoRT.updateReqTickDataOne(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "deleteRequestTick"://刪除索票登錄  
+                msg = daoRT.deleteReqTickDataOne(argJsonObj);
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
             case "addRequestTickAudi"://索票登錄(觀眾)  
                 msg = daoRT.addReqTickDataAudi(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);

@@ -46,16 +46,21 @@
             color: #FF0000;
         }
         .loginUser{
-            position: fixed;
+            position: absolute;
             right:0px;
             /*        top: -20px;
                     left: 20px;*/
             /*        background-color: white;
                     width: 500px;*/
         }.npaDialog{
-            position: relative;
+            position: fixed;
             right:0px;
-            top: 20px;
+            left:0px;
+            top: 0px;
+            bottom: 0px;
+            background-color: white;opacity:0.98;
+            z-index: 999;
+            
         }
     </style>
 </head>
@@ -136,7 +141,7 @@
                                                         </div>                            -->
                         </form><br>
                         <div align="center">
-                            <button type="submit" class="btn btn-default" id="btnQry">查詢</button>
+                            <button type="submit" class="btn btn-primary" id="btnQry">查詢</button>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <button type="submit" class="btn btn-default" id="btnClear">清除</button>
                         </div>
@@ -144,53 +149,146 @@
 
                     </section>
                 </div>
-                <div class="panel-footer">
+<!--                <div class="panel-footer">
 
-                </div>
-            </div>
-            <div>
-
+                </div>-->
             </div>
         </div>
-        <div id="modal-update" class="npaDialog" style="display: none;width: 80%">
+        <div id="modal-update" class="npaDialog" style="display:none ">
         <div class="modal-body">
             <form id="UpdateMaintainForm" enctype="multipart/form-data" method='post' action='CJDT_UploadServlet' target="_self">
-                <table border="0" width="100%" cellpadding="0" cellspacing="0"
-                       class="keyinTableGray">
+                <table border="0" width="100%" cellpadding="0" cellspacing="0">
 
-                    
-                    <tr>
-                        <td class="labelField" width="100">票號：</td>
-                        <td class="dataField">
-                            <input id="tickid" type="text" class="form-control" size="20"></td>
+                    <tr style="height: 65px">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>                                    
                     <tr>
-                        <td class="labelField" width="100">發票人：</td>
-                        <td class="dataField ">
-                            <input id="procman" type="text" class="form-control" size="20"></td>
+                        <td></td>
+                        <td>場次：</td>
+                        <td>
+                            <input id="event" type="text" readonly class="form-control"></td>
+                        <td></td>
+                    </tr>                                    
+                    <tr>
+                        <td></td>
+                        <td>票號：</td>
+                        <td>
+                            <input id="taginc" type="hidden">
+                            <input id="tickid" type="text" readonly class="form-control"></td>
+                        <td></td>
+                    </tr>                                    
+                    <tr>
+                        <td></td>
+                        <td>發票人：</td>
+                        <td>
+                            <input id="procman" type="text" class="form-control"></td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td class="labelField" width="100">索票人：</td>
-                        <td class="dataField ">
-                            <input id="tickname" type="text" class="form-control" size="20"></td>
+                        <td></td>
+                        <td>索票人：</td>
+                        <td>
+                            <input id="tickname" type="text" class="form-control"></td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td class="labelField" width="100">索票人電話：</td>
-                        <td class="dataField ">
-                            <input id="ticktel"  type="text" class="form-control" size="20"></td>
+                        <td></td>
+                        <td>索票人電話：</td>
+                        <td>
+                            <input id="ticktel"  type="text" class="form-control"></td>
+                        <td></td>
+                    </tr>   
+                    <tr>
+                        <td></td>
+                        <td width="25%">滿意度調查：</td>
+                        <td>
+                            <input id="allowcontact" type="checkbox" class="btn-sm">接受滿意度調查</td>
+                        <td></td>
+                    </tr>                       
+                    <tr>
+                        <td></td>
+                        <td>索票地點：</td>
+                        <td>
+                            <input id="procaddr"  type="text" class="form-control"></td>
+                        <td></td>
+                    </tr>         
+                    <tr>
+                        <td></td>
+                        <td width="20%">座位類別：</td>
+                        <td>
+                            <input name="seatType" type="radio" class="btn-sm" value="1">一般&nbsp;
+                            <input name="seatType" type="radio" class="btn-sm" value="2">貴賓席&nbsp;
+                            <input name="seatType" type="radio" class="btn-sm" value="3">親子區                            
+                        </td>
+                        <td width="5%"></td>
+                    </tr>                       
+                    <tr>
+                        <td></td>
+                        <td width="20%">確認狀態：</td>
+                        <td>
+                            <input type="radio" name="confirmStatus" value="-1">請假&nbsp;
+                            <input type="radio" name="confirmStatus" value="0">未確認&nbsp;
+                            <input type="radio" name="confirmStatus" value="1">確認出席
+                        </td>
+                        <td></td>
+                    </tr>                       
+                    <tr>
+                        <td></td>
+                        <td>索票備註：</td>
+                        <td>
+                            <input id="tickmemo"  type="text" class="form-control">
+                        </td>
+                        <td></td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                        <td>資料建立人：</td>
+                        <td>
+                            <input id="creator" readonly type="text" class="form-control"></td>
+                        <td></td>
+                    </tr>                                        
+                    <tr>
+                        <td></td>
+                        <td>最後修改人：</td>
+                        <td>
+                            <input id="lastUpdater" readonly type="text" class="form-control"></td>
+                        <td></td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                        <td>修改時間：</td>
+                        <td>
+                            <input id="updatetime" readonly type="text" class="form-control"></td>
+                        <td></td>
+                    </tr>            
+                    
+                    <tr style="height: 30px">
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="2" style="align-content: center">
+                            <button id="btnSave" class="btn green-seagreen btn-info" type="button">
+                                <i class="fa fa-save"></i>&nbsp;儲存
+                            </button>
+                            &nbsp;                                
+                            <button id="btnDelete" class="btn btn-warning" type="button">
+                                &nbsp;刪除
+                            </button>
+                            &nbsp;                                
+                            <button id="btnClose" class="btn purple btn-default" type="button">
+                                <i class="fa fa-times"></i>&nbsp;關閉視窗
+                            </button>
+                        </td>                        
+                        <td></td>
                     </tr>                    
                 </table>
             </form>
             <div class="modal-footer">
-                <button id="QS_SAVE_UPDATE" name="QS_SAVE_UPDATE"
-                        class="btn green-seagreen btn-info" type="button">
-                    <i class="fa fa-save"></i>&nbsp;儲存
-                </button>
-                &nbsp;                                
-                <button id="btnClose" name="QS_CLOSE_UPDATE"
-                        class="btn purple btn-default" type="button">
-                    <i class="fa fa-times"></i>&nbsp;關閉視窗
-                </button>
+                
             </div>
         </div>
     </div> 

@@ -151,11 +151,35 @@
                                 
 <!--                                    <input type="checkbox">願意接受電話滿意度調查-->                                
                             </div>
-                            <div class="row">
+                            <div class="row" id="divSeatType">
+                                <div class="col-sm-4 col-xs-12">                                    
+                                    <label>
+                                      座位類別
+                                    </label>
+                                    <div class="btn-group btn-group" role="group">
+                                        <input name="seatType" type="radio" class="btn-sm" checked>一般&nbsp;
+                                        <input name="seatType" type="radio" class="btn-sm">貴賓席&nbsp;
+                                        <input name="seatType" type="radio" class="btn-sm">親子區座位                                         
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="divConfirmStatus">
+                                <div class="col-sm-4 col-xs-12">                                    
+                                    <label>
+                                      確認狀態
+                                    </label>
+                                    <div class="btn-group btn-group" role="group">
+                                        <input type="radio" name="confirmStatus" value="-1">請假&nbsp;
+                                        <input type="radio" name="confirmStatus" value="0" checked>未確認&nbsp;
+                                        <input type="radio" name="confirmStatus" value="1">確認出席                                        
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <div class="row">
                                 <div class="col-sm-6 col-xs-12">
                                     <font style="color:purple">&nbsp;&nbsp;&nbsp;本場次此索票人索票總數：<a id="audienceEvidCnt">...</a></font><br>                                    
                                 </div>
-                            </div>
+                            </div>-->
 <!--                            <div class="row" id="divH12">
                                 <div class="col-sm-6 col-xs-12">
                                     <font style="color:purple">&nbsp;&nbsp;&nbsp;累計總出席及索票數:<a id="showTickNo">0</a>/<a id="reqTickNo">0</a></font><br>                                    

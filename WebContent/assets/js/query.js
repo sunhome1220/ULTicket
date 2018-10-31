@@ -38,13 +38,17 @@ function showButton (cellvalue, options, rowObject) {
     return "<button type=\"button\" onclick=\"alert("+ options +")\">修改</button>"; // 返回的html即為欄位中的樣式
 }
 function allowcontactFormat(cellvalue, options, rowObject) {
-    return cellvalue===0?"不同意":"同意";
+    return cellvalue==='0'?"不同意":"同意";
 }
 function seatTypeFormat(cellvalue, options, rowObject) {
-    return cellvalue==='1'?"一般":cellvalue==='2'?"貴賓":cellvalue==='3'?"親子":"";
+    return cellvalue==='1'?"一般"
+    :cellvalue==='2'?"<font color='purple'>貴賓</font>"
+    :cellvalue==='3'?"<font color='pink'><b>親子</b></font>":"";
 }
 function confirmStatusFormat(cellvalue, options, rowObject) {
-    return cellvalue==='-1'?"<font color='red'>請假</font>":cellvalue==='0'?"未確認":cellvalue==='1'?"確認出席":"";
+    return cellvalue==='-1'?"<font color='red'>請假</font>"
+    :cellvalue==='0'?"未確認"
+    :cellvalue==='1'?"<font color='green'><b>確認出席</b></font>":"";
 }
 
 function updateReqTickData(){
@@ -202,7 +206,7 @@ function Query() {
                     name: "tickmemo",
                     index: "tickmemo",
                     align: 'left',
-                    width: '20px',
+                    width: '15px',
                     hidden: !bigScreen
                 }, {
                     name: "creator",
@@ -247,7 +251,7 @@ function Query() {
                     index: "confirmStatus",
                     width: '8px',
                     formatter: confirmStatusFormat,
-                    hidden: !bigScreen
+                    hidden: false
                 }, {
                     name: "updatetime",
                     index: "updatetime",
@@ -261,7 +265,7 @@ function Query() {
             },
             onSelectRow: function (id, status) {
                 selectedGridRowId = id;
-                var row = $("#QueryResult").jqGrid('getRowData', id);
+                //var row = $("#QueryResult").jqGrid('getRowData', id);
                 showUpdateDialog(id);
                 //alert(row.taginc);
             }
@@ -291,14 +295,25 @@ function showUpdateDialog(rowId) {
     $("#createtime").val(row.createtime);
     $("#lastUpdater").val(row.lastUpdater);
     
-    if(row.allowcontact==='1'){//
-        $('#allowcontact').prop("checked",true);
-        //$('#allowcontact').click();        
+    var seatTypeValue = row.seatType==='一般'?"1":row.seatType==='貴賓'?"2":"3";//先用formatter轉成中文了，要再轉回來數值
+    var confirmStatusValue = row.confirmStatus==='請假'?"-1":row.confirmStatus==='未確認'?"0":"1";
+    var allowcontactValue = row.allowcontact==='不同意'?"0":"1";
+    
+//    $('#allowcontact').prop("checked",true);
+//    $('#allowcontact').click();        
+    //alert(allowcontactValue);
+    $("input[name='seatType'][value="+ seatTypeValue +"]").click();
+    $("input[name='confirmStatus'][value="+confirmStatusValue+"]").click();
+    //$("input[name='allowcontact'][value="+allowcontactValue+"]").prop("checked",true);
+    //$("input[name='allowcontact'][value="+allowcontactValue+"]").click();
+      
+    if(allowcontactValue==='1'){//
+        //alert('checked');
+        //$('#allowcontact').prop("checked",true);
+        $('#allowcontact').click();                
     }else{
         $('#allowcontact').prop("checked",false);
     }
-    $("input[name='seatType'][value="+row.seatType+"]").click();
-    $("input[name='confirmStatus'][value="+row.confirmStatus+"]").click();
     
     return; 
     $(dialogId).dialog('open');

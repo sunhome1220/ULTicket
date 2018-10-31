@@ -264,7 +264,7 @@ public class TickDao extends CJBaseDao {
             default:
                 break;
         }
-        sql += " order by updatetime desc";
+        sql += " order by taginc desc";
         final String userId = jo.getString("USER_ID");
         
         switch (queryType) {
