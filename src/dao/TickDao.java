@@ -123,7 +123,7 @@ public class TickDao extends CJBaseDao {
     
     public String updateComment(JSONObject argJsonObj) {
         String strMsg = "";
-        String[] allInterest = argJsonObj.getString("interest").split("[;,]");        
+        //String[] allInterest = argJsonObj.getString("interest").split("[;,]");        
         String eventid = argJsonObj.getString("eventid");
         String tickid = argJsonObj.getString("tickid");
         String audiencename = argJsonObj.getString("audiencename");
@@ -202,6 +202,10 @@ public class TickDao extends CJBaseDao {
     //取得已輸入回條數
     public String getTicCommentCount(JSONObject argJsonObj) {
         int evid = argJsonObj.getInt("eventid");
+        String statType = argJsonObj.getString("statType");
+        if(statType.equals("self")){
+            //只查自己組
+        }
         String username = argJsonObj.getString("USER_NM");
         String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM tickcomment where evid=? and username=? "; 
         ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username});
@@ -214,17 +218,45 @@ public class TickDao extends CJBaseDao {
     
 
     //[[\'新竹公演\', \'南門公演\', \'板橋公演\', \'國館公演\', \'板橋公演\'],[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,0]]';
-    public String queryReportData(JSONObject argJsonObj) {
-        String sql = "SELECT P.evid, P.event, P.pcnt, S.scnt FROM (SELECT evid,event,count(*) as pcnt "
-                + "FROM proctick group by evid,event) P "
+    public String queryReportData(JSONObject argJo) {
+        
+        String updateSql = "UPDATE proctick SET presentStatus= 1 "
+                + "where presentStatus<>1 and tickid in(select tickid from showtick)";
+        this.pexecuteUpdate(updateSql, new Object[]{});
+        updateSql = "update  proctick set event='南門公演' where event = '南門公 演' ";
+        this.pexecuteUpdate(updateSql, new Object[]{});
+        
+        ArrayList<HashMap> list = new ArrayList();
+        String sql = "";
+        String statType = argJo.getString("statType");
+        if(statType.equals("self")){
+            sql = "SELECT P.evid, P.event,P.team, P.pcnt, C.cofirmCnt,S.scnt "
+                + "FROM (SELECT evid,event,team,count(*) as pcnt "
+                    + " FROM proctick group by evid,event,team having team=?) P "
+                    + "left join (SELECT evid,event,team,count(*) as cofirmCnt,confirmStatus "
+                    + "FROM proctick group by evid,event,team,confirmStatus having confirmStatus=1) C "
+                    + " on P.evid=C.evid and P.team=C.team "
+                    + "left join (SELECT evid,event,team,count(*) as scnt,presentStatus "
+                    + "FROM proctick group by evid,event,team,presentStatus having presentStatus=1) S "
+                    + "on P.evid=S.evid and P.team=S.team ";
+            list = this.pexecuteQuery(sql, new Object[]{argJo.getString("USER_TEAM")});
+        }else{
+            sql = "SELECT P.evid, P.event, P.pcnt, S.scnt,C.cofirmCnt "
+                + "FROM "
+                + "(SELECT evid,event,count(*) as pcnt FROM proctick group by evid,event) P "
+                + "left join (SELECT evid,event,count(*) as cofirmCnt,confirmStatus "
+                + "FROM proctick group by evid,event,confirmStatus having confirmStatus=1) C on P.evid=C.evid "
                 + "left join (SELECT evid,count(*) as scnt "
                 + "FROM showtick group by evid) S " 
                 + "on P.evid=S.evid order by evid";
-        ArrayList<HashMap> list = this.pexecuteQuery(sql, new Object[]{});
+                list = this.pexecuteQuery(sql, new Object[]{});
+        }
+        
         String result = "";
-        String label = "[";
-        String reqNos = "[";
-        String showNos = "[";
+        String label = "";
+        String reqNos = "";
+        String showNos = "";
+        String confirmNos = "";
         for(int i=0; i<list.size();i++){
             label += "\'" + list.get(i).get("event") + "\'";
             if(i<list.size()-1) label += ",";
@@ -233,58 +265,188 @@ public class TickDao extends CJBaseDao {
             String scnt = list.get(i).get("scnt").toString();
             showNos += scnt.equals("")? 0: scnt;
             if(i<list.size()-1) showNos += ",";
+            String ccnt = list.get(i).get("cofirmCnt").toString();
+            confirmNos += ccnt.equals("")? 0: ccnt;
+            if(i<list.size()-1) confirmNos += ",";
         }
-        label += "]";
-        reqNos += "]";
-        showNos += "]";
+//        label += "]";
+//        reqNos += "]";
+//        showNos += "]";
+//        confirmNos += "";
         
-        result = "[" + label + "," + reqNos + "," + showNos + "]";
+        result = "[[" + label + "],[" + reqNos + "],[" + showNos + "],[" + confirmNos + "]]";
         return result;
     }
     
+    /**
+     * 
+     * @param jo
+     * @return 
+     */
     public JSONArray getDataByStaffName(JSONObject jo) {
         ArrayList<HashMap> list = new ArrayList<>(); 
+        //ArrayList<HashMap> listG = new ArrayList<>(); 
         
-        String queryType = jo.getString("queryType");
+        String queryType = jo.getString("queryType");        
+        if(queryType.equals("team") && jo.getInt("ROLE")<2){//0: 一般();2:組長 5:系統管理者
+            return null;//防高手破解前端script
+        }
+        if(queryType.equals("all") && jo.getInt("ROLE")<5){
+            return null;
+        }
+        String team = jo.getString("USER_TEAM");
+        String confirmStatus = jo.getString("confirmStatus");
+        //String confirmStatusLike = confirmStatus +"%";
+        
         int evid = jo.getInt("evid");
-        String sql = "SELECT * FROM proctick where evid = ? and ";
+        String sql = "SELECT * FROM proctick where evid = ? ";
+        String sqlG = "SELECT confirmStatus, count(*) FROM proctick where evid = ? ";
         switch (queryType) {
             case "self":
                 //自己已登錄票券(登錄人是自己,含(2)
-                sql += " creator=? ";
+                sql += " and creator=? ";
+                sqlG += " and creator=? ";
                 break;
             case "others":
                 //幫別人登錄票券(登錄人是自己，但發票人是別人)
-                sql += " creator=? and procman!=? ";
+                sql += " and creator=? and procman!=? ";
+                sqlG += " and creator=? and procman!=? ";
                 break;
             case "selfProc":
                 //自己已索取票券(發票人是自己)
-                sql += " procman=? ";
+                sql += " and procman=? ";
+                sqlG += " and procman=? ";
+                break;
+            case "team":
+                //自己所屬組之總計                
+                sql += " and team=? ";
+                sqlG += " and team=? ";
+                break;
+            case "all":
+                //自己所屬組之總計                
+                sql += " and tickname=? ";                
                 break;
             default:
                 break;
         }
-        sql += " order by taginc desc";
+        sqlG += " group by confirmStatus ";
         final String userId = jo.getString("USER_ID");
+        Object[] para3 = new Object[]{evid, userId};
+        Object[] para4 = new Object[]{evid, userId, userId};
+        Object[] paraT = new Object[]{evid, team};//組
+        Object[] paraA = new Object[]{evid};//all
+        
+        if(!confirmStatus.equals("")){
+            sql += "and confirmStatus = ? ";
+            sql += "and confirmStatus = ? ";
+            para3 = new Object[]{evid, userId, confirmStatus};
+            para4 = new Object[]{evid, userId, userId, confirmStatus};
+            paraT = new Object[]{evid, team, confirmStatus};
+            paraA = new Object[]{evid, confirmStatus};
+        }
+        sql += " order by taginc desc";
         
         switch (queryType) {
             case "self":
                 //自己已登錄票券(登錄人是自己,含(2)
-                list = this.pexecuteQuery(sql, new Object[]{evid, userId});
+                list = this.pexecuteQuery(sql, para3);
+                //listG = this.pexecuteQuery(sqlG, para3);
                 break;
-            case "others":
+            case "others":        
                 //幫別人登錄票券(登錄人是自己，但發票人是別人)
-                list = this.pexecuteQuery(sql, new Object[]{evid, userId, userId});
+                list = this.pexecuteQuery(sql, para4);
+                //listG = this.pexecuteQuery(sqlG, para4);
                 break;
             case "selfProc":
                 //自己已索取票券(發票人是自己)
-                list = this.pexecuteQuery(sql, new Object[]{evid, userId});
+                list = this.pexecuteQuery(sql, para3);
+                //listG = this.pexecuteQuery(sqlG, para3);
+                break;
+            case "team":
+                //整組統計
+                list = this.pexecuteQuery(sql, paraT);
+                //listG = this.pexecuteQuery(sqlG, paraT);
                 break;
             default:
+                list = this.pexecuteQuery(sql, paraA);
+                //listG = this.pexecuteQuery(sqlG, paraA);
                 break;
         }
         JSONArray jArray = new JSONArray();
         return arrayList2JsonArray(jArray, list);
+    }
+    
+    /**
+     * 
+     * @param jo
+     * @return 
+     */
+    public JSONArray getConfirmStatData(JSONObject jo) {
+        ArrayList<HashMap> listG = new ArrayList<>(); 
+        
+        String queryType = jo.getString("queryType");        
+        if(queryType.equals("team") && jo.getInt("ROLE")<2){//0: 一般();2:組長 5:系統管理者
+            return null;//防高手破解前端script
+        }
+        if(queryType.equals("all") && jo.getInt("ROLE")<5){
+            return null;
+        }
+        String team = jo.getString("USER_TEAM");
+        String confirmStatus = jo.getString("confirmStatus");
+        //String confirmStatusLike = confirmStatus +"%";
+        
+        int evid = jo.getInt("evid");
+        String sqlG = "SELECT confirmStatus, count(*) FROM proctick where evid = ? ";
+        switch (queryType) {
+            case "self":
+                //自己已登錄票券(登錄人是自己,含(2)
+                sqlG += " and creator=? ";
+                break;
+            case "others":
+                //幫別人登錄票券(登錄人是自己，但發票人是別人)
+                sqlG += " and creator=? and procman!=? ";
+                break;
+            case "selfProc":
+                //自己已索取票券(發票人是自己)
+                sqlG += " and procman=? ";
+                break;
+            case "team":
+                //自己所屬組之總計                
+                sqlG += " and team=? ";
+                break;
+            default:
+                break;
+        }
+        sqlG += " group by confirmStatus ";
+        final String userId = jo.getString("USER_ID");
+        Object[] para3 = new Object[]{evid, userId};
+        Object[] para4 = new Object[]{evid, userId, userId};
+        Object[] paraT = new Object[]{evid, team};//組
+        Object[] paraA = new Object[]{evid};//all
+        
+        switch (queryType) {
+            case "self":
+                //自己已登錄票券(登錄人是自己,含(2)
+                listG = this.pexecuteQuery(sqlG, para3);
+                break;
+            case "others":        
+                //幫別人登錄票券(登錄人是自己，但發票人是別人)
+                listG = this.pexecuteQuery(sqlG, para4);
+                break;
+            case "selfProc":
+                //自己已索取票券(發票人是自己)
+                listG = this.pexecuteQuery(sqlG, para3);
+                break;
+            case "team":
+                //整組統計
+                listG = this.pexecuteQuery(sqlG, paraT);
+                break;
+            default://全團
+                listG = this.pexecuteQuery(sqlG, paraA);
+                break;
+        }
+        JSONArray jArray = new JSONArray();
+        return arrayList2JsonArray(jArray, listG);
     }
     
 }
