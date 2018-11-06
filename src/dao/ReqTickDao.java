@@ -47,6 +47,7 @@ public class ReqTickDao extends CJBaseDao {
         String tickmemo = argJsonObj.getString("tickmemo");
         int allowcontact = argJsonObj.getInt("allowcontact");//滿意度調查
         int seatType = argJsonObj.getInt("seatType");//座位類別
+        int friendType = argJsonObj.getInt("friendType");//是否為伙伴親友(0:一般觀眾，1:伙伴親友)
         int confirmStatus = argJsonObj.getInt("confirmStatus");//確認
         String userid = argJsonObj.getString("USER_NM");
 
@@ -63,10 +64,10 @@ public class ReqTickDao extends CJBaseDao {
         
         log.info("addReqTick:" + userid);
         String sql = "INSERT INTO proctick (evid,event,team,procman,procaddr, "
-                + "tickid,tickname,ticktel,tickmemo,createtime,allowcontact,creator,seatType,confirmStatus)   "
-                + "VALUES (?,?,?,?,?,?,?,?,?,getdate(),?,?,?,?)";
+                + "tickid,tickname,ticktel,tickmemo,createtime,allowcontact,creator,seatType,confirmStatus,friendType)   "
+                + "VALUES (?,?,?,?,?,?,?,?,?,getdate(),?,?,?,?,?)";
         
-        Object[] objs = new Object[13];
+        Object[] objs = new Object[14];
         objs[0] = eventid;
         objs[1] = event;
         objs[2] = teamname;
@@ -81,6 +82,7 @@ public class ReqTickDao extends CJBaseDao {
         objs[10] = userid;
         objs[11] = seatType;
         objs[12] = confirmStatus;
+        objs[13] = friendType;
         
         int result = 0;
         for (String tickId : allTickIds) {
@@ -261,18 +263,34 @@ public class ReqTickDao extends CJBaseDao {
         String ticktel = argJsonObj.getString("ticktel");
         int allowcontact = argJsonObj.getInt("allowcontact");//滿意度調查
         int seatType = argJsonObj.getInt("seatType");//
+        int friendType = argJsonObj.getInt("friendType");//
         int confirmStatus = argJsonObj.getInt("confirmStatus");//
         String procaddr = argJsonObj.getString("procaddr");//索票地
         String tickmemo = argJsonObj.getString("tickmemo");//備註
         
         String userid = argJsonObj.getString("USER_NM");
-
+        boolean updateOtherTick = argJsonObj.has("updateOtherTick") && argJsonObj.getString("updateOtherTick").equals("true");
+        
+        String oldTickname ="";
+        String oldTicktel ="";
+        if(updateOtherTick){
+            String sqlQueryOldData = "select evid, tickname, ticktel from proctick where taginc = ?";
+            final ArrayList<HashMap> listOld = this.pexecuteQuery(sqlQueryOldData, new Object[]{taginc});
+            oldTickname = ((HashMap)listOld.get(0)).get("tickname").toString();
+            oldTicktel = ((HashMap)listOld.get(0)).get("ticktel").toString();
+        }
+        
         log.info("updateReqTick:" + userid);
         String sql = "update proctick set procman=?,procaddr=?, tickname=?, ticktel=?,tickmemo=?, "
-                + "     updatetime=getdate(), lastUpdater=?, allowcontact=? , seatType=?, confirmStatus=?"
-                + " where taginc = ? ";
+                + "     updatetime=getdate(), lastUpdater=?, allowcontact=? , seatType=?, friendType=?, confirmStatus=?";
+        //if(!updateOtherTick){
+        sql += " where taginc = ? ";//一般狀況，只更新一筆
+        if(updateOtherTick){
+            sql += " or taginc in "//更新同場其他同姓名同電話的索票資料
+                + "(select taginc from proctick where trim(evid)+trim(tickname)+trim(ticktel) = '"+ eventid+oldTickname+oldTicktel +"')";
+        }
                 
-        Object[] objs = new Object[10];
+        Object[] objs = new Object[11];
         objs[0] = procman;//audiencename;
         objs[1] = procaddr;
         objs[2] = tickname;        
@@ -281,14 +299,15 @@ public class ReqTickDao extends CJBaseDao {
         objs[5] = userid;
         objs[6] = allowcontact;        
         objs[7] = seatType;
-        objs[8] = confirmStatus;
-        objs[9] = taginc;
+        objs[8] = friendType;
+        objs[9] = confirmStatus;
+        objs[10] = taginc;
         //objs[7] = oldAllTckIds;
         
         JSONObject jo = new JSONObject();
         int result = this.pexecuteUpdate(sql, objs);        
         if(result>=1){
-            strMsg += "成功更新索票資料!";//(索票數:"+ result +")";            
+            strMsg += "成功更新 "+result+" 筆索票資料!";//(索票數:"+ result +")";            
             jo.put("lastUpdater", userid);
             jo.put("updatetime", DateUtil.getDateTime());
         }else{
