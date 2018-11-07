@@ -78,11 +78,13 @@ public class AuthServlet extends AjaxBaseServlet {
                 this.setInfoMsg(returnJasonObj, jo.toString());
                 break;            
             case "login":  
+                log.info("login:" + argJsonObj.toString());
                 user = new User();
                 user.setUserId(userId);//20181004 目前帳號與姓名一樣，沒特別設欄位
                 user.setUserName(userId);
                 pwd = argJsonObj.getString("pwd");
                 String deviceType = argJsonObj.getString("deviceType");
+                
                 JSONObject joR = authCheck2(userId, pwd, deviceType);
                 //if(authCheck(userId, pwd)){
                 if(joR.getBoolean("passed")==true){
@@ -90,6 +92,8 @@ public class AuthServlet extends AjaxBaseServlet {
                     result = "登入成功";//+ digestPasswordSHA256(userId + pwd);
                     jo.put("status", true);                    
                     jo.put("teamName", joR.getString("teamName"));                    
+                    user.setTeam(joR.getString("teamName"));
+                    user.setRole(joR.getInt("role"));
                     jo.put("loginCode", digestPasswordSHA256(userId + autoLoginCheckStr));
                     jo.put("redirectUrl", "reply.jsp");
                     session.setAttribute("user", user);
@@ -204,8 +208,8 @@ public class AuthServlet extends AjaxBaseServlet {
             qsPara.add(pwd);                  
             qsPara.add(userNm);                  
             qsPara.add(team);                  
-            qsPara.add(tel);                  
             qsPara.add(email);                  
+            qsPara.add(tel);                  
             int cnt = DBUtil.getInstance().pexecuteUpdate(sql, qsPara.toArray());
             if(cnt==1){
                 result = "註冊成功(" + userId +")";
