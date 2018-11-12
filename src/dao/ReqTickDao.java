@@ -399,12 +399,12 @@ public class ReqTickDao extends CJBaseDao {
         String username = argJsonObj.getString("USER_NM");
         
         //由票根號查出某人索票資料
-        String sql = "SELECT '1proctickCount' as type, tickname, procman, ticktel, count(*) as cnt FROM proctick "
+        String sql = "SELECT '1proctickCount' as type, tickname, procman, ticktel, team, count(*) as cnt FROM proctick "
                         + "where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?)"
-                        + " group by tickname, procman, ticktel "; 
+                        + " group by tickname, procman, ticktel, team "; 
                 sql += " union "
-                        + "SELECT '2showtickCount' as type, '', '','', count(*) as cnt FROM showtick where tickid in(" 
+                        + "SELECT '2showtickCount' as type, '', '','','', count(*) as cnt FROM showtick where tickid in(" 
                         + "SELECT tickid FROM proctick where tickname+ticktel in(" 
                         + "SELECT tickname+ticktel FROM proctick where evid=? and tickid=?))"; 
         ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, tickid, evid, tickid});
@@ -416,8 +416,20 @@ public class ReqTickDao extends CJBaseDao {
         if(reqAudienceName.length()>=2){
             //reqAudienceName = reqAudienceName.substring(0, 1) + "○" + reqAudienceName.substring(2);
         }
+        String procTel = proCnt.equals("0")? "-": result.get(0).get("ticktel").toString();
+        
+        final String dataTeam = result.get(0).get("team").toString();
+        //jo.put("team", dataTeam);//20181111 視權限決定查不查得到
+        if(argJsonObj.getInt("ROLE")<5 && !argJsonObj.getString("USER_TEAM").equals(dataTeam)){
+            if(reqAudienceName.length()>=2){
+                reqAudienceName = reqAudienceName.substring(0, 1) + "○" + reqAudienceName.substring(2);
+            }
+            if(procTel.length()>6){
+                procTel = procTel.substring(0, 6) + "**"+"-"+ dataTeam;
+            }
+        }                
         jo.put("reqName", reqAudienceName);//
-        jo.put("reqTel", proCnt.equals("0")? "-": result.get(0).get("ticktel").toString());//
+        jo.put("reqTel", procTel);//
         jo.put("showTickNo", proCnt.equals("0")? 0: result.get(result.size()-1).get("cnt"));//
         
         String sqlComment = "SELECT * FROM tickcomment where tickid =?"; 
@@ -436,7 +448,48 @@ public class ReqTickDao extends CJBaseDao {
         }
         return jo.toString();
     }
+    
+    //以票號取得該票之索票人電話，並判斷是否已有人聯絡過
+    public String getContactInfo(JSONObject argJsonObj) {
+        int evid = argJsonObj.getInt("eventid");
+        int tickid = argJsonObj.getInt("tickid");
+        
+        //由票根號查出某人索票資料
+        String sql = "SELECT * FROM tickcomment "
+                + "where ticktel in (select ticktel from tickcomment where evid=? and tickid=?) "
+                + " and contactStatus<>0"; 
+        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, tickid});
+        JSONObject jo = new JSONObject();
+        final int contactCnt = result.size();
+        jo.put("contactCnt", contactCnt);//
+        String contactLog = "";
+        if(contactCnt>0){//曾經有人聯絡過
+            for(HashMap m: result){
+                contactLog += "\n" + getContactStatusStr( m.get("contactStatus").toString()) 
+                        + "\t" + m.get("lastestCallernm").toString() 
+                        + "於" + m.get("updatetime").toString().substring(0,16) + " 聯絡";
+            }            
+        }else{
+            contactLog = "查無任何聯絡記錄(也可能是聯絡過但沒記錄)";
+        }
+        jo.put("log", contactLog);
+        return jo.toString();
+    }
 
+    String getContactStatusStr(String status){
+        switch (status) {
+            case "1":
+                return "有上課意願";
+            case "2":
+                return "有興趣但暫無時間";
+            case "3":
+                return "電話錯誤或空號";
+            case "4":
+                return "完全沒興趣";
+            default:
+                return "";
+        }
+    }
     
     /**
      * TODO:之後有獨立table後再改寫
