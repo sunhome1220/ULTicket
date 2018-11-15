@@ -10,6 +10,7 @@ import java.util.HashMap;
 import base.CJBaseDao;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import util.DBUtil;
 import util.DateUtil;
 
 /**
@@ -507,5 +508,72 @@ public class ReqTickDao extends CJBaseDao {
             return "國館公演";
         else
             return "";
+    }
+    
+    /**
+     * 取得索票出席統計資料
+     * @return 
+     */
+    public JSONObject getTickStatInfo() {
+        JSONObject jo = new JSONObject();
+        JSONObject jots = new JSONObject();
+        JSONObject jot = new JSONObject();
+                
+        String sql = "update perform set perform.confirmCnt=p.reqcnt from perform left join(SELECT evid,confirmStatus,count(*) as reqcnt FROM proctick group by evid,confirmStatus having confirmStatus =1) p on perform.evid=p.evid";
+        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
+        sql = "update perform set perform.showcnt=s.showcnt from perform left join(SELECT evid,count(*) as showcnt FROM showtick group by evid) s on perform.evid=s.evid ";
+        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
+        sql = "update perform set perform.reqcnt=p.reqcnt from perform left join(SELECT evid,count(*) as reqcnt FROM proctick group by evid) p on perform.evid=p.evid ";
+        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
+        sql = "update perform set perform.cancelCnt=p.reqcnt from perform left join(SELECT evid,confirmStatus,count(*) as reqcnt FROM proctick group by evid,confirmStatus having confirmStatus =-1) p on perform.evid=p.evid";
+        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
+        sql = "update perform set perform.friendCnt=p.reqcnt from perform left join(SELECT evid,friendType,count(*) as reqcnt FROM proctick group by evid,friendType having friendType =1) p on perform.evid=p.evid";
+        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});        
+        
+        sql = "SELECT * FROM perform ";//where evid >= 20181125";
+        sql += "order by evid";
+        ArrayList qsPara = new ArrayList();    
+        boolean passed = false;        
+        String msg = "";
+        try{              
+            ArrayList list = DBUtil.getInstance().pexecuteQuery(sql, qsPara.toArray());
+            if(list.size() > 0){//有資料
+                for(Object o: list){                    
+                    HashMap m = (HashMap)o;
+                    String evid = m.get("evid").toString();
+                    int reqcnt = m.get("reqcnt").toString().equals("")?0:Integer.parseInt(m.get("reqcnt").toString());
+                    int confirmCnt = m.get("confirmCnt").toString().equals("")?0:Integer.parseInt(m.get("confirmCnt").toString());
+                    int cancelCnt = m.get("cancelCnt").toString().equals("")?0:Integer.parseInt(m.get("cancelCnt").toString());
+                    int friendCnt = m.get("friendCnt").toString().equals("")?0:Integer.parseInt(m.get("friendCnt").toString());
+                    int showCnt = m.get("showcnt").toString().equals("")?0:Integer.parseInt(m.get("showcnt").toString());
+                    jot.put("reqcnt", reqcnt);
+                    jot.put("confirmCnt", confirmCnt);
+                    jot.put("cancelCnt", cancelCnt);
+                    jot.put("friendCnt", friendCnt);
+                    jot.put("showCnt", showCnt);
+                    jots.append(evid, jot);
+                    
+                    msg += evid + "-" + m.get("event").toString() + "\n"
+                            + "總座位數:" + m.get("seatsize").toString()
+                            + ",已登記:" + reqcnt + "\n"
+                            //+ ",確認將出席:" + m.get("confirmCnt").toString()
+                            + "伙伴或親友:" + friendCnt + ""
+                            + ",請假:" + cancelCnt + "\n"
+                            + "預估出席數:" + (int)(friendCnt * 0.9 + (reqcnt - friendCnt - cancelCnt) *0.4) + "";
+                    if(showCnt > 0){        
+                        msg += "\n實際出席數:" + showCnt;
+                    }
+                    msg += "\n\n";
+                }
+                msg += "預估出席數=人才伙伴索票*0.9+ 一般民眾索票*0.4";
+                msg += "";
+                //HashMap data = (HashMap)list.get(0);                
+            }            
+        }catch(Exception e){
+            
+        }
+        jo.put("data", jots);        
+        jo.put("msg", msg);        
+        return jo;
     }
 }
