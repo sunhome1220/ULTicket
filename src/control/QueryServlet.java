@@ -13,12 +13,11 @@ import javax.sql.rowset.CachedRowSet;
 import base.AjaxBaseServlet;
 import dao.TickDao;
 import dao.ReqTickDao;
-import java.util.ArrayList;
 import util.User;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import util.DBUtil;
+import util.DateUtil;
 
 /**
  *
@@ -50,6 +49,8 @@ public class QueryServlet extends AjaxBaseServlet {
 //        String UserId = "" + resultDataArray.getJSONObject(0).getInt("USERID");
         argJsonObj.put("USER_ID", user.getUserId());
         argJsonObj.put("USER_NM", user.getUserName());//20171012
+        argJsonObj.put("USER_TEAM", user.getTeam());//20171012
+        argJsonObj.put("ROLE", user.getRole());//20171012
         argJsonObj.put("USER_UNIT", user.getUnitCd());
         argJsonObj.put("USER_CITYCODE", user.getUserCity());
         //讀講習選單、繳納方式、注意事項用
@@ -122,9 +123,20 @@ public class QueryServlet extends AjaxBaseServlet {
                 msg = daoRT.getReqTickInfo(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
                 break;
-            case "queryTicStatus":  
-                msg = dao.queryTicStatus(argJsonObj);
+            case "getContactInfo"://以票號取得該票之索票人的聯絡記錄  
+                msg = daoRT.getContactInfo(argJsonObj);
                 this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "queryTicStatus":  
+                JSONObject joTickInfo = null;
+                String cacheId = "TickStatInfo" + DateUtil.getDateTimeHHmm();//不管多少人查,一分鐘最多只查一次DB
+                if(request.getSession().getServletContext().getAttribute(cacheId)!=null){
+                    joTickInfo = (JSONObject) request.getSession().getServletContext().getAttribute(cacheId);
+                }else{
+                    joTickInfo = daoRT.getTickStatInfo();
+                    request.getSession().getServletContext().setAttribute(cacheId, joTickInfo);
+                }                
+                this.setInfoMsg(returnJasonObj, joTickInfo.toString());
                 break;
             case "getReportData":  
                 msg = dao.queryReportData(argJsonObj);
@@ -132,7 +144,10 @@ public class QueryServlet extends AjaxBaseServlet {
                 break;            
             case "getDataByStaffName":  
                 ja = dao.getDataByStaffName(argJsonObj);
-//                this.setInfoMsg(returnJasonObj, msg);
+                this.setJqGridData(returnJasonObj, ja);
+                break;            
+            case "getConfirmStatData":  //取得確認狀態統計資料
+                ja = dao.getConfirmStatData(argJsonObj);
                 this.setJqGridData(returnJasonObj, ja);
                 break;            
         }
