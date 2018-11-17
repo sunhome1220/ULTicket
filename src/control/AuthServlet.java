@@ -17,7 +17,6 @@ import util.User;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import util.DBUtil;
-import util.ExceptionUtil;
 
 /**
  *
@@ -96,12 +95,26 @@ public class AuthServlet extends AjaxBaseServlet {
                     user.setRole(joR.getInt("role"));
                     jo.put("loginCode", digestPasswordSHA256(userId + autoLoginCheckStr));
                     jo.put("redirectUrl", "reply.jsp");
-                    session.setAttribute("user", user);
+                    session.setAttribute("user", user);                    
                     //res.sendRedirect(viewerURL);			    
+                }else if(joR.getString("result").equals("NoPwd")){
+                    user.setLoginStatus(0);
+                    jo.put("status", false);
+                    jo.put("NoPwd", true);
+                    result = "密碼已清除或尚未設定!\n\n請輸入新密碼並再次按下「登入」";
+                    
+                }else if(joR.getString("result").equals("WrongPwd")){
+                    user.setLoginStatus(0);
+                    jo.put("status", false);
+                    result = "密碼累計錯誤"+ joR.getInt("wrongPwdTimes") +"次，請確認後重新登入!";
+                }else if(joR.getString("result").equals("WrongPwdOver5")){
+                    user.setLoginStatus(0);
+                    jo.put("status", false);
+                    result = "密碼累計錯誤超過5次，因資安考量帳號已鎖定!\n請聯絡系統管理員";
                 }else{
                     user.setLoginStatus(0);
                     jo.put("status", false);
-                    result = "登入失敗，無註冊資料或密碼錯誤";
+                    result = "查無此帳號，請先註冊";
                 }             
                 jo.put("msg", result);
                 jo.toString();
@@ -157,30 +170,63 @@ public class AuthServlet extends AjaxBaseServlet {
     
     private JSONObject authCheck2(String userId, String pwd, String deviceType) {
         JSONObject jo = new JSONObject();
-        String sql = "SELECT * FROM emppass where empno = ? and emppass= ? ";
+        String sql = "SELECT * FROM emppass where empno = ? ";//and emppass= ? ";
         ArrayList qsPara = new ArrayList();    
         boolean passed = false;
         String teamName = "";
         String role = "";
+        String result = "";
         try{
             qsPara.add(userId);            
-            qsPara.add(pwd);            
+            //qsPara.add(pwd);            
             //passed = DBUtil.getInstance().pisExist(sql, qsPara.toArray());
             ArrayList list = DBUtil.getInstance().pexecuteQuery(sql, qsPara.toArray());
-            passed = list.size()>0;
-            if(passed){
-                sql = "update emppass set logintime = getdate() where empno = ? ";
-                DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{userId});
-                HashMap m = (HashMap)list.get(0);
-                teamName = m.get("teamname").toString();                
-                role = m.get("role").toString();                
-            }
+            if(list.size() > 0){//有帳號
+                final String pwdSHA = digestPasswordSHA256(pwd);
+                HashMap data = (HashMap)list.get(0);
+                passed = data.get("emppass").equals(pwd) || data.get("emppassSHA").equals(pwdSHA);
+                final String wrongTimesStr = data.get("wrongPwdTimes").toString();
+                int wrongPwdTimes = wrongTimesStr.equals("")? 0 : Integer.parseInt(wrongTimesStr);                
+                if(wrongPwdTimes >=5){
+                    result = "WrongPwdOver5";
+                    passed = false;
+                }else if(data.get("emppass").toString().trim().length()==0 && data.get("emppassSHA").toString().trim().length()==0){
+                    if(!pwd.equals("")){//重設密碼
+                        sql = "update emppass set emppassSHA = ? where empno = ? ";                        
+                        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{pwdSHA, userId});
+                    }else{
+                        result = "NoPwd";
+                        passed = false;
+                    }
+                    
+                }else if(passed){
+                    sql = "update emppass set logintime = getdate() where empno = ? ";
+                    DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{userId});
+                    if(data.get("emppassSHA").toString().trim().equals("")){
+                        sql = "update emppass set emppassSHA = ? where empno = ? ";                        
+                        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{pwdSHA, userId});
+                    }                    
+                    HashMap m = (HashMap)list.get(0);
+                    teamName = m.get("teamname").toString();                
+                    role = m.get("role").toString();          
+                    wrongPwdTimes = 0;//歸0
+                }else{
+                    wrongPwdTimes = wrongPwdTimes + 1;                    
+                    result = "WrongPwd";    
+                    jo.put("wrongPwdTimes", wrongPwdTimes);
+                } 
+                sql = "update emppass set wrongPwdTimes = ? where empno = ? ";
+                DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{wrongPwdTimes, userId});
+            }else{
+                result = "IdNotFound";
+            }            
         }catch(Exception e){
             
         }
         jo.put("passed", passed);
         jo.put("teamName", teamName);
         jo.put("role", role);
+        jo.put("result", result);
         return jo;
     }
 
@@ -200,8 +246,8 @@ public class AuthServlet extends AjaxBaseServlet {
     private String createAccount(String userId, String pwd, String userNm, String team, String authCode, String tel, String email) {
         String result = "註冊失敗(" + userId +")";
         
-        String sql = "INSERT INTO emppass(empno, emppass,empname,role,updatetime,teamname,email,tel) "
-            + "VALUES (? ,? ,?, 0, getdate(), ?, ?, ?)";
+        String sql = "INSERT INTO emppass(empno, emppass,empname,role,updatetime,teamname,email,tel,emppassSHA,agreeRuleDate) "
+            + "VALUES (? ,? ,?, 0, getdate(), ?, ?, ?, ?, getdate())";
         ArrayList qsPara = new ArrayList();    
         try{
             qsPara.add(userId);                  
@@ -210,9 +256,10 @@ public class AuthServlet extends AjaxBaseServlet {
             qsPara.add(team);                  
             qsPara.add(email);                  
             qsPara.add(tel);                  
+            qsPara.add(digestPasswordSHA256(pwd));                              
             int cnt = DBUtil.getInstance().pexecuteUpdate(sql, qsPara.toArray());
             if(cnt==1){
-                result = "註冊成功(" + userId +")";
+                result = "註冊成功, 帳號:" + userId +"";
             }
         }catch(Exception e){
             result = "註冊失敗(" + userId +")";
