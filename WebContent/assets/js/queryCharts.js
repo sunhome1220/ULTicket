@@ -1,31 +1,93 @@
+var reportData;
 $(document).ready(function () {
-    //var color = Chart.helpers.color;
-    //getRequestNo();
-    var reportData = getRequestTickData();//eval('[[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,0]]');
-    var dataLabel = reportData[0];
-    var dataRequestNo = reportData[1];
-    var dataReprentNo = reportData[2];
-    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var color = Chart.helpers.color;
-    var barChartData = {
-        labels: dataLabel,
-        datasets: [{
-                label: '索票數',
-                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-                borderColor: window.chartColors.red,
-                borderWidth: 1,
-                data: dataRequestNo
-            }, {
-                label: '出席數',
-                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-                borderColor: window.chartColors.blue,
-                borderWidth: 1,
-                data: dataReprentNo
-            }]
-
+    $("a[id^=href]").click(function(){
+        window.location.href=this.id.replace('href_','')+'.jsp';
+    });
+    if (localStorage.statType) {
+        $("#statType").val(localStorage.getItem("statType"));
+    }
+    $("#btnQry").click(function(){        
+        try{
+            $("#canvas").prop("height", $(window).height()*0.5);
+            $("#canvas").prop("width", $(window).width()*0.7);
+        }catch(e){
+            
+        }
+        localStorage.setItem("statType", $("#statType").val());
+        queryChart();        
+    });   
+    window.onload = function () {        
+        try{
+            $("#canvas").prop("height", $(window).height()*0.5);
+            $("#canvas").prop("width", $(window).width()*0.7);
+        }catch(e){
+            
+        }
+        queryTicStatus();
     };
+    $(window).resize(function(){
+        try{
+            $("#canvas").prop("height", $(window).height()*0.5);
+            $("#canvas").prop("width", $(window).width()*0.7);
+        }catch(e){
+            
+        }
+    });
+    
+    function queryTicStatus(){
+        $.ajax({
+            url: 'QueryServlet',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                ajaxAction: 'queryTicStatus'            
+            },
+            async: false,
+            success: function (data) {
+                var jo = JSON.parse(data.infoMsg);
+                var tickInfoMsg = jo.msg;
+                alert(tickInfoMsg);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+    
+    function queryChart(){        
+        
+        //var color = Chart.helpers.color;
+        //getRequestNo();
+        reportData = getRequestTickData();//eval('[[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,0]]');
+        var dataLabel = reportData[0];
+        var dataRequestNo = reportData[1];
+        var dataReprentNo = reportData[2];
+        var dataConfirmNo = reportData[3];
+        var color = Chart.helpers.color;
+        var barChartData = {
+            labels: dataLabel,
+            datasets: [{
+                    label: '索票已登錄',
+                    backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.red,
+                    borderWidth: 1,
+                    data: dataRequestNo
+                }, {
+                    label: '預期將出席',
+                    backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.green,
+                    borderWidth: 1,
+                    data: dataConfirmNo
+                }, {
+                    label: '實際出席數',
+                    backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.blue,
+                    borderWidth: 1,
+                    data: dataReprentNo
+                }]
 
-    window.onload = function () {
+        };
         var ctx = document.getElementById('canvas').getContext('2d');
         window.myBar = new Chart(ctx, {
             type: 'bar',
@@ -41,10 +103,9 @@ $(document).ready(function () {
                     text: '索票/出席數'
                 }
             }
-        });
-
-    };
-
+        });    
+    }
+    
     document.getElementById('randomizeData').addEventListener('click', function () {
         var zero = Math.random() < 0.2 ? true : false;
         barChartData.datasets.forEach(function (dataset) {
@@ -114,28 +175,17 @@ function getRequestTickData(){
         method: 'POST',
         dataType: 'json',
         data: {
-            ajaxAction: 'getReportData'
+            ajaxAction: 'getReportData',
+            statType:$("#statType").val()
             //eventid: $('#eventid').val(),
             //ticketnos: allTicNo
         },
         async: false,
         success: function (data) {
             //alert(data.infoMsg);
-            reportData = data.infoMsg;
-            //$.unblockUI();
-//            $.alert.open({
-//                type: 'info',
-//                content: '登入成功',
-//                callback: function () {
-//                    //window.opener.location.reload(); //將原畫面重新整理
-//                    //window.close();
-//                }
-//            });
+            reportData = data.infoMsg;            
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            //alert('ajaxOptions=' + ajaxOptions);
-//            alert(xhr.status);
-//            alert(thrownError);
             alert('系統異常，請重新操作一次或通知系統管理者!');
         }
     });
