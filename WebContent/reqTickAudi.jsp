@@ -13,7 +13,7 @@
     <meta name="Category.Cake" content="140">
     <meta name="Category.Service" content="E10">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>無限票務</title>
+    <title>無限票務-索票登錄</title>
     <link rel="apple-touch-icon" href="assets/img/logo.png">
     <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.6/dist/css/bootstrap-theme.min.css">	
@@ -105,7 +105,7 @@
                                         <option value="20181103">【餐桌上的記憶】-11/03-南門公演(票號:25001~30000)</option>
                                         <option value="20181125">【餐桌上的記憶】-11/25-板橋公演(票號:30001~35000)</option>
                                         <option value="20181229">【餐桌上的記憶】-12/29-板橋公演(票號:35001~40000)</option>
-                                        <option value="20190101">【餐桌上的記憶】-01/01-國館公演(票號:40001~45000)</option>
+                                        <option value="20190101">【餐桌上的記憶】-01/01-國館公演(兌換券:1~5000)</option>
                                 </select>                                
                                 </div>                                
                             </div>
@@ -125,23 +125,31 @@
                             </div>
                             <div class="row">
                                 
-                                <div class="col-sm-4 col-xs-4">                                    
+                                <div class="col-sm-4 col-xs-6">                                    
                                     <input type="text" size="8" id="audiencename" maxlength="8" class="form-control" placeholder="您的大名">                                    
 <!--                                    索票資料:<input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="五碼票號">                                    -->
                                 </div>
-                                <div class="col-sm-4 col-xs-4">                                      
+                                <div class="col-sm-4 col-xs-6">                                      
                                     <input type="tel" size="10" id="audiencetel" maxlength="10" class="form-control" title="索票人電話" placeholder="您的聯絡電話">                                    
                                 </div>
-                                <div class="col-sm-4 col-xs-10">                                      
+                                <div class="col-sm-4 col-xs-12">                                      
                                     <input type="email" size="10" id="audienceEmail" maxlength="10" class="form-control" title="索票人email" placeholder="(選填)您的email">                                    
                                 </div>
                             </div>
+                            <div class="row">                                
+<!--                                <div class="col-sm-6 col-xs-6">                                    
+                                    <input type="text" size="8" id="procaddr" maxlength="8" class="form-control" title="索票地點" placeholder="索票地點">                                    
+                                </div>-->
+                                <div class="col-sm-4 col-xs-6">
+                                    <textarea id="tickmemo" name="Text1" cols="40" rows="1" placeholder="備註" class="form-control"></textarea>                                    
+                                </div>
+                            </div>                                
                             <div class="row" id="divHiXX002">
                                 <div class="col-sm-4 col-xs-12">                                    
                                     <label>
                                       是否願意接受電話滿意度調查？
                                     </label>
-                                    <input id="allowcontact" type="checkbox" class="btn-sm">
+                                    <input id="allowcontact" checked type="checkbox" class="btn-sm">
                                 </div>                                
                             </div>
                             <div class="row" id="divHiXX02">

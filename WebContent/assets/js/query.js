@@ -1,3 +1,4 @@
+var rowNum = 20;
 $(document).ready(function () {
     $("a[id^=href]").click(function(){
         window.location.href=this.id.replace('href_','')+'.jsp';
@@ -5,15 +6,19 @@ $(document).ready(function () {
 //    $('#allowcontact').bootstrapToggle({
 //      on: '是',
 //      off: '否'
-//    });        
+//    });            
     if($("#role").val()==='2'){//組長
         $('#queryType').append('<option value="team">4.組內所有資料</option>');
         $('#divQueryName').show();
+        $('#export').prop('disabled', false);
+        rowNum = 5000;
     }
     if($("#role").val()==='5'){//管理者
         $('#queryType').append('<option value="team">4.組內所有資料</option>');
         $('#queryType').append('<option value="all">5.不分組所有資料</option>');
         $('#divQueryName').show();
+        $('#export').prop('disabled', false);
+        rowNum = 5000;
     }
     if (localStorage.eventid) {
         $("#eventid").val(localStorage.getItem("eventid"));
@@ -44,8 +49,12 @@ $(document).ready(function () {
         
      });
      //Query();
-     $("#export").on("click", function(){    
-        //if($("#QueryResult").prop(""))
+    $("#export").on("click", function(){    
+        if($("#QueryResult").css('display')==='none'){
+            alert('請先查詢再匯出');
+            //Query();
+            return;
+        }
         $("#load_QueryResult").html(''); 
         $("#lui_QueryResult").html(''); 
         $("#QueryResult_rn").html(''); 
@@ -224,7 +233,9 @@ function Query() {
             pgbuttons: true,
             //pginput: true,
             pager: "#QueryResultpagger",
+            rowNum: rowNum,
             rowList: [20, 50, 100, 200, 500, 1000, 5000],
+            //rowList: [5000, 1000, 500, 50, 10],
             
             colNames: ["ID", "場編", "場次", "組別", 
                 "票號", "發票人",  "索票人", "電話", "發票地", "備註", "建立者", "建立時間", "操作", 

@@ -235,7 +235,7 @@ table.information label, table.information label-1 { color: #296c5c;}
 /*主要內容底*/
 .ui-widget-content { border: 1px solid #A6C9E2; color: #222222; background-image: none; background-color:#FFFFFF; border-radius: 5px; }
 .ui-widget-content a { color: #0066ff; }
-.ui-widget-header { color: #000000; font-weight: normal; border: #FF0000 0px solid; background: #bdc3a9 url(/RWDJqgrid/Content/img/ui-bg_gloss-wave_55_83a59d_500x100.png) 50% 50% repeat-x;}
+.ui-widget-header { color: #000000; font-weight: normal; border: #FF0000 0px solid; background: #bdc3a9 url(/RWDJqgrid/Contentimg/ui-bg_gloss-wave_55_83a59d_500x100.png) 50% 50% repeat-x;}
 .ui-widget-header a { color: #777777; }
 
 
@@ -363,26 +363,26 @@ table.information label, table.information label-1 { color: #296c5c;}
 /* icons-----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /* states and images */
 /*基礎*/
-.ui-icon { width: 16px; height: 16px; background-image: url(/RWDJqgrid/Contents/img/ui-icons_79a79c_256x240.png) !important; }/*綠*/
-.ui-widget-content .ui-icon {background-image: url(/RWDJqgrid/Contents/img/ui-icons_79a79c_256x240.png) !important; }/*綠*/
+.ui-icon { width: 16px; height: 16px; background-image: url(img/ui-icons_79a79c_256x240.png) !important; }/*綠*/
+.ui-widget-content .ui-icon {background-image: url(img/ui-icons_79a79c_256x240.png) !important; }/*綠*/
 
-.ui-widget-header .ui-icon {background-image: url(/RWDJqgrid/Contents/img/ui-icons_e4ebea_256x240.png) !important; }/*最淺綠*/
+.ui-widget-header .ui-icon {background-image: url(img/ui-icons_e4ebea_256x240.png) !important; }/*最淺綠*/
 
 /*最外層呈現_off*/
-.ui-state-default .ui-icon { background-image: url(/img/ui-icons_90afa7_256x240.png) !important; }/*淺綠*/
+.ui-state-default .ui-icon { background-image: url(img/ui-icons_90afa7_256x240.png) !important; }/*淺綠*/
 
 /*過渡_on*/
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(/RWDJqgrid/Contents/img/ui-icons_5c8c82_256x240.png); }/*最深綠*/
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(img/ui-icons_5c8c82_256x240.png); }/*最深綠*/
 
 /*目前_off*/
-.ui-state-active .ui-icon {background-image: url(/RWDJqgrid/Contents/img/ui-icons_f9bd01_256x240.png); }/*黃active*/
+.ui-state-active .ui-icon {background-image: url(img/ui-icons_f9bd01_256x240.png); }/*黃active*/
 
-.ui-state-highlight .ui-icon {background-image: url(/RWDJqgrid/Contents/img/ui-icons_74b3ae_256x240.png); }/*深綠*/
+.ui-state-highlight .ui-icon {background-image: url(img/ui-icons_74b3ae_256x240.png); }/*深綠*/
 /*Grid highlight及hover樣式*/
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fad42e; background: #fbec88 url(/RWDJqgrid/Contents/img/ui-bg_flat_55_fbec88_40x100.png) 50% 50% repeat; color: #363636; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover { border: 1px solid #79b7e7; background: #fbec88 url(/RWDJqgrid/Contents/img/ui-bg_flat_55_fbec88_40x100.png)  50% 50% repeat; font-weight: bold; color: #1d5987; }
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fad42e; background: #fbec88 url(img/ui-bg_flat_55_fbec88_40x100.png) 50% 50% repeat; color: #363636; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover { border: 1px solid #79b7e7; background: #fbec88 url(img/ui-bg_flat_55_fbec88_40x100.png)  50% 50% repeat; font-weight: bold; color: #1d5987; }
 
-.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(/RWDJqgrid/Contents/img/ui-icons_cd0a0a_256x240.png); }/*紅error*/
+.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(img/ui-icons_cd0a0a_256x240.png); }/*紅error*/
 
 
 /*新安東京Logo球*/

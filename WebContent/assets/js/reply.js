@@ -1,10 +1,34 @@
 $(document).ready(function () {
+    $("a[id^=href]").click(function(){
+        window.location.href=this.id.replace('href_','')+'.jsp';
+    });
 //    if(localStorage.lastOperation){
 //        $(location).attr('href', localStorage.getItem("lastOperation"));
 //    }
-    localStorage.setItem("lastOperation", 'reply.jsp');
+    
     var allTicketsNos="";
-    getTickCount();
+    var d = new Date();
+    var d = new Date();
+
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var strTodayDate = d.getFullYear() + '' +
+        (month<10 ? '0' : '') + month + '' +
+        (day<10 ? '0' : '') + day;
+    
+    $("#eventid").val(strTodayDate);
+    //alert($("#eventid").val());
+    if($("#eventid").val()){//今天是演出日
+        localStorage.setItem("lastOperation", 'reply.jsp');        
+        getTickCount();
+    }else if(confirm('今天並非演出日，無需進行票根資料輸入!\n確定要執行請按"確定"\n要索票登錄請按"取消"')){            
+        //localStorage.setItem("lastOperation", 'reply.jsp');        
+    }else{
+        //$(location).attr('href', 'requestTicket.jsp');
+        window.location.href= 'requestTicket.jsp';
+    }
+    
+    
     //$("#countSelf").attr("value", 123);
     
     //$("#btnSubmit").attr("disabled",true);
@@ -83,7 +107,9 @@ $(document).ready(function () {
     });
 });
 
-    
+//function winDirect(url){
+//    window.location.href = url;
+//}    
 function ticknoIsOk(ticketNo){
     if($("#eventid").val()==='20181014'){
         return ticketNo>=20001 && ticketNo<=25000; 
@@ -93,17 +119,19 @@ function ticknoIsOk(ticketNo){
         return ticketNo>=30001 && ticketNo<=35000; 
     }else if($("#eventid").val()==='20181129'){
         return ticketNo>=35001 && ticketNo<=40000; 
+    }else if($("#eventid").val()==='20190101'){
+        return ticketNo>=1 && ticketNo<=5000; 
     }
     
 }
 function addAllReceipts() {//not yet
     var allTicNo ="";
-    if($("#tckno1").val().length===5){allTicNo += $("#tckno1").val() + ";";}
-    if($("#tckno2").val().length===5){allTicNo += $("#tckno2").val() + ";";}
-    if($("#tckno3").val().length===5){allTicNo += $("#tckno3").val() + ";";}
-    if($("#tckno4").val().length===5){allTicNo += $("#tckno4").val() + ";";}
-    if($("#tckno5").val().length===5){allTicNo += $("#tckno5").val() + ";";}
-    if($("#tckno6").val().length===5){allTicNo += $("#tckno6").val() + ";";}
+    if(ticknoIsOk($("#tckno1").val())){allTicNo += $("#tckno1").val() + ";";}
+    if(ticknoIsOk($("#tckno2").val())){allTicNo += $("#tckno2").val() + ";";}
+    if(ticknoIsOk($("#tckno3").val())){allTicNo += $("#tckno3").val() + ";";}
+    if(ticknoIsOk($("#tckno4").val())){allTicNo += $("#tckno4").val() + ";";}
+    if(ticknoIsOk($("#tckno5").val())){allTicNo += $("#tckno5").val() + ";";}
+    if(ticknoIsOk($("#tckno6").val())){allTicNo += $("#tckno6").val() + ";";}
 
     var confirmMsg = '即將送出以下票根號碼：\n\n'+ allTicNo.replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n').replace(';','\n');
     var count = allTicNo.split(';').length-1;

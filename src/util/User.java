@@ -5,6 +5,34 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     /**
+     * @return the role
+     */
+    public int getRole() {
+        return role;
+    }
+
+    /**
+     * @param role the role to set
+     */
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    /**
+     * @return the team
+     */
+    public String getTeam() {
+        return team;
+    }
+
+    /**
+     * @param team the team to set
+     */
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    /**
      * @return the loginStatus
      */
     public int getLoginStatus() {
@@ -19,6 +47,8 @@ public class User implements Serializable{
     }
     private static final long serialVersionUID = 1L;
     private String userId;
+    private String team;
+    private int role;
     private String unitCd1;
     private String unitCd2;
     private String unitCd3;

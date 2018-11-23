@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="assets/plugins/grid/grid-Microsoft.CUF.css">
     <link rel="stylesheet" href="assets/plugins/grid/grid-mobile.css">
     <link rel="stylesheet" href="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+<!--    <script src='excelexportjs.js'></script>-->
     <script>
 //        (function (i, s, o, g, r, a, m) {
 //            i['GoogleAnalyticsObject'] = r;
@@ -44,24 +45,8 @@
     <style>
         .Must {
             color: #FF0000;
-        }
-        .loginUser{
-            position: absolute;
-            right:0px;
-            /*        top: -20px;
-                    left: 20px;*/
-            /*        background-color: white;
-                    width: 500px;*/
-        }.npaDialog{
-            position: fixed;
-            right:0px;
-            left:0px;
-            top: 0px;
-            bottom: 0px;
-            background-color: white;opacity:0.98;
-            z-index: 999;
-            
-        }
+        }        
+        
     </style>
 </head>
 
@@ -71,7 +56,8 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">查詢：</h2>
+                    <h2 class="panel-title">資料查詢/修改：</h2>
+                    <a>選擇條件->按下查詢->於列表點擊要修改之索票紀錄</a>
                 </div>
                 <div class="panel-body">
                     <section>
@@ -85,7 +71,7 @@
                                         <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
                                         <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
                                         <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
-                                        <option value="20190101">01/01-國館公演(票號:40001~45000)</option>
+                                        <option value="20190101">01/01-國館公演(兌換券:1~5000)</option>
                                     </select>                                
                                 </div>                                
                             </div>
@@ -106,13 +92,29 @@
                                                         </div>-->
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>查詢類別</label> 
-                                    <select class="form-control" data-width="100px" id="queryType">
+<!--                                    <label><span class=Must>*</span>查詢類別</label> -->
+                                    <select class="form-control" id="queryType">
                                         <option value="">請選擇</option>
-                                        <option value="self" selected="">1.自己已登錄票券(登錄人是自己,含(2))</option>
-                                        <option value="others">2.幫別人登錄票券(登錄人是自己，但發票人是別人)</option>
+                                        <option value="self" selected="">1.自己已登錄票券(登錄人是自己)</option>
+                                        <option value="others">2.幫別人登錄票券(發票人是別人)</option>
                                         <option value="selfProc">3.自己已索取票券(發票人是自己)</option>                                                                              
+<!--                                        <option value="team">4.全組總計</option>                                                                              
+                                        <option value="all">5.不分組</option>                                                                              -->
                                     </select>                                 
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-6">
+<!--                                    <label><span class=Must></span>預估出席狀態</label> -->
+                                    <select class="form-control" data-width="100px" id="confirmStatusType">
+                                        <option value="">不區分狀態</option>
+                                        <option value="0">尚未確認</option>
+                                        <option value="-1">請假/無法參加</option>
+                                        <option value="1">確定參加</option>                                                                              
+                                    </select>                                 
+                                </div>
+                                <div id="divQueryName"  class="col-sm-3 col-xs-6" hidden>
+                                    <input id="queryName" class="form-control" placeholder="索票人姓名(可只打姓)"/>
                                 </div>
                             </div>
                             <!--                            <div class="row">
@@ -139,27 +141,23 @@
                                                                     placeholder="發票人姓名">
                                                             </div>
                                                         </div>                            -->
-                        </form><br>
+                        </form>
                         <div align="center">
                             <button type="submit" class="btn btn-primary" id="btnQry">查詢</button>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <button type="submit" class="btn btn-default" id="btnClear">清除</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="btn btn-info" title="" disabled type="button" id="export" value="產生 Excel"/>
                         </div>
-                        <br>
-
                     </section>
                 </div>
-<!--                <div class="panel-footer">
-
-                </div>-->
             </div>
         </div>
         <div id="modal-update" class="npaDialog" style="display:none ">
         <div class="modal-body">
             <form id="UpdateMaintainForm" enctype="multipart/form-data" method='post' action='CJDT_UploadServlet' target="_self">
                 <table border="0" width="100%" cellpadding="0" cellspacing="0">
-
-                    <tr style="height: 65px">
+                    <tr style="height: 10px">
                         <td></td>
                         <td></td>
                         <td></td>
@@ -169,7 +167,7 @@
                         <td></td>
                         <td>場次：</td>
                         <td>
-                            <input id="event" type="text" readonly class="form-control"></td>
+                            <input id="event" type="text" readonly class="form-control small"></td>
                         <td></td>
                     </tr>                                    
                     <tr>
@@ -177,7 +175,7 @@
                         <td>票號：</td>
                         <td>
                             <input id="taginc" type="hidden">
-                            <input id="tickid" type="text" readonly class="form-control"></td>
+                            <input id="tickid" type="text" readonly class="form-control small"></td>
                         <td></td>
                     </tr>                                    
                     <tr>
@@ -196,14 +194,14 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td>索票人電話：</td>
+                        <td>電話：</td>
                         <td>
                             <input id="ticktel"  type="text" class="form-control"></td>
                         <td></td>
                     </tr>   
                     <tr>
                         <td></td>
-                        <td width="25%">滿意度調查：</td>
+                        <td width="25%">滿意度：</td>
                         <td>
                             <input id="allowcontact" type="checkbox" class="btn-sm">接受滿意度調查</td>
                         <td></td>
@@ -227,11 +225,20 @@
                     </tr>                       
                     <tr>
                         <td></td>
+                        <td width="20%">觀眾類別：</td>
+                        <td>
+                            <input name="friendType" type="radio" class="btn-sm" value="0">一般索票民眾&nbsp;
+                            <input name="friendType" type="radio" class="btn-sm" value="1">伙伴或其親友&nbsp;                            
+                        </td>
+                        <td width="5%"></td>
+                    </tr>                       
+                    <tr>
+                        <td></td>
                         <td width="20%">確認狀態：</td>
                         <td>
-                            <input type="radio" name="confirmStatus" value="-1">請假&nbsp;
+                            <input type="radio" name="confirmStatus" value="-1"><font color="red">請假</font>&nbsp;
                             <input type="radio" name="confirmStatus" value="0">未確認&nbsp;
-                            <input type="radio" name="confirmStatus" value="1">確認出席
+                            <input type="radio" name="confirmStatus" value="1"><font color="green">會出席</font>
                         </td>
                         <td></td>
                     </tr>                       
@@ -245,14 +252,14 @@
                     </tr>                    
                     <tr>
                         <td></td>
-                        <td>資料建立人：</td>
+                        <td>建立人：</td>
                         <td>
                             <input id="creator" readonly type="text" class="form-control"></td>
                         <td></td>
                     </tr>                                        
                     <tr>
                         <td></td>
-                        <td>最後修改人：</td>
+                        <td>修改人：</td>
                         <td>
                             <input id="lastUpdater" readonly type="text" class="form-control"></td>
                         <td></td>
@@ -265,12 +272,11 @@
                         <td></td>
                     </tr>            
                     
-                    <tr style="height: 30px">
+                    <tr style="height: 10px">
                         <td></td><td></td><td></td><td></td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td colspan="2" style="align-content: center">
+                    <tr>                        
+                        <td colspan="4"  align="center">
                             <button id="btnSave" class="btn green-seagreen btn-info" type="button">
                                 <i class="fa fa-save"></i>&nbsp;儲存
                             </button>
@@ -280,10 +286,9 @@
                             </button>
                             &nbsp;                                
                             <button id="btnClose" class="btn purple btn-default" type="button">
-                                <i class="fa fa-times"></i>&nbsp;關閉視窗
+                                <i class="fa fa-times"></i>&nbsp;回查詢頁
                             </button>
-                        </td>                        
-                        <td></td>
+                        </td>                                                
                     </tr>                    
                 </table>
             </form>
@@ -293,13 +298,14 @@
         </div>
     </div> 
     </section>
-    <div class="jqGrid">
-        <table id="QueryResult" style="display: none"></table>
+    <div class="jqGrid" id="jqGridTable">
+        <table id="QueryResult" style="display: none"></table>        
     </div>
     <div id="QueryResultpagger"></div>
     
+    
                        
-    <a href="#" class="scrollup"><i class="icon-up-open"></i></a>
+<!--    <a href="#" class="scrollup"><i class="icon-up-open"></i></a>-->
     <script src="assets/js/jquery-1.11.2.js"></script>
     <script src="assets/plugins/bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.lazyload.min.js"></script>
@@ -315,7 +321,9 @@
     <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
     <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="assets/js/datepicker-zh-TW.js"></script>
+    <script src="assets/js/utils.js"></script>
     <script src="assets/js/query.js"></script>
+    <script src="assets/plugins/FileSaver.min.js"></script>
 </body>
 
 </html>

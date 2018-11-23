@@ -11,6 +11,7 @@ import base.CJBaseDao;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import util.DateUtil;
 
 /**
  *
@@ -81,7 +82,7 @@ public class TickDao extends CJBaseDao {
     }
     
     
-    
+    //意見回條
     public String addComment(JSONObject argJsonObj) {//create or update
         String strMsg = "";
         String[] allInterest = argJsonObj.getString("interest").split("[;,]");
@@ -89,6 +90,7 @@ public class TickDao extends CJBaseDao {
         String eventid = argJsonObj.getString("eventid");
         String tickid = argJsonObj.getString("tickid");
         String audiencename = argJsonObj.getString("audiencename");
+        String ticktel = argJsonObj.getString("ticktel");
         String audiencecomment = argJsonObj.getString("audiencecomment");
         String comment = argJsonObj.getString("comment");
         int contactStatus = argJsonObj.getInt("contactStatus");
@@ -97,9 +99,9 @@ public class TickDao extends CJBaseDao {
 
         log.info("addComment:" + userid);
         String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,contactStatus,"
-                + "     updatetime,comment,calltimes,lastestCallernm,username,interest)  "
-                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?,?)";
-        Object[] objs = new Object[10];
+                + "     updatetime,comment,calltimes,lastestCallernm,username,interest,ticktel)  "
+                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?,?,?)";
+        Object[] objs = new Object[11];
         objs[0] = eventid;
         objs[1] = tickid;
         objs[2] = audiencename;
@@ -111,6 +113,7 @@ public class TickDao extends CJBaseDao {
         objs[7] = userid;
         objs[8] = userid;
         objs[9] = argJsonObj.getString("interest");
+        objs[10] = ticktel;
         
         int result = this.pexecuteUpdate(sql, objs);        
         if(result>=0){
@@ -219,11 +222,12 @@ public class TickDao extends CJBaseDao {
 
     //[[\'新竹公演\', \'南門公演\', \'板橋公演\', \'國館公演\', \'板橋公演\'],[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,0]]';
     public String queryReportData(JSONObject argJo) {
-        
+        String today = DateUtil.getTodayDate();
         String updateSql = "UPDATE proctick SET presentStatus= 1 "
-                + "where presentStatus<>1 and tickid in(select tickid from showtick)";
+                + "where (presentStatus is null or presentStatus=0) "
+                + "and tickid in(select tickid from showtick where evid>="+ today +")";
         this.pexecuteUpdate(updateSql, new Object[]{});
-        updateSql = "update  proctick set event='南門公演' where event = '南門公 演' ";
+        //updateSql = "update  proctick set event='南門公演' where event = '南門公 演' ";
         this.pexecuteUpdate(updateSql, new Object[]{});
         
         ArrayList<HashMap> list = new ArrayList();
@@ -240,6 +244,18 @@ public class TickDao extends CJBaseDao {
                     + "FROM proctick group by evid,event,team,presentStatus having presentStatus=1) S "
                     + "on P.evid=S.evid and P.team=S.team ";
             list = this.pexecuteQuery(sql, new Object[]{argJo.getString("USER_TEAM")});
+        }else if(statType.equals("person")){//只統計自己是發票人的部份
+            sql = "SELECT P.evid, P.event,P.procman, P.pcnt, C.cofirmCnt,S.scnt "
+                + "FROM (SELECT evid,event,procman,count(*) as pcnt "
+                    + " FROM proctick group by evid,event,procman having procman=?) P "
+                    + "left join (SELECT evid,event,procman,count(*) as cofirmCnt,confirmStatus "
+                    + "FROM proctick group by evid,event,procman,confirmStatus having confirmStatus=1) C "
+                    + " on P.evid=C.evid and P.procman=C.procman "
+                    + "left join (SELECT evid,event,procman,count(*) as scnt,presentStatus "
+                    + "FROM proctick group by evid,event,procman,presentStatus having presentStatus=1) S "
+                    + "on P.evid=S.evid and P.procman=S.procman ";
+            list = this.pexecuteQuery(sql, new Object[]{argJo.getString("USER_ID")});
+       
         }else{
             sql = "SELECT P.evid, P.event, P.pcnt, S.scnt,C.cofirmCnt "
                 + "FROM "
@@ -296,6 +312,7 @@ public class TickDao extends CJBaseDao {
         }
         String team = jo.getString("USER_TEAM");
         String confirmStatus = jo.getString("confirmStatus");
+        String tickname = jo.getString("tickname");//索票人姓名
         //String confirmStatusLike = confirmStatus +"%";
         
         int evid = jo.getInt("evid");
@@ -323,13 +340,12 @@ public class TickDao extends CJBaseDao {
                 sqlG += " and team=? ";
                 break;
             case "all":
-                //自己所屬組之總計                
-                sql += " and tickname=? ";                
+                //all
                 break;
             default:
                 break;
-        }
-        sqlG += " group by confirmStatus ";
+        }        
+        //sqlG += " group by confirmStatus ";
         final String userId = jo.getString("USER_ID");
         Object[] para3 = new Object[]{evid, userId};
         Object[] para4 = new Object[]{evid, userId, userId};
@@ -337,15 +353,19 @@ public class TickDao extends CJBaseDao {
         Object[] paraA = new Object[]{evid};//all
         
         if(!confirmStatus.equals("")){
-            sql += "and confirmStatus = ? ";
-            sql += "and confirmStatus = ? ";
+            sql += " and confirmStatus = ? ";
+            //sql += "and confirmStatus = ? ";
             para3 = new Object[]{evid, userId, confirmStatus};
             para4 = new Object[]{evid, userId, userId, confirmStatus};
             paraT = new Object[]{evid, team, confirmStatus};
             paraA = new Object[]{evid, confirmStatus};
+        }        
+        if(!tickname.trim().equals("")){
+            sql += " and tickname like ? ";
         }
         sql += " order by taginc desc";
         
+        Object[] newPara = null;
         switch (queryType) {
             case "self":
                 //自己已登錄票券(登錄人是自己,含(2)
@@ -364,12 +384,27 @@ public class TickDao extends CJBaseDao {
                 break;
             case "team":
                 //整組統計
-                list = this.pexecuteQuery(sql, paraT);
-                //listG = this.pexecuteQuery(sqlG, paraT);
+                newPara = paraT;
+                if(!tickname.trim().equals("")){
+                    newPara = new Object[paraT.length+1];
+                    for(int i=0;i<paraT.length;i++){
+                        newPara[i] = paraT[i];
+                    }
+                    newPara[paraT.length] = tickname + "%";
+                }
+                list = this.pexecuteQuery(sql, newPara);                
                 break;
             default:
-                list = this.pexecuteQuery(sql, paraA);
-                //listG = this.pexecuteQuery(sqlG, paraA);
+                newPara = paraA;
+                if(!tickname.trim().equals("")){
+                    newPara = new Object[paraA.length+1];
+                    for(int i=0;i<paraA.length;i++){
+                        newPara[i] = paraA[i];
+                    }
+                    newPara[paraA.length] = tickname + "%";
+                }
+                list = this.pexecuteQuery(sql, newPara);
+                
                 break;
         }
         JSONArray jArray = new JSONArray();

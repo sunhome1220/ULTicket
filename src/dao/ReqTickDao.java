@@ -98,20 +98,20 @@ public class ReqTickDao extends CJBaseDao {
         return strMsg;
     }
     
-    public String addReqTickDataAudi(JSONObject argJsonObj) {//20181029 for 觀眾索票
+    public String addReqTickDataAudi(JSONObject arg) {//20181029 for 觀眾索票
         String strMsg = "";
-        final String strAllTickIds = argJsonObj.getString("allTickIds");
+        final String strAllTickIds = arg.getString("allTickIds");
         String[] allTickIds = strAllTickIds.split("[,]");
-        String eventid = argJsonObj.getString("eventid");
+        String eventid = arg.getString("eventid");
         String event = getEventName(eventid);//argJsonObj.getString("event");
-        String teamname = argJsonObj.getString("team");
-        String procman = argJsonObj.getString("procman");
-        String audiencename = argJsonObj.getString("audiencename");
-        String audiencetel = argJsonObj.getString("audiencetel");
-        String procaddr = argJsonObj.getString("procaddr");
-        String tickmemo = argJsonObj.getString("tickmemo");
-        int allowcontact = argJsonObj.getInt("allowcontact");
-        String userid = argJsonObj.getString("USER_NM");
+        String teamname = arg.getString("team");
+        String procman = arg.getString("procman");
+        String audiencename = arg.getString("audiencename");
+        String audiencetel = arg.getString("audiencetel");
+        String procaddr = arg.has("procaddr")?arg.getString("procaddr"):"";
+        String tickmemo = arg.has("tickmemo")?arg.getString("tickmemo"):"";
+        int allowcontact = arg.getInt("allowcontact");
+        String userid = arg.getString("USER_NM");
 
         String checkSql = "select tickid,tickname from proctick where evid = ? and tickid in("+strAllTickIds+")";
         final ArrayList<HashMap> list = this.pexecuteQuery(checkSql, new Object[]{eventid});
@@ -357,38 +357,39 @@ public class ReqTickDao extends CJBaseDao {
     public String getReqTickCount(JSONObject argJsonObj) {
         int evid = argJsonObj.getInt("eventid");
         String username = argJsonObj.getString("USER_NM");
-        String audiencename = argJsonObj.getString("audiencename");
-        String audiencetel = argJsonObj.getString("audiencetel");
+//        String audiencename = argJsonObj.getString("audiencename");
+//        String audiencetel = argJsonObj.getString("audiencetel");
         String sql = "SELECT '1pcnt' as type, count(*) as cnt FROM proctick where evid=? and (procman=? ) "; 
         sql += " union ";
         sql += "SELECT '3pcnt' as type, count(*) as cnt FROM proctick where evid=? and (creator=? and procman!=?)"; 
-        sql += " union ";
-        sql += " SELECT '2audienceEvidCnt' as type, count(*) as cnt FROM proctick where evid=? and tickname=? and ticktel=?  ";
-        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username, evid, username, username, evid, audiencename,audiencetel});
+//        sql += " union ";
+//        sql += " SELECT '2audienceEvidCnt' as type, count(*) as cnt FROM proctick where evid=? and tickname=? and ticktel=?  ";
+        //ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username, evid, username, username, evid, audiencename,audiencetel});
+        ArrayList<HashMap> result = this.pexecuteQuery(sql, new Object[]{evid, username, evid, username, username});
         
-        String sql2 = " SELECT tickid,procaddr,tickmemo,allowcontact,updatetime FROM proctick where evid=? and tickname=? and ticktel=? order by tickid ";
-        ArrayList<HashMap> result2 = this.pexecuteQuery(sql2, new Object[]{evid, audiencename,audiencetel});
-        String allTickid = "";
-        for(HashMap o:result2){
-            allTickid += o.get("tickid").toString() + ",";
-        }
-        String addr="", memo="", allowcontact="",updatetime="";
-        if(result2.size()>0){
-            addr = result2.get(0).get("procaddr").toString();
-            memo = result2.get(0).get("tickmemo").toString();
-            updatetime = result2.get(0).get("updatetime").toString();
-            allowcontact = result2.get(0).get("allowcontact")==null?"0":result2.get(0).get("allowcontact").toString();
-        }
+//        String sql2 = " SELECT tickid,procaddr,tickmemo,allowcontact,updatetime FROM proctick where evid=? and tickname=? and ticktel=? order by tickid ";
+//        ArrayList<HashMap> result2 = this.pexecuteQuery(sql2, new Object[]{evid, audiencename,audiencetel});
+//        String allTickid = "";
+//        for(HashMap o:result2){
+//            allTickid += o.get("tickid").toString() + ",";
+//        }
+//        String addr="", memo="", allowcontact="",updatetime="";
+//        if(result2.size()>0){
+//            addr = result2.get(0).get("procaddr").toString();
+//            memo = result2.get(0).get("tickmemo").toString();
+//            updatetime = result2.get(0).get("updatetime").toString();
+//            allowcontact = result2.get(0).get("allowcontact")==null?"0":result2.get(0).get("allowcontact").toString();
+//        }
         
         JSONObject jo = new JSONObject();
         jo.put("countSelf", result.isEmpty()? 0: result.get(0).get("cnt"));//該場登入者總輸入票
-        jo.put("countSelf2", result.isEmpty()? 0: result.get(2).get("cnt"));//該場登入者幫他人登錄總數
-        jo.put("audienceEvidCnt", result.isEmpty()? 0: result.get(1).get("cnt"));//該場該索票人已索票數
-        jo.put("audienceTckList", allTickid);//該場該索票人已索票清單
-        jo.put("procaddr", addr);//索票地點
-        jo.put("tickmemo", memo);//索票備註
-        jo.put("updatetime", updatetime);//updatetime
-        jo.put("allowcontact", allowcontact);//索票備註
+        jo.put("countSelf2", result.isEmpty()? 0: result.get(1).get("cnt"));//該場登入者幫他人登錄總數
+//        jo.put("audienceEvidCnt", result.isEmpty()? 0: result.get(1).get("cnt"));//該場該索票人已索票數
+//        jo.put("audienceTckList", allTickid);//該場該索票人已索票清單
+//        jo.put("procaddr", addr);//索票地點
+//        jo.put("tickmemo", memo);//索票備註
+//        jo.put("updatetime", updatetime);//updatetime
+//        jo.put("allowcontact", allowcontact);//索票備註
         return jo.toString();
     }
     
@@ -527,14 +528,16 @@ public class ReqTickDao extends CJBaseDao {
         DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
         sql = "update perform set perform.cancelCnt=p.reqcnt from perform left join(SELECT evid,confirmStatus,count(*) as reqcnt FROM proctick group by evid,confirmStatus having confirmStatus =-1) p on perform.evid=p.evid";
         DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
-        sql = "update perform set perform.friendCnt=p.reqcnt from perform left join(SELECT evid,friendType,count(*) as reqcnt FROM proctick group by evid,friendType having friendType =1) p on perform.evid=p.evid";
+        sql = "update perform set perform.friendCnt=p.reqcnt, updatetime=getdate() from perform left join(SELECT evid,friendType,count(*) as reqcnt FROM proctick group by evid,friendType having friendType =1) p on perform.evid=p.evid";
         DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});        
         
         sql = "SELECT * FROM perform ";//where evid >= 20181125";
+//        sql = "SELECT * FROM perform where evid >= 20181103";
         sql += "order by evid";
         ArrayList qsPara = new ArrayList();    
         boolean passed = false;        
         String msg = "";
+        String msg2 = "";
         try{              
             ArrayList list = DBUtil.getInstance().pexecuteQuery(sql, qsPara.toArray());
             if(list.size() > 0){//有資料
@@ -552,17 +555,34 @@ public class ReqTickDao extends CJBaseDao {
                     jot.put("friendCnt", friendCnt);
                     jot.put("showCnt", showCnt);
                     jots.append(evid, jot);
+                    int predictShowNo = (int)(friendCnt * 0.9 + (reqcnt - friendCnt - cancelCnt) *0.4);
+                    String seatSize = m.get("seatsize").toString();
+                    int predictShowPect = (int)(((float)predictShowNo/Integer.parseInt(seatSize)) * 100);
+                    int realShowPect = (int)(((float)showCnt/Integer.parseInt(seatSize)) * 100);
                     
-                    msg += evid + "-" + m.get("event").toString() + "\n"
-                            + "總座位數:" + m.get("seatsize").toString()
-                            + ",已登記:" + reqcnt + "\n"
+                    //msg += evid + "-" + m.get("event").toString() + "-"
+                    msg += m.get("event").toString() + "-"
+                            + "座位:" + seatSize
+                            + ",登記:" + reqcnt + "\n"
                             //+ ",確認將出席:" + m.get("confirmCnt").toString()
                             + "伙伴或親友:" + friendCnt + ""
                             + ",請假:" + cancelCnt + "\n"
-                            + "預估出席數:" + (int)(friendCnt * 0.9 + (reqcnt - friendCnt - cancelCnt) *0.4) + "";
+                            + "預估出席:" + predictShowNo + "";
+                    msg2 += "<tr><td >"+ evid.substring(4,8) + ""
+                            + "" + m.get("event").toString().substring(0,2) + "</td>"
+                            + "<td>" + ((seatSize.length()<4)?" ":"") + seatSize + "</td>"
+                            + "<td>" + reqcnt + "</td>"
+                            //+ ",確認將出席:" + m.get("confirmCnt").toString()
+                            + "<td>" + friendCnt + "</td>"
+                            + "<td>" + cancelCnt + "</td>"
+                            + "<td>" + predictShowNo + "<br>("+ predictShowPect +"%)" + "</td>";
                     if(showCnt > 0){        
-                        msg += "\n實際出席數:" + showCnt;
+                        msg += ",實際出席:" + showCnt;
+                        msg2 += "<td>" + showCnt + "<br>("+ realShowPect +"%)</td>";
+                    }else{
+                        msg2 += "<td>N/A</td>";
                     }
+                    msg2 += "</tr>";
                     msg += "\n\n";
                 }
                 msg += "預估出席數=人才伙伴索票*0.9+ 一般民眾索票*0.4";
@@ -574,6 +594,7 @@ public class ReqTickDao extends CJBaseDao {
         }
         jo.put("data", jots);        
         jo.put("msg", msg);        
+        jo.put("msgTable", msg2);        
         return jo;
     }
 }

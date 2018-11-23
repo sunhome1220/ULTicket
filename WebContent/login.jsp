@@ -55,9 +55,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>密碼</label> 
+                                    <label><span class=Must>*</span>密碼(若錯誤超過5次將鎖定無法使用)</label> 
                                     <input type="password" id="txtPwd" name="txtPwd" class="form-control"
-                                           placeholder="您的密碼">
+                                           placeholder="您的密碼(以SHA256加密處理)">
                                 </div>
                             </div>                                                
                             
@@ -141,7 +141,9 @@
 <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
 <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="assets/js/datepicker-zh-TW.js"></script>
+<script src="assets/js/utils.js"></script>
 <script src="assets/js/login.js"></script>
+<script src="assets/plugins/jquery.sha256.min.js"></script>
 </body>
 
 </html>

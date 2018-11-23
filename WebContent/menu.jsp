@@ -6,6 +6,7 @@
     <%
     User user = (User) session.getAttribute("user");    
     String username = user!=null? user.getUserName()+",您好":"尚未登入";
+    int role = user!=null? user.getRole():-1;
     %>
     <style>
     
@@ -21,6 +22,7 @@
         <div class="container">            
             <div style="margin-left:-15px;margin-right:-15px">                    
                 <a class="loginUser" id="username" href="login.jsp"><%=username%></a> 
+                <input id="role" type="hidden" value="<%=role%>"/>
                 <nav class="navbar navbar-default megamenu" role="navigation">                    
                     <div class="container" style="padding-left: 0px;padding-right: 0px;">                        
                         <div class="navbar-header">                            
@@ -54,13 +56,13 @@
                                         <a href="requestTicketMod.jsp" >索票登錄</a>
                                     </li>-->
                                     <li>
-                                        <a href="query.jsp" >資料查詢</a>
+                                        <a href="query.jsp" >資料查詢/修改</a>
                                     </li>
                                     <li>
                                         <a href="reply.jsp" >票根輸入</a>
                                     </li>
                                     <li>
-                                        <a href="queryTickStatus.jsp" >出席狀況</a>
+                                        <a href="queryTickStatus.jsp" >索票/出席狀況</a>
                                     </li>
                                     <li>
                                         <a href="replyComment.jsp" >回條輸入</a>

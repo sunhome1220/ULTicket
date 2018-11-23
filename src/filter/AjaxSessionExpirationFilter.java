@@ -24,7 +24,7 @@ public class AjaxSessionExpirationFilter implements Filter {
     protected static Logger log = Logger.getLogger(AjaxSessionExpirationFilter.class);
     protected FilterConfig filterConfig = null;
     protected boolean isEnabled = true;
-    private int customSessionExpiredErrorCode = 901;
+    private int customSessionExpiredErrorCode = 901;//not login/ timeout
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -80,7 +80,7 @@ public class AjaxSessionExpirationFilter implements Filter {
 		    log.info("偵測到Ajax呼叫,但沒有登入系統因此送出error code{" + customSessionExpiredErrorCode + "}");
 		    HttpServletResponse resp = (HttpServletResponse) response;
 		    resp.sendError(this.customSessionExpiredErrorCode);
-                    resp.sendRedirect("login.jsp");
+                    //resp.sendRedirect("login.jsp");
 		} else {
 		    chain.doFilter(request, response);
 		}

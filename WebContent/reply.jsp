@@ -48,7 +48,8 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">票根輸入&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
+                    <h2 id="heaerh2" class="panel-title">票根輸入&nbsp;&nbsp;&nbsp;&nbsp;</h2>    
+                        <a>當觀眾入場後輸入票根號碼，以得知所有索票觀眾出席狀況</a>
 <!--                    <h2 id="heaerh22" class="panel-title">此帳號本場輸入數:10</h2>-->
 <!--                    <h2 id="heaerh23" class="panel-title">本場總輸入票根數:sp;1002</h2>-->
                 </div>
@@ -59,11 +60,11 @@
                                     <label><span class=Must>*</span>場次</label> 
                                     <select class="form-control" data-width="100px" id="eventid" name="eventid">
                                         <option value="">請選擇</option>
-                                        <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>
+                                        <option value="20181014">10/14-新竹公演(票號:20001~25000)</option>
                                         <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
                                         <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
-                                        <option value="20181129">12/29-板橋公演(票號:35001~40000)</option>
-                                        <option value="201901">國館公演</option>
+                                        <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
+                                        <option value="20190101">01/01-國館公演(兌換券:1~5000)</option>
                                 </select><br>                                
                                 </div><br>
                             </div>
@@ -171,6 +172,7 @@
 <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
 <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="assets/js/datepicker-zh-TW.js"></script>
+<script src="assets/js/utils.js"></script>
 <script src="assets/js/reply.js"></script>
 </body>
 

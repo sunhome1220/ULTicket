@@ -48,7 +48,8 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">回條資料輸入&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
+                    <h2 id="heaerh2" class="panel-title">回條資料輸入&nbsp;&nbsp;&nbsp;&nbsp;</h2>  
+                    觀眾觀賞完離場後繳交的意見回條
                 </div>
                 <div class="panel-body">                        
                         <form id="Form12">
@@ -60,8 +61,8 @@
                                         <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>
                                         <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
                                         <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
-                                        <option value="20181129">12/29-板橋公演(票號:35001~40000)</option>
-                                        <option value="201901">國館公演</option>
+                                        <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
+                                        <option value="20190101">01/01-國館公演(兌換券:1~5000)</option>
                                 </select>                                
                                 </div>
                                 
@@ -71,34 +72,39 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此場次您已輸入回條數目：<a id="countSelf">...</a><br>                                    
                                     </div>
                                 <br>
-                            </div>    
+                            </div>     
                             <br>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span></span>回條資料:</label>
+                                    <label><span></span>索票資料/意見回條:</label>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    <input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="五碼票號">                                    
+                                    <input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="意見回條的票號">                                    
                                 </div>
-                                <div class="col-sm-4 col-xs-6">                                      
-                                </div>
-                            </div>
-                            <div class="row" id="divHide1">
-                                <div class="col-sm-4 col-xs-6">
-                                    發票人:<a id="procman"></a><br>                                    
-                                    索票人電話:<a id="reqTel" href="tel:"></a><br>                                                                      
-                                </div>
-                                <div class="col-sm-4 col-xs-6">
-                                    索票人:<a id="reqName"></a><br>
-                                    出席及索票數:<a id="showTickNo"></a>/<a id="reqTickNo"></a><br>                                    
+                                <div class="col-sm-4 col-xs-6">   
+                                    <input type="button" class="btn btn-info" id="btnQuery" value="查詢票號"/>
                                 </div>
                             </div>
-                            <div class="row" id="divHide2">
-                                <div class="col-sm-4 col-xs-6">                                    
+                            <div class="row" id="divHide1" style="display:none">
+                                <div class="col-sm-4 col-xs-6">
+                                    發票人: <a id="procman"></a><br>                                    
+                                    電　話: <a id="reqTel" href="tel:"></a><br>                                                                      
+                                </div>
+                                <div class="col-sm-4 col-xs-6">
+                                    索票人: <a id="reqName"></a><br>
+                                    出席/索票數: <a id="showTickNo"></a>/<a id="reqTickNo"></a><br>                                    
+                                </div>
+                            </div>
+                            <div class="row" id="divHide2" style="display:none">
+<!--                                <div class="col-sm-4 col-xs-6">                                    
                                     聯絡人　:<input type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="">                                    
+                                </div>-->
+                                <div class="col-sm-4 col-xs-6">                                    
+                                    聯絡人: <input style="border-color: gray" type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="聯絡人姓名">                                    
                                 </div>
+                                
                                 <div class="col-sm-4 col-xs-6">                                                                        
                                     <a style="color:#42c8f4" id="sameAsProcman">同發票人</a>&nbsp;&nbsp;
                                     <a style="color:#f441e2" id="sameAsMe">就是我</a>
@@ -109,15 +115,15 @@
 <!--                                    <label><span></span>回條資料:</label>-->
                                 </div>
                             </div>                            
-                            <div class="row" id="divHide3">
+                            <div class="row" id="divHide3" style="display:none">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    觀眾姓名:<input type="text" id="audiencename" size="10" maxlength="10" class="" placeholder="觀眾姓名">
-                                </div>
+                                    觀　眾: <input type="text" id="audiencename" style="border-color: gray" size="10" maxlength="10" class="" placeholder="觀眾姓名">
+                                </div>                                
                                 <div class="col-sm-4 col-xs-6">                                                                        
                                     <a style="color:#42c8g1" id="sameAsReqMan">就是索票人本人</a>&nbsp;&nbsp;                                    
                                 </div>                                
                             </div>
-                            <div class="row" id="divHide4">
+                            <div class="row" id="divHide4" style="display:none">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     <textarea id="audiencecomment" name="Text1" cols="40" rows="1" placeholder="觀眾評論備註" class="form-control"></textarea>
                                     
@@ -125,14 +131,14 @@
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>
-                            <div class="row" id="divHide5">
+                            <div class="row" id="divHide5" style="display:none">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span></span>聯絡狀況:</label>
                                 </div>
                             </div>
-                            <div class="row" id="divHide6">
+                            <div class="row" id="divHide6" style="display:none">
                                 <div class="col-sm-6 col-xs-12">     
-                                    <input name="contactStatus" type="radio" value="0" >尚未聯絡
+                                    <input name="contactStatus" type="radio" value="0">尚未聯絡
                                     <input name="contactStatus" type="radio" value="1">有上課意願
                                     <input name="contactStatus" type="radio" value="2">有興趣但暫無時間<br>
                                     <input name="contactStatus" type="radio" value="3">電話錯誤或空號
@@ -142,25 +148,25 @@
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>
-                            <div class="row" id="divHide32">
+                            <div class="row" id="divHide32" style="display:none">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     上次資料更新/聯絡時間:<a id="lastupdatetime"></a>
                                 </div>                                
                             </div>
                             
-                            <div class="row" id="divHide7">
+                            <div class="row" id="divHide7" style="display:none">
                                 <div class="col-sm-6 col-xs-12">                                    
                                     <textarea id="comment" name="Text1" cols="40" rows="1" placeholder="備註" class="form-control"></textarea>                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
                             </div>                            
-                            <div class="row" id="divHide8">
+                            <div class="row" id="divHide8" style="display:none">
                                 <div class="col-sm-6 col-xs-12">
                                     <label><span></span>有興趣課程:</label>
                                 </div>
                             </div>
-                            <div class="row" id="divHide9">
+                            <div class="row" id="divHide9" style="display:none">
                                 <div class="col-sm-6 col-xs-12">                                                                        
                                     <input name="interest" type="checkbox" value="0">心靈課程
                                     <input name="interest" type="checkbox" value="1">和太鼓
@@ -219,6 +225,7 @@
 <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
 <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="assets/js/datepicker-zh-TW.js"></script>
+<script src="assets/js/utils.js"></script>
 <script src="assets/js/replyComment.js"></script>
 </body>
 

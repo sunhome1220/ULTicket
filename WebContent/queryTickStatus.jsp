@@ -42,16 +42,34 @@
     <jsp:include page="menu.jsp" />  
     <section id="MainContent">
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
-            <div class="panel panel-default">
+            <div class="panel panel-default">                
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">索票及出席統計&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
+                    <h2 id="heaerh2" class="panel-title">索票及出席預估/統計&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
                 </div>
-                <div class="panel-body">
-                    <div>
-                        <canvas id="canvas" width="200" height="200"></canvas>
-                    </div>
-
+                
+<!--                <div class="row">
+                    <div class="col-sm-6 col-xs-6">
+                        <label><span class=Must>*</span>統計方式</label> 
+                        <select class="form-control" data-width="100px" id="statType">                            
+                            <option value="all">不分組總計</option>
+                            <option value="self">自己組內統計</option>                            
+                            <option value="person">自己發放部份(你是發票人)</option>                            
+                        </select>                                
+                    </div>                                
+                    <div class="col-sm-6 col-xs-6">
+                         <button type="submit" class="btn btn-primary" id="btnQry">查詢</button>                              
+                    </div>                                
+                </div>-->
+                <div id="divInfo">
+                    <table id="tblInfo" style="display:none;width: 98%" border="1">
+                        <tr style="color:purple">
+                            <td> 日期場次 </td><td style="align-content: flex-end;">座位 </td>
+                            <td>登記 </td><td>伙伴<br>索票</td><td>請假</td><td>預估<br>出席 </td><td>實際<br>出席 </td>
+                        </tr>
+                    </table>
                 </div>
+               
+                
             </div>
         </div>
     </section>
@@ -76,7 +94,8 @@
     <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
     <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="assets/js/datepicker-zh-TW.js"></script>
-    <script src="assets/js/queryCharts.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/queryTickStatus.js"></script>
 </body>
 
 </html>

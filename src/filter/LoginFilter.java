@@ -63,7 +63,7 @@ public class LoginFilter implements Filter {
             User user = (User) session.getAttribute("user");
 			// 是否登入
             if (user != null) {       
-                addLoginHistory(session.getId(), user.getUserId(), user.getUnitCd(), ip);
+                //addLoginHistory(session.getId(), user.getUserId(), user.getUnitCd(), ip);
             }
 	}
 	
@@ -113,7 +113,7 @@ public class LoginFilter implements Filter {
 			if (user != null) {                 
                             if(user.getLoginStatus()==0){
                                 String ip2 = getClientIp(req);
-                                addLoginHistory(session.getId(), user.getUserId(), user.getUnitCd(), ip2); 
+                                //addLoginHistory(session.getId(), user.getUserId(), user.getUnitCd(), ip2); 
                                 user.setLoginStatus(1);
                                 session.setAttribute("user", user);
                             }
@@ -169,9 +169,9 @@ public class LoginFilter implements Filter {
         return clientIp;
     }
 
-    private void addLoginHistory(String id, String userId, String unitCd, String ip) {
-        String sql = "INSERT INTO CJDT_LOGIN_HISTORY(SESSIONID, USERID, CJ_UNITCODE, REMOTEADDR, LOGINTIME, LOGOUTTIME) "
-                + "VALUES(?, ?, ?, ?, GETDATE(), DATEADD(MI,1,GETDATE()))";
-        DBUtil.getInstance().pexecuteUpdate(sql,new Object[]{id, userId, unitCd, ip});        
-    }
+//    private void addLoginHistory(String id, String userId, String unitCd, String ip) {
+//        String sql = "INSERT INTO CJDT_LOGIN_HISTORY(SESSIONID, USERID, CJ_UNITCODE, REMOTEADDR, LOGINTIME, LOGOUTTIME) "
+//                + "VALUES(?, ?, ?, ?, GETDATE(), DATEADD(MI,1,GETDATE()))";
+//        DBUtil.getInstance().pexecuteUpdate(sql,new Object[]{id, userId, unitCd, ip});        
+//    }
 }

@@ -1,3 +1,14 @@
+$(document).ready(function () {
+    $("a[id^=href]").click(function(){
+        window.location.href=this.id.replace('href_','')+'.jsp';
+    });
+});
+
+function windowDirect(url){
+    //window.location.href = url;
+    $(location).attr('href', url);
+}    
+
 'use strict';
 
 window.chartColors = {

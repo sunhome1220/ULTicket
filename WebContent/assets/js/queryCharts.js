@@ -22,8 +22,7 @@ $(document).ready(function () {
             $("#canvas").prop("width", $(window).width()*0.7);
         }catch(e){
             
-        }
-        queryTicStatus();
+        }                
     };
     $(window).resize(function(){
         try{
@@ -34,27 +33,7 @@ $(document).ready(function () {
         }
     });
     
-    function queryTicStatus(){
-        $.ajax({
-            url: 'QueryServlet',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                ajaxAction: 'queryTicStatus'            
-            },
-            async: false,
-            success: function (data) {
-                var jo = JSON.parse(data.infoMsg);
-                var tickInfoMsg = jo.msg;
-                alert(tickInfoMsg);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            }
-        });
-    }
-    
+       
     function queryChart(){        
         
         //var color = Chart.helpers.color;
@@ -103,7 +82,8 @@ $(document).ready(function () {
                     text: '索票/出席數'
                 }
             }
-        });    
+        });   
+        window.myBar.update();
     }
     
     document.getElementById('randomizeData').addEventListener('click', function () {
@@ -168,7 +148,7 @@ $(document).ready(function () {
 
 });
 function getRequestTickData(){
-    var reportData = '[[\'新竹公演\', \'南門公演\', \'板橋公演\', \'國館公演\', \'板橋公演\'],[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,110]]';
+    var reportData;// = '[[\'新竹公演\', \'南門公演\', \'板橋公演\', \'國館公演\', \'板橋公演\'],[1200, 1400,1312,1334,0,0],[1100,0,0,0,0,110]]';
     //return eval(reportData);
     $.ajax({
         url: 'QueryServlet',

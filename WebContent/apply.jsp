@@ -204,6 +204,7 @@
     <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="assets/js/datepicker-zh-TW.js"></script> <!--西元日期-->
     <!--<script src="assets/js/datepicker-zh-TW1.js"></script> <!--民國日期-->
+    <script src="assets/js/utils.js"></script>
     <script src="assets/js/apply.js"></script>
 </body>
 

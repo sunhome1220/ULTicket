@@ -59,7 +59,7 @@
 </head>
 <body>
 <frameset row="*">
-    <iframe src="requestTicket.jsp" name="detail" class="frame"/>
+    <iframe src="requestTicketFrame.jsp" name="detail" class="frame"/>
 </frameset>
 </body>
 

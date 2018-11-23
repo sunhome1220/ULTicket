@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $("a[id^=href]").click(function(){
+        window.location.href=this.id.replace('href_','')+'.jsp';
+    });
     //$("#qrcode").hide();
     if (localStorage.teamName) {
         $("#team").val(localStorage.getItem("teamName"));
@@ -53,7 +56,7 @@ $(document).ready(function () {
         var staffId = encodeURIComponent($("#username").text().replace(',您好',''));//%E7%8E%8B%E6%B8%AC%E8%A9%A6
         var team = encodeURIComponent($("#team").val());
         
-        var serverNmPort = 'http://unlimited.nctu.me:8080';
+        var serverNmPort = 'http://ult.nctu.me';
         //serverNmPort = 'http://localhost:8081';//for test
         var text = serverNmPort + '/tick/reqTickAudi.jsp?evid='+evid+'%26tickno='+tickno+'%26procman='+staffId+'%26team='+team;
         

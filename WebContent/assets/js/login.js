@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $("a[id^=href]").click(function(){
+        window.location.href=this.id.replace('href_','')+'.jsp';
+    });
     //autologin();
     //$("#txtBirth").datepicker();
     //txtUserNum
@@ -61,10 +64,10 @@ function login() {
         alert('請輸入您的帳號');
         return;
     }
-    if($("#txtPwd").val()===''){
-        alert('請輸入您的密碼');
-        return;
-    }
+//    if($("#txtPwd").val()===''){
+//        alert('請輸入您的密碼');
+//        return;
+//    }
     $.ajax({
         url: 'AuthServlet',
         method: 'POST',
@@ -73,6 +76,7 @@ function login() {
             ajaxAction: 'login',
             uid: $('#txtUserNum').val(),
             deviceType: deviceType ,
+            windowSize: $(window).width()+","+$(window).height() ,
             pwd: $('#txtPwd').val()
         },
         async: false,
@@ -80,14 +84,18 @@ function login() {
             var jo = JSON.parse(data.infoMsg);
             //if(data.infoMsg.indexOf('登入成功')>=0){
             if(jo.msg.indexOf('登入成功')>=0){
+//                var tickInfoMsg = jo.tickInfoMsg;
+//                alert(tickInfoMsg);
                 if(localStorage.lastOperation){
                     $(location).attr('href', localStorage.getItem("lastOperation"));
                 }else{
-                    $(location).attr('href', "index.jsp");
+                    $(location).attr('href', "requestTicket.jsp");
                 }
                 //window.location.href="reply.jsp";
                 localStorage.setItem("loginCode", jo.loginCode);                
-                localStorage.setItem("teamName", jo.teamName);                
+                localStorage.setItem("teamName", jo.teamName);                            
+            }else if(jo.NoPwd){
+                alert(jo.msg);                
             }else{
                 localStorage.removeItem("loginCode");
                 var jo2 = JSON.parse(data.infoMsg);
@@ -132,7 +140,7 @@ function register() {
             //if(data.infoMsg.indexOf('登入成功')>=0){
             if(jo.msg.indexOf('註冊成功')>=0){
                 alert(jo.msg);
-                window.location.href="index.jsp";
+                window.location.href="requestTicket.jsp";
                 localStorage.setItem("loginCode", jo.loginCode);                
             }else{
                 localStorage.removeItem("loginCode");

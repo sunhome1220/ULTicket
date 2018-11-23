@@ -496,6 +496,36 @@ public class DateUtil {
         String dateString = sdf.format(now);
         return dateString;
     }
+    
+    /**
+     * 取得系統現在的日期時間，格式為:yyyy/MM/dd HH:mm
+     *
+     * @return
+     */
+    public static String getDateTimeHHmm() {
+        // 目前時間
+        java.util.Date now = new java.util.Date();
+        // 設定日期格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        // 進行轉換
+        String dateString = sdf.format(now);
+        return dateString;
+    }
+    /**
+     * 取得系統現在的日期，格式為:yyyyMMdd
+     *
+     * @return
+     */
+    
+    public static String getTodayDate() {
+        // 目前時間
+        java.util.Date now = new java.util.Date();
+        // 設定日期格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        // 進行轉換
+        String dateString = sdf.format(now);
+        return dateString;
+    }
 
     /**
      * 取得系統現在的日期時間，格式為:yyyyMMddHHmmss,給SybaseDB使用

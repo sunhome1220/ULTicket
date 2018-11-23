@@ -74,10 +74,18 @@
                                         <option value="20181103">11/03-南門公演(票號:25001~30000)</option>
                                         <option value="20181125">11/25-板橋公演(票號:30001~35000)</option>
                                         <option value="20181229">12/29-板橋公演(票號:35001~40000)</option>
-                                        <option value="20190101">01/01-國館公演(票號:40001~45000)</option>
+                                        <option value="20190101">01/01-國館公演(兌換券:1~5000)</option>
                                 </select>                                
                                 </div>                                    
                             </div>
+                            <div class="row">                                
+                                <div class="col-sm-6 col-xs-6">                                    
+                                    <input type="text" size="8" id="procaddr" maxlength="8" class="form-control" title="索票地點" placeholder="索票地點">                                    
+                                </div>
+                                <div class="col-sm-4 col-xs-6">
+                                    <textarea id="tickmemo" name="Text1" cols="40" rows="1" placeholder="備註" class="form-control"></textarea>                                    
+                                </div>
+                            </div>    
                             <div class="row">                                
                                 <div class="col-sm-4 col-xs-6">                                    
                                     <input type="tel" id="tckno1" maxlength="5" class="form-control" placeholder="票號1">                                    
@@ -154,6 +162,7 @@
     <script src="assets/plugins/grid/Microsoft.jqGrid.js"></script>
     <script src="assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="assets/js/datepicker-zh-TW.js"></script>
+    <script src="assets/js/utils.js"></script>
     <script src="assets/js/audienceReqTic.js"></script>
 <!--    <script src="assets/js/query.js"></script>-->
 </body>
