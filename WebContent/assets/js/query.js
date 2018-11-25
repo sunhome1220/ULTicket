@@ -84,6 +84,12 @@ function showButton (cellvalue, options, rowObject) {
 function allowcontactFormat(cellvalue, options, rowObject) {
     return cellvalue==='0'?"不同意":"同意";
 }
+function tickidFormat(cellvalue, options, rowObject) {
+    return cellvalue<10?("000"+cellvalue)
+    :cellvalue<100?("00"+cellvalue)
+    :cellvalue<1000?("0"+cellvalue)
+    :cellvalue;
+}
 function seatTypeFormat(cellvalue, options, rowObject) {
     return cellvalue==='1'?"一般"
     :cellvalue==='2'?"<font color='purple'>貴賓</font>"
@@ -268,6 +274,8 @@ function Query() {
                     name: "tickid",
                     index: "tickid",
                     align: 'center',
+                    sorttype: "number",
+                    formatter: tickidFormat,
                     width: '6px'
                 }, {
                     name: "procman",
