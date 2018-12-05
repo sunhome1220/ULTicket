@@ -443,6 +443,8 @@ public class ReqTickDao extends CJBaseDao {
             jo.put("comment", result.get(0).get("comment").toString());
             jo.put("calltimes", result.get(0).get("calltimes").toString());
             jo.put("username", result.get(0).get("username").toString());
+            jo.put("age", result.get(0).get("age").toString());
+            jo.put("satisfaction", result.get(0).get("satisfaction").toString());
             jo.put("interest", result.get(0).get("interest").toString());
             jo.put("lastupdatetime", result.get(0).get("updatetime").toString());
         }else{
@@ -528,10 +530,12 @@ public class ReqTickDao extends CJBaseDao {
         DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
         sql = "update perform set perform.cancelCnt=p.reqcnt from perform left join(SELECT evid,confirmStatus,count(*) as reqcnt FROM proctick group by evid,confirmStatus having confirmStatus =-1) p on perform.evid=p.evid";
         DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});
-        sql = "update perform set perform.friendCnt=p.reqcnt, updatetime=getdate() from perform left join(SELECT evid,friendType,count(*) as reqcnt FROM proctick group by evid,friendType having friendType =1) p on perform.evid=p.evid";
+        sql = "update perform set perform.friendCnt=p.reqcnt from perform left join(SELECT evid,friendType,count(*) as reqcnt FROM proctick group by evid,friendType having friendType =1) p on perform.evid=p.evid";
+        DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});        
+        sql = "update perform set perform.showcntNotProc=p.showcntNotProc, updatetime=getdate() from perform left join(SELECT evid,count(*) as showcntNotProc FROM showtick  where tickid not in (select tickid from proctick) group by evid) p on perform.evid=p.evid";
         DBUtil.getInstance().pexecuteUpdate(sql, new Object[]{});        
         
-        sql = "SELECT * FROM perform ";//where evid >= 20181125";
+        sql = "SELECT * FROM perform where enabled = 1";
 //        sql = "SELECT * FROM perform where evid >= 20181103";
         sql += "order by evid";
         ArrayList qsPara = new ArrayList();    
@@ -549,11 +553,13 @@ public class ReqTickDao extends CJBaseDao {
                     int cancelCnt = m.get("cancelCnt").toString().equals("")?0:Integer.parseInt(m.get("cancelCnt").toString());
                     int friendCnt = m.get("friendCnt").toString().equals("")?0:Integer.parseInt(m.get("friendCnt").toString());
                     int showCnt = m.get("showcnt").toString().equals("")?0:Integer.parseInt(m.get("showcnt").toString());
+                    int showcntNotProc = m.get("showcntNotProc").toString().equals("")?0:Integer.parseInt(m.get("showcntNotProc").toString());
                     jot.put("reqcnt", reqcnt);
                     jot.put("confirmCnt", confirmCnt);
                     jot.put("cancelCnt", cancelCnt);
                     jot.put("friendCnt", friendCnt);
                     jot.put("showCnt", showCnt);
+                    jot.put("showcntNotProc", showcntNotProc);
                     jots.append(evid, jot);
                     int predictShowNo = (int)(friendCnt * 0.9 + (reqcnt - friendCnt - cancelCnt) *0.4);
                     String seatSize = m.get("seatsize").toString();
@@ -568,8 +574,8 @@ public class ReqTickDao extends CJBaseDao {
                             + "伙伴或親友:" + friendCnt + ""
                             + ",請假:" + cancelCnt + "\n"
                             + "預估出席:" + predictShowNo + "";
-                    msg2 += "<tr><td >"+ evid.substring(4,8) + ""
-                            + "" + m.get("event").toString().substring(0,2) + "</td>"
+                    msg2 += "<tr><td >"+ evid.substring(0,8) + "<br>"
+                            + "" + m.get("event").toString() + "</td>"
                             + "<td>" + ((seatSize.length()<4)?" ":"") + seatSize + "</td>"
                             + "<td>" + reqcnt + "</td>"
                             //+ ",確認將出席:" + m.get("confirmCnt").toString()
@@ -578,8 +584,10 @@ public class ReqTickDao extends CJBaseDao {
                             + "<td>" + predictShowNo + "<br>("+ predictShowPect +"%)" + "</td>";
                     if(showCnt > 0){        
                         msg += ",實際出席:" + showCnt;
+                        msg2 += "<td>" + showcntNotProc + "</td>";
                         msg2 += "<td>" + showCnt + "<br>("+ realShowPect +"%)</td>";
                     }else{
+                        msg2 += "<td>N/A</td>";
                         msg2 += "<td>N/A</td>";
                     }
                     msg2 += "</tr>";
