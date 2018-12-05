@@ -90,7 +90,8 @@
                             <div class="row" id="divHide1" style="display:none">
                                 <div class="col-sm-4 col-xs-6">
                                     發票人: <a id="procman"></a><br>                                    
-                                    電　話: <a id="reqTel" href="tel:"></a><br>                                                                      
+<!--                                    電　話: <a id="reqTel" href="tel:"></a><br>                                                                      -->
+                                    電　話: <input style="border-color: gray" type="tel" size="12" id="reqTel" maxlength="21" class="" placeholder="電話"><br>                                                                      
                                 </div>
                                 <div class="col-sm-4 col-xs-6">
                                     索票人: <a id="reqName"></a><br>
@@ -102,7 +103,7 @@
                                     聯絡人　:<input type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="">                                    
                                 </div>-->
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    聯絡人: <input style="border-color: gray" type="text" size="10" id="contactperson" maxlength="10" class="" placeholder="聯絡人姓名">                                    
+                                    聯絡人: <input style="border-color: gray" type="text" size="12" id="contactperson" maxlength="10" class="" placeholder="聯絡人姓名">                                    
                                 </div>
                                 
                                 <div class="col-sm-4 col-xs-6">                                                                        
@@ -117,19 +118,38 @@
                             </div>                            
                             <div class="row" id="divHide3" style="display:none">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    觀　眾: <input type="text" id="audiencename" style="border-color: gray" size="10" maxlength="10" class="" placeholder="觀眾姓名">
+                                    觀　眾: <input type="text" id="audiencename" style="border-color: gray" size="12" maxlength="10" class="" placeholder="觀眾姓名">
                                 </div>                                
                                 <div class="col-sm-4 col-xs-6">                                                                        
                                     <a style="color:#42c8g1" id="sameAsReqMan">就是索票人本人</a>&nbsp;&nbsp;                                    
                                 </div>                                
                             </div>
+                            <div class="row" id="divHide32" style="display:none">
+                                <div class="col-sm-4 col-xs-6">                                    
+                                    年　齡: <input type="tel" id="age" style="border-color: gray" size="12" maxlength="2" class="" placeholder="">
+                                </div>                                
+                                <div class="col-sm-4 col-xs-6">                                                                                                            
+                                </div>                                
+                            </div>
                             <div class="row" id="divHide4" style="display:none">
                                 <div class="col-sm-6 col-xs-12">                                    
-                                    <textarea id="audiencecomment" name="Text1" cols="40" rows="1" placeholder="觀眾評論備註" class="form-control"></textarea>
-                                    
+                                    <textarea id="audiencecomment" name="Text1" cols="40" rows="1" placeholder="觀眾評論備註" class="form-control"></textarea>                                    
                                 </div>
                                 <div class="col-sm-4 col-xs-6">   
                                 </div>
+                            </div>
+                            <div class="row" id="divHide51" style="display:none">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span></span>滿意度:</label>
+                                    <input name="satisfaction" type="radio" value="2">非常滿意
+                                    <input name="satisfaction" type="radio" value="1">滿意
+                                    <input name="satisfaction" type="radio" value="0">不滿意                                    
+                                </div>
+                            </div>
+                            <div class="row" id="divHide61" style="display:none">
+                                <div class="col-sm-6 col-xs-12">     
+                                    
+                                </div>                                
                             </div>
                             <div class="row" id="divHide5" style="display:none">
                                 <div class="col-sm-6 col-xs-12">
