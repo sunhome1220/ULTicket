@@ -44,7 +44,7 @@
         <div class="container" style="padding-left: 0px;padding-right: 0px;">
             <div class="panel panel-default">                
                 <div class="panel-heading">
-                    <h2 id="heaerh2" class="panel-title">索票及出席預估/統計&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
+                    <h2 id="heaerh2" class="panel-title">索票出席統計/預估&nbsp;&nbsp;&nbsp;&nbsp;</h2>                        
                 </div>
                 
 <!--                <div class="row">
@@ -61,12 +61,20 @@
                     </div>                                
                 </div>-->
                 <div id="divInfo">
-                    <table id="tblInfo" style="display:none;width: 98%" border="1">
+                    <table id="tblInfo" style="display:none;width: 98%;background-color: #e5fffd" border="1">
                         <tr style="color:purple">
-                            <td> 日期場次 </td><td style="align-content: flex-end;">座位 </td>
-                            <td>登記 </td><td>伙伴<br>索票</td><td>請假</td><td>預估<br>出席 </td><td>實際<br>出席 </td>
+                            <td>日期場次 </td><td style="align-content: flex-end;">座位 </td>
+                            <td>登記 </td>
+                            <td>伙伴索票</td>
+                            <td>請假</td>
+                            <td>預估出席</td>
+                            <td>出席但未登記</td>
+                            <td>實際出席</td>
                         </tr>
                     </table>
+                    <p>預估出席數=人才伙伴索票*0.9+ 一般民眾索票*0.4</p>
+                    <p>出席但未登記:有出席觀賞，但沒有登錄索票記錄</p>
+                    <p>(%)表示跟滿座的比例，若有1000個座位，預估(或實際)800人出席，會顯示(80%)</p>
                 </div>
                
                 

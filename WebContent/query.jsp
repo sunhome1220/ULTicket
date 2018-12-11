@@ -57,7 +57,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="panel-title">資料查詢/修改：</h2>
-                    <a>選擇條件->按下查詢->於列表點擊要修改之索票紀錄</a>
+                    <a>選擇條件->按下查詢->於列表點擊要修改之索票紀錄</a><br>
+                    <a id="aSmallScreen">若資料較多請改用電腦或是大尺寸平版電腦操作</a>
                 </div>
                 <div class="panel-body">
                     <section>
@@ -324,6 +325,7 @@
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/query.js"></script>
     <script src="assets/plugins/FileSaver.min.js"></script>
+    <script src="assets/plugins/jquery.fixedheadertable.js"></script>
 </body>
 
 </html>

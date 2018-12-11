@@ -102,7 +102,7 @@
                                     <div class="btn-group btn-group" role="group" aria-label="可能是自己或其他伙伴">
                                         <input type="radio" name="procmanType" id="procman1" title="發票人就是您本人" value="S" checked>登錄人本人(<%=user.getUserName()%>)
                                         <input type="radio" name="procmanType" id="procman2" value="O">其他伙伴:                                        
-                                        <input type="text" size="8" id="procmanOther" style="display:none" title="看您是幫哪位伙伴登錄資料" placeholder="伙伴姓名"/>                                                                           
+                                        <input type="text" size="4" id="procmanOther" style="display:none" title="看您是幫哪位伙伴登錄資料" placeholder="伙伴姓名"/>                                                                           
                                         <input type="hidden" id="loginUser" value='<%=user.getUserName()%>'/>                                                                                                                   
                                     </div>                    
                                 </div>                                
@@ -118,7 +118,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 col-xs-5">                                    
-                                    <input type="text" size="8" id="audiencename" maxlength="8" class="form-control" placeholder="索票人姓名">                                    
+                                    <input type="text" size="8" id="audiencename" maxlength="4" class="form-control" placeholder="索票人姓名">                                    
 <!--                                    索票資料:<input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="五碼票號">                                    -->
                                 </div>
                                 <div class="col-sm-4 col-xs-7">                                      

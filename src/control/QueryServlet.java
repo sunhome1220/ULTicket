@@ -47,15 +47,17 @@ public class QueryServlet extends AjaxBaseServlet {
 //        forumDao GET_ID = forumDao.getInstance();
 //        resultDataArray = GET_ID.GET_ID(argJsonObj);
 //        String UserId = "" + resultDataArray.getJSONObject(0).getInt("USERID");
-        argJsonObj.put("USER_ID", user.getUserId());
-        argJsonObj.put("USER_NM", user.getUserName());//20171012
-        argJsonObj.put("USER_TEAM", user.getTeam());//20171012
-        argJsonObj.put("ROLE", user.getRole());//20171012
-        argJsonObj.put("USER_UNIT", user.getUnitCd());
-        argJsonObj.put("USER_CITYCODE", user.getUserCity());
-        //讀講習選單、繳納方式、注意事項用
-        argJsonObj.put("USER_UNITCD1", user.getUnitCd1());
-        argJsonObj.put("USER_UNITCD2", user.getUnitCd2());
+        if(user!=null){
+            argJsonObj.put("USER_ID", user.getUserId());
+            argJsonObj.put("USER_NM", user.getUserName());//20171012
+            argJsonObj.put("USER_TEAM", user.getTeam());//20171012
+            argJsonObj.put("ROLE", user.getRole());//20171012
+            argJsonObj.put("USER_UNIT", user.getUnitCd());
+            argJsonObj.put("USER_CITYCODE", user.getUserCity());
+            //讀講習選單、繳納方式、注意事項用
+            argJsonObj.put("USER_UNITCD1", user.getUnitCd1());
+            argJsonObj.put("USER_UNITCD2", user.getUnitCd2());
+        }
         if (argJsonObj.has("CASEID")) {
             request.getSession().setAttribute("caseId", argJsonObj.getString("CASEID"));
             log.debug("save caseId to session: " + argJsonObj.getString("CASEID"));
@@ -104,6 +106,15 @@ public class QueryServlet extends AjaxBaseServlet {
                     msg = dao.addComment(argJsonObj);
                 }else{
                     msg = dao.updateComment(argJsonObj);
+                }                
+                this.setInfoMsg(returnJasonObj, msg);
+                break;
+            case "addCommentAudi"://意見回條-觀眾輸入  
+                action = argJsonObj.getString("action");
+                if(action.equals("create")){
+                    msg = dao.addCommentAudi(argJsonObj);
+                }else{
+                    msg = dao.updateCommentAudi(argJsonObj);//not yet
                 }                
                 this.setInfoMsg(returnJasonObj, msg);
                 break;

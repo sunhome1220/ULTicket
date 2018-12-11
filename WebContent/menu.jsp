@@ -47,7 +47,7 @@
                                         <a href="index.jsp" >說明</a>
                                     </li>
                                     <li>
-                                        <a href="audienceRecTicQRCode.jsp" >QRCode</a>
+                                        <a href="audienceRecTicQRCode.jsp" >觀眾索票</a>
                                     </li>
                                     <li>
                                         <a href="requestTicket.jsp" >索票登錄</a>
@@ -56,16 +56,22 @@
                                         <a href="requestTicketMod.jsp" >索票登錄</a>
                                     </li>-->
                                     <li>
-                                        <a href="query.jsp" >資料查詢/修改</a>
+                                        <a href="query.jsp" >資料查詢修改</a>
                                     </li>
                                     <li>
                                         <a href="reply.jsp" >票根輸入</a>
                                     </li>
                                     <li>
-                                        <a href="queryTickStatus.jsp" >索票/出席狀況</a>
+                                        <a href="queryTickStatus.jsp" >統計及預估</a>
                                     </li>
+<!--                                    <li>
+                                        <a href="queryTickStatusChart.jsp" >索票/出席狀況</a>
+                                    </li>-->
                                     <li>
                                         <a href="replyComment.jsp" >回條輸入</a>
+                                    </li>
+                                    <li>
+                                        <a href="replyCommentAudi.jsp?evid=20181229" >回條2</a>
                                     </li>
                                     
 <!--                                    <li>

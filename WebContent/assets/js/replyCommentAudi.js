@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("#eventid").val(eventid);
     $("#eventid").attr("disabled", true);
     
-    localStorage.setItem("lastOperation", 'replyCommentAudi.jsp');
+    //localStorage.setItem("lastOperation", 'replyCommentAudi.jsp');
     $("#btnSubmit").click(function () {
         submitData();
     });
@@ -65,11 +65,40 @@ function submitData() {//送出票根資料
     if ($("#btnSubmit").text() === '更新資料') {
         action = 'update';
     }
-    if(!ticknoIsOk($('#eventid').val())){
-        alert('請確認票號是否正確');
-        $('#eventid').focus();
+    if($('#tickid').val()===''){
+        alert('請輸入門票號碼');
+        $('#tickid').focus();
         return;
     }
+    if(!ticknoIsOk($('#tickid').val())){
+        alert('請確認票號是否正確');
+        $('#tickid').focus();
+        return;
+    }    
+    if($('#audiencename').val()===''){
+        alert('請輸入您的姓名');
+        $('#audiencename').focus();
+        return;
+    }
+    if($('#reqTel').val()===''){
+        alert('請輸入您的聯絡電話號碼');
+        $('#reqTel').focus();
+        return;
+    }
+    if($("input[name='satisfaction']:checked").val()===''){
+        alert('請輸入滿意度狀況');
+        return;
+    }
+    if($('#interestSelected').val()===''){
+        if(!confirm('尚未勾選有興趣課程，若要增加課程項目請按取消')){
+            return;
+        }
+    }else{
+//        if(!confirm('是否確定要送出意見回條資料？')){
+//            return;
+//        }
+    }
+    
     $.ajax({
         url: 'QueryServlet',
         method: 'POST',
@@ -80,16 +109,11 @@ function submitData() {//送出票根資料
             eventid: $('#eventid').val(),
             tickid: $('#tickid').val(),
             audiencename: $('#audiencename').val(),
-//            ticktel: $('#reqTel').text(),
             ticktel: $('#reqTel').val(),
             audiencecomment: $('#audiencecomment').val(),
             interest: $('#interestSelected').val(),
             satisfaction: $("input[name='satisfaction']:checked").val(),
-            age: $('#age').val(),
-            comment: $('#comment').val(),
-            contactStatus: $("input[name='contactStatus']:checked").val(),
-            callTimes: 1
-
+            age: $('#age').val()
         },
         async: true,
         success: function (data) {
@@ -132,6 +156,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 function ticknoIsOk(ticketNo) {
+    //alert(ticketNo);
     if ($("#eventid").val() === '20181014') {
         return ticketNo >= 20001 && ticketNo <= 25000;
     } else if ($("#eventid").val() === '20181103') {

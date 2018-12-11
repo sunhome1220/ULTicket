@@ -25,7 +25,8 @@ $(document).ready(function () {
         $("input").val('');
         $("#procman").text('');
         $("#reqName").text('');
-        $("#reqTel").text('');
+//        $("#reqTel").text('');
+        $("#reqTel").val('');
         $("#reqTickNo").text('');
         $("#showTickNo").text('');
         $("div[id^='divHide']").hide();
@@ -89,6 +90,29 @@ $(document).ready(function () {
     $("#eventid").change(function () {
         getTickCount();
     });
+    $("#btnShowQRCode").click(function(){
+        var evid = $("#eventid").val();
+        
+        if(evid===''){
+            alert('請選擇場次');return;
+        }
+//        var staffId = encodeURIComponent($("#username").text().replace(',您好',''));//%E7%8E%8B%E6%B8%AC%E8%A9%A6
+//        var team = encodeURIComponent($("#team").val());        
+        var serverNmPort = 'http://ult.nctu.me';
+        //serverNmPort = 'http://localhost:8081';//for test
+        var text = serverNmPort + '/tick/replyCommentAudi.jsp?evid='+evid;
+        
+        $("#qrCodeUrl").val(text);
+        $("#qrCodeUrl").text(text);
+        $("#qrcode").attr("src","http://chart.apis.google.com/chart?cht=qr&chl="+ text +"&chs=300x300");
+        $("#qrcode").show();
+        $("#divReqUrl").show();
+     });
+     $("#btnCopyUrl").click(function(){        
+        $("#qrCodeUrl").select();
+        document.execCommand("copy");
+        alert('已複製至剪貼簿，可直接以mail或line傳給朋友');
+    });
 });
 
 
@@ -120,9 +144,12 @@ function submitData() {//送出票根資料
             eventid: $('#eventid').val(),
             tickid: $('#tickid').val(),
             audiencename: $('#audiencename').val(),
-            ticktel: $('#reqTel').text(),
+//            ticktel: $('#reqTel').text(),
+            ticktel: $('#reqTel').val(),
             audiencecomment: $('#audiencecomment').val(),
             interest: $('#interestSelected').val(),
+            satisfaction: $("input[name='satisfaction']:checked").val(),
+            age: $('#age').val(),
             comment: $('#comment').val(),
             contactStatus: $("input[name='contactStatus']:checked").val(),
             callTimes: 1
@@ -191,7 +218,8 @@ function getReqTickInfo() {
     $("div[id^='divHide']").show();
     $("#procman").text('讀取中..');
     $("#reqName").text('..');
-    $("#reqTel").text('...');
+//    $("#reqTel").text('...');
+    $("#reqTel").val('');
     $("#reqTickNo").text('');
     $("#showTickNo").text('');
     $.ajax({
@@ -208,14 +236,17 @@ function getReqTickInfo() {
             var jo = JSON.parse(data.infoMsg);
             $("#procman").text(jo.procman);
             $("#reqName").text(jo.reqName);
-            $("#reqTel").text(jo.reqTel);
-            $("#reqTel").attr("href", "tel:" + jo.reqTel);
+            $("#reqTel").val(jo.reqTel);
+//            $("#reqTel").text(jo.reqTel);
+//            $("#reqTel").attr("href", "tel:" + jo.reqTel);
             $("#reqTickNo").text(jo.reqTickNo);
             $("#showTickNo").text(jo.showTickNo);
             if (jo.reqTickNo === "0") {
                 $("#btnSubmit").attr("disabled", true);
             }
             $("#contactperson").val(jo.username);
+            $("#age").val(jo.age);
+            $("input[name='satisfaction'][value=" + jo.satisfaction + "]").prop('checked', true);
             $("input[name='contactStatus'][value=" + jo.contactStatus + "]").prop('checked', true);
             $("#audiencecomment").val(jo.audiencecomment);
             $("#audiencename").val(jo.audiencename);
@@ -234,7 +265,7 @@ function getReqTickInfo() {
             var interests = jo.interest.split(',');
             for (i = 0; i < interests.length; i++) {
                 //alert(interests[i]);
-                $("input[name=interest][value=0]").click();
+                $("input[name=interest][value="+interests[i]+"]").click();
             }
             return;
         },

@@ -574,18 +574,18 @@ public class ReqTickDao extends CJBaseDao {
                             + "伙伴或親友:" + friendCnt + ""
                             + ",請假:" + cancelCnt + "\n"
                             + "預估出席:" + predictShowNo + "";
-                    msg2 += "<tr><td >"+ evid.substring(0,8) + "<br>"
-                            + "" + m.get("event").toString() + "</td>"
+                    msg2 += "<tr><td >"+ evid.substring(0,8) + ""
+                            + " " + m.get("event").toString() + "</td>"
                             + "<td>" + ((seatSize.length()<4)?" ":"") + seatSize + "</td>"
                             + "<td>" + reqcnt + "</td>"
                             //+ ",確認將出席:" + m.get("confirmCnt").toString()
                             + "<td>" + friendCnt + "</td>"
                             + "<td>" + cancelCnt + "</td>"
-                            + "<td>" + predictShowNo + "<br>("+ predictShowPect +"%)" + "</td>";
+                            + "<td>" + predictShowNo + "("+ predictShowPect +"%)" + "</td>";
                     if(showCnt > 0){        
                         msg += ",實際出席:" + showCnt;
                         msg2 += "<td>" + showcntNotProc + "</td>";
-                        msg2 += "<td>" + showCnt + "<br>("+ realShowPect +"%)</td>";
+                        msg2 += "<td>" + showCnt + "("+ realShowPect +"%)</td>";
                     }else{
                         msg2 += "<td>N/A</td>";
                         msg2 += "<td>N/A</td>";

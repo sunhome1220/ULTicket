@@ -226,11 +226,9 @@
                 </div>
                 <div id="QueryResultpagger"></div>
             </div>   
-            <div id="divReqUrl" class="panel-footer" style="align-self: center;display:none">
-                A-完整連結：<input id="qrCodeUrl" type="text"/>
-                    <input id="btnCopyUrl" class="btn btn-warning" type="button" value="複製連結"/><br>
-                    B-QRCode：<img id='qrcode' src='#' alt="QRCode"/>
-                </div>
+            <div id="divReqUrl" class="panel-footer" style="align-self: center;display:none">               
+                QRCode：<img id='qrcode' src='#' alt="QRCode"/>
+            </div>
     </section>
 
     

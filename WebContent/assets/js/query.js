@@ -1,4 +1,5 @@
 var rowNum = 20;
+var autoScrollV = false;
 $(document).ready(function () {
     $("a[id^=href]").click(function(){
         window.location.href=this.id.replace('href_','')+'.jsp';
@@ -215,6 +216,10 @@ function Query() {
     var bigScreen = false;
     if($(window).width()>=980){
         bigScreen = true;
+        $('#aSmallScreen').hide();
+    }else{        
+        rowNum = 20;
+        autoScrollV = true;
     }
     if($('#eventid').val()===''){
         alert('請先選擇場次');return;
@@ -387,9 +392,24 @@ function Query() {
                 showUpdateDialog(id);
                 //alert(row.taginc);
             }
+            ,autoScroll: autoScrollV//false//當autoScroll和shrinkToFit均為false時，會出現行滾動條
+//            shrinkToFit: true//是否列寬度自適應。true=適應 false=不適應
         }
+                
                 );
-    $("#QueryResult").setGridWidth($(window).width() * 0.7);        
+    //$("#QueryResult").setGridWidth($(window).width() * 0.7);   
+     
+    //$("#QueryResult").jqGrid('setFrozenColumns');//設置凍結列生效
+    if(bigScreen === true){
+        $("#QueryResult").setGridHeight($(window).height() * 0.9);  
+        $("#QueryResult").fixedHeaderTable({
+            footer: true,
+            altClass: 'odd',
+            fixedColumns :1
+        });
+        $("#QueryResult").fixedHeaderTable('show');
+    }
+    
 }
 
 //跳出編輯視窗

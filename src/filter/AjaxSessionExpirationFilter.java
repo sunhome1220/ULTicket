@@ -65,8 +65,10 @@ public class AjaxSessionExpirationFilter implements Filter {
 		String requestURI = ((HttpServletRequest) request).getRequestURI();
 //                System.out.println("requestURI:"+requestURI);
                 boolean isSecureLogin = false;
-                if(((HttpServletRequest) request).getHeader("referer") != null && 
-                        ((HttpServletRequest) request).getHeader("referer").contains("SecureLogin.jsp")){
+                String header = ((HttpServletRequest) request).getHeader("referer");
+                if(header != null 
+                        && (header.contains("SecureLogin.jsp") || header.contains("Audi.jsp"))
+                        ){
                     isSecureLogin = true;
                 }
 		// 需排除首頁會做的ajax

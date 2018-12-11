@@ -48,13 +48,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 id="heaerh2" class="panel-title">回條資料輸入&nbsp;&nbsp;&nbsp;&nbsp;</h2>  
-                    請填寫您的寶貴意見，謝謝。
+                    請提供您寶貴的意見，使我們下次演出更進步，謝謝。                    
                 </div>
                 <div class="panel-body">                        
                         <form id="Form12">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span class=Must>*</span>場次</label> 
+                                    <label>場次</label> 
                                     <select class="form-control" data-width="100px" id="eventid" name="eventid">
                                         <option value="">請選擇</option>
                                         <option value="20181014" selected>10/14-新竹公演(票號:20001~25000)</option>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span></span>票號:</label>
+                                    <label><span class=Must>*</span>票號:</label>
                                 </div>
                             </div>                            
                             <div class="row">
@@ -76,25 +76,40 @@
                                     <input type="tel" id="tickid" name="tickid" maxlength="5" class="form-control" placeholder="門票號碼">                                    
                                 </div>
                             </div>
-                            <div class="row" id="divHide1" style="display:">
-                                <div class="col-sm-4 col-xs-6">
-                                    電　話: <input style="border-color: gray" type="tel" size="12" id="reqTel" maxlength="21" class="" placeholder="電話"><br>                                                                      
-                                </div>                                
-                            </div>
-                            <div class="row" id="divHide3" style="display:">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must>*</span>姓名:</label>
+                                </div>
+                            </div>                            
+                            <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    姓　名: <input type="text" id="audiencename" style="border-color: gray" size="12" maxlength="10" class="" placeholder="您的大名">
-                                </div>                                                                
+                                    <input type="text" id="audiencename" name="audiencename" maxlength="12" class="form-control" placeholder="您的姓名">                                    
+                                </div>
                             </div>
-                            <div class="row" id="divHide32" style="display:">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label><span class=Must>*</span>電話:</label>
+                                </div>
+                            </div>                            
+                            <div class="row">
                                 <div class="col-sm-4 col-xs-6">                                    
-                                    年　齡: <input type="tel" id="age" style="border-color: gray" size="12" maxlength="2" class="" placeholder="">
-                                </div>                                                                
+                                    <input type="tel" id="reqTel" name="reqTel" maxlength="20" class="form-control" placeholder="您的聯絡電話">                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6">
+                                    <label><span></span>年齡:</label>
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-6">                                    
+                                    <input type="tel" id="age" name="age" maxlength="3" class="form-control" placeholder="您的年齡">                                    
+                                </div>
                             </div>
                             
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12">
-                                    <label><span></span>滿意度:</label>
+                                    <label><span class=Must>*</span>滿意度:</label>
                                     <input name="satisfaction" type="radio" value="2">非常滿意
                                     <input name="satisfaction" type="radio" value="1">滿意
                                     <input name="satisfaction" type="radio" value="0">不滿意                                    
@@ -118,15 +133,15 @@
                                     <input name="interest" type="checkbox" value="1">和太鼓
                                     <input name="interest" type="checkbox" value="2">節奏樂團<br>
                                     <input name="interest" type="checkbox" value="3">陶笛
-                                    <input name="interest" type="checkbox" value="4">桌遊
-                                    <input name="interest" type="checkbox" value="5">兒童美勞<br>
+                                    <input name="interest" type="checkbox" value="4">益智桌遊
+                                    <input name="interest" type="checkbox" value="5">兒童美術美勞<br>
                                     <input name="interest" type="checkbox" value="6">女性有氧瑜珈
                                     <input name="interest" type="checkbox" value="7">流行舞蹈
                                     <input name="interest" type="checkbox" value="8">桌球                                    
                                     <input name="interest" type="checkbox" value="9">籃球<br>
-                                    <input name="interest" type="checkbox" value="A">手工藝
+                                    <input name="interest" type="checkbox" value="A">毛線編織班
                                     <input name="interest" type="checkbox" value="B">表演課
-                                    <input name="interest" type="checkbox" value="C">烹飪料理
+                                    <input name="interest" type="checkbox" value="C">蔬食烹飪料理
                                     <input id="interestSelected" type="hidden" value=""/>
 <!--                                    <input type="range" id="rateStar" name="tckno2" min="1" max="3">-->
                                 </div>

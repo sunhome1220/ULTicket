@@ -94,14 +94,16 @@ public class TickDao extends CJBaseDao {
         String audiencecomment = argJsonObj.getString("audiencecomment");
         String comment = argJsonObj.getString("comment");
         int contactStatus = argJsonObj.getInt("contactStatus");
+        int satisfaction = argJsonObj.getInt("satisfaction");
+        int age = argJsonObj.getInt("age");
         int callTimes = argJsonObj.getInt("callTimes");
         String userid = argJsonObj.getString("USER_NM");
 
         log.info("addComment:" + userid);
         String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,contactStatus,"
-                + "     updatetime,comment,calltimes,lastestCallernm,username,interest,ticktel)  "
-                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?,?,?)";
-        Object[] objs = new Object[11];
+                + "     updatetime,comment,calltimes,lastestCallernm,username,interest,ticktel,satisfaction,age,createtime,creator)  "
+                + "VALUES (?,?,?,?,?,getdate(),?,?,?,?,?,?,?,?,getdate(),?)";
+        Object[] objs = new Object[14];
         objs[0] = eventid;
         objs[1] = tickid;
         objs[2] = audiencename;
@@ -114,10 +116,64 @@ public class TickDao extends CJBaseDao {
         objs[8] = userid;
         objs[9] = argJsonObj.getString("interest");
         objs[10] = ticktel;
+        objs[11] = satisfaction;
+        objs[12] = age;
+        objs[13] = userid;
         
         int result = this.pexecuteUpdate(sql, objs);        
         if(result>=0){
             strMsg = "成功新增一筆回條資料!";
+            String updateSql = "UPDATE proctick SET presentStatus= 1 "
+                + "where (presentStatus is null or presentStatus=0) "
+                + "and tickid =?";
+            int resultUpd = this.pexecuteUpdate(updateSql, new Object[]{tickid});
+            if(resultUpd==1){
+                strMsg += ",並更新出席狀況";
+            }
+        }else{
+            strMsg = "異常！回條資料未成功新增!";
+        }
+        return strMsg;
+    }
+    
+    //意見回條-觀眾自行輸入
+    public String addCommentAudi(JSONObject argJsonObj) {//create or update
+        String strMsg = "";
+        String eventid = argJsonObj.getString("eventid");
+        String tickid = argJsonObj.getString("tickid");
+        String audiencename = argJsonObj.getString("audiencename");
+        String ticktel = argJsonObj.getString("ticktel");
+        String audiencecomment = argJsonObj.getString("audiencecomment");
+        int satisfaction = argJsonObj.getInt("satisfaction");
+        int age = argJsonObj.getInt("age");
+        
+        log.info("addCommentAudi:" + tickid);
+        String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,"
+                + "     updatetime,interest,ticktel,satisfaction,age,createtime,creator)  "
+                + "VALUES (?,?,?,?,"
+                + "     getdate(),?,?,?,?,getdate(),?)";
+        Object[] objs = new Object[9];
+        objs[0] = eventid;
+        objs[1] = tickid;
+        objs[2] = audiencename;
+        objs[3] = audiencecomment;
+        
+        objs[4] = argJsonObj.getString("interest");
+        objs[5] = ticktel;
+        objs[6] = satisfaction;
+        objs[7] = age;
+        objs[8] = audiencename;
+        
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>=0){
+            strMsg = "已成功新增，謝謝您的寶貴意見!";
+//            String updateSql = "UPDATE proctick SET presentStatus= 1 "
+//                + "where (presentStatus is null or presentStatus=0) "
+//                + "and tickid =?";
+//            int resultUpd = this.pexecuteUpdate(updateSql, new Object[]{tickid});
+//            if(resultUpd==1){
+//                strMsg += ",並更新出席狀況";
+//            }
         }else{
             strMsg = "異常！回條資料未成功新增!";
         }
@@ -132,16 +188,19 @@ public class TickDao extends CJBaseDao {
         String audiencename = argJsonObj.getString("audiencename");
         String audiencecomment = argJsonObj.getString("audiencecomment");
         String comment = argJsonObj.getString("comment");
+        int satisfaction = argJsonObj.getInt("satisfaction");
+        int age = argJsonObj.getInt("age");
         int contactStatus = argJsonObj.getInt("contactStatus");
         int callTimes = argJsonObj.getInt("callTimes");
         String userid = argJsonObj.getString("USER_NM");
 
         log.info("addComment:" + userid);
         String sql = "update tickcomment set audiencename=?,audiencecomment=?, contactStatus=?, "
-                + "     updatetime=getdate(), comment=?, calltimes=?, lastestCallernm=?, username=?, interest=? "
+                + "     updatetime=getdate(), comment=?, calltimes=?, lastestCallernm=?, username=?, interest=?, "
+                + "     age=?, satisfaction=?"
                 + " where evid=? and tickid=? ";
                 
-        Object[] objs = new Object[10];
+        Object[] objs = new Object[12];
         objs[0] = audiencename;
         objs[1] = audiencecomment;
         objs[2] = contactStatus;
@@ -151,12 +210,14 @@ public class TickDao extends CJBaseDao {
         objs[5] = userid;
         objs[6] = userid;
         objs[7] = argJsonObj.getString("interest");
-        objs[8] = eventid;
-        objs[9] = tickid;
+        objs[8] = age;
+        objs[9] = satisfaction;
+        objs[10] = eventid;
+        objs[11] = tickid;
         
         
         int result = this.pexecuteUpdate(sql, objs);        
-        if(result>=0){
+        if(result>0){
             strMsg = "成功更新回條資料!";
         }else{
             strMsg = "異常！回條資料未成功更新!";
@@ -164,6 +225,44 @@ public class TickDao extends CJBaseDao {
         return strMsg;
     }
 
+    /**
+     * 由觀眾自行輸入的
+     * @param argJsonObj
+     * @return 
+     */
+    public String updateCommentAudi(JSONObject argJsonObj) {
+        String strMsg = "";
+        String eventid = argJsonObj.getString("eventid");
+        String tickid = argJsonObj.getString("tickid");
+        String audiencename = argJsonObj.getString("audiencename");
+        String audiencecomment = argJsonObj.getString("audiencecomment");
+        int satisfaction = argJsonObj.getInt("satisfaction");
+        int age = argJsonObj.getInt("age");
+        
+        log.info("addCommentAudi:" + tickid);
+        String sql = "update tickcomment set audiencename=?,audiencecomment=?, "
+                + "     updatetime=getdate(), interest=?, "
+                + "     age=?, satisfaction=?"
+                + " where evid=? and tickid=? ";
+                
+        Object[] objs = new Object[7];
+        objs[0] = audiencename;
+        objs[1] = audiencecomment;
+        objs[2] = argJsonObj.getString("interest");
+        objs[3] = age;
+        objs[4] = satisfaction;
+        objs[5] = eventid;
+        objs[6] = tickid;
+        
+        
+        int result = this.pexecuteUpdate(sql, objs);        
+        if(result>0){
+            strMsg = "成功更新回條資料!";
+        }else{
+            strMsg = "異常！回條資料未成功更新!";
+        }
+        return strMsg;
+    }
 //    private String checkTicnoNotDuplicate(String sqlCheck) {
 //        ArrayList<HashMap> result = this.pexecuteQuery(sqlCheck, new Object[]{});
 //        if(result.size()>0){
@@ -316,6 +415,18 @@ public class TickDao extends CJBaseDao {
         //String confirmStatusLike = confirmStatus +"%";
         
         int evid = jo.getInt("evid");
+        
+//        不需要，因為查詢報表時就會作此處理          
+//        String updateSql = "UPDATE proctick SET presentStatus= 1 "
+//                + "where tickid in (select tickid from showtick) "
+//                + " and (presentStatus is null or presentStatus=0) "
+//                + " and evid =?";
+//        int resultUpd = this.pexecuteUpdate(updateSql, new Object[]{evid});
+//        if(resultUpd>=1){
+//            //strMsg += ",並更新出席狀況";
+//            log.info("更新出席狀態筆數:" + resultUpd);
+//        }
+
         String sql = "SELECT * FROM proctick where evid = ? ";
         String sqlG = "SELECT confirmStatus, count(*) FROM proctick where evid = ? ";
         switch (queryType) {
@@ -363,7 +474,7 @@ public class TickDao extends CJBaseDao {
         if(!tickname.trim().equals("")){
             sql += " and tickname like ? ";
         }
-        sql += " order by taginc desc";
+        sql += " order by tickid desc";
         
         Object[] newPara = null;
         switch (queryType) {
