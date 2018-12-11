@@ -212,9 +212,10 @@
                 
                 <div class="panel-footer">                    
                     <div align="center">
-                        <button class="btn btn-primary" style="" id="btnSubmit">確認輸入</button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-primary" style="" id="btnSubmit">確認輸入</button>                        
                         <button type="reset" class="btn btn-default" id="btnClear">清除重填</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" class="btn btn-primary" id="btnShowQRCode" value="由觀眾輸入"/>
                     </div>
                 </div>
             
@@ -224,7 +225,12 @@
                     <table id="QueryResult" style="display: none"></table>
                 </div>
                 <div id="QueryResultpagger"></div>
-            </div>        
+            </div>   
+            <div id="divReqUrl" class="panel-footer" style="align-self: center;display:none">
+                A-完整連結：<input id="qrCodeUrl" type="text"/>
+                    <input id="btnCopyUrl" class="btn btn-warning" type="button" value="複製連結"/><br>
+                    B-QRCode：<img id='qrcode' src='#' alt="QRCode"/>
+                </div>
     </section>
 
     
