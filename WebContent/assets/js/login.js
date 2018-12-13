@@ -93,7 +93,8 @@ function login() {
                 }
                 //window.location.href="reply.jsp";
                 localStorage.setItem("loginCode", jo.loginCode);                
-                localStorage.setItem("teamName", jo.teamName);                            
+                localStorage.setItem("teamName", jo.teamName);    
+                localStorage.setItem("CommentSubmitCnt", 1);//登入後就重置這個可提交的次數總計
             }else if(jo.NoPwd){
                 alert(jo.msg);                
             }else{

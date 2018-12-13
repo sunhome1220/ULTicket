@@ -145,8 +145,12 @@ public class TickDao extends CJBaseDao {
         String ticktel = argJsonObj.getString("ticktel");
         String audiencecomment = argJsonObj.getString("audiencecomment");
         int satisfaction = argJsonObj.getInt("satisfaction");
-        int age = argJsonObj.getInt("age");
-        
+        int age = 0;        
+        try{
+            age = argJsonObj.getInt("age");
+        }catch(Exception e){
+            
+        }
         log.info("addCommentAudi:" + tickid);
         String sql = "INSERT INTO tickcomment(evid,tickid,audiencename,audiencecomment,"
                 + "     updatetime,interest,ticktel,satisfaction,age,createtime,creator)  "
@@ -166,7 +170,7 @@ public class TickDao extends CJBaseDao {
         
         int result = this.pexecuteUpdate(sql, objs);        
         if(result>=0){
-            strMsg = "已成功新增，謝謝您的寶貴意見!";
+            strMsg = "已成功新增，感謝您的寶貴意見!\n\n若發現資料漏填或輸入錯誤，請修改後再次送出即可!";
 //            String updateSql = "UPDATE proctick SET presentStatus= 1 "
 //                + "where (presentStatus is null or presentStatus=0) "
 //                + "and tickid =?";
@@ -218,7 +222,7 @@ public class TickDao extends CJBaseDao {
         
         int result = this.pexecuteUpdate(sql, objs);        
         if(result>0){
-            strMsg = "成功更新回條資料!";
+            strMsg = "成功更新回條資料!感謝您的寶貴意見!";
         }else{
             strMsg = "異常！回條資料未成功更新!";
         }

@@ -17,25 +17,15 @@ $(document).ready(function () {
         $("#audiencename").val($("#reqName").text());
     });
     $("#btnClear").click(function () {
-        $("input").val('');
-        $("#procman").text('');
-        $("#reqName").text('');
-//        $("#reqTel").text('');
-        $("#reqTel").val('');
-        $("#reqTickNo").text('');
-        $("#showTickNo").text('');
-        //$("div[id^='divHide']").hide();
+//        $("#tickid").val('');
+//        $("#audiencename").val('');
+//        $("#age").val('');
+//        $("#reqTel").val('');
+//        $("#audiencecomment").val('');        
+        location.reload();
     });
 
     
-    $("input[id^='tckno']").blur(function () {//選擇所有的name屬性以’tckno'開頭的input元素
-        //alert(this.value);
-        var ticknoValid = ticknoIsOk(this.value);
-        if (this.value.length > 0 && !ticknoValid) {
-            //alert('請確認票號是否正確');
-            //this.focus();
-        }
-    });
     $("input[name=interest]").change(function () {
         var oldValue = $("#interestSelected").val();
         if (this.checked) {
@@ -61,42 +51,67 @@ function ticknoIsOk(ticketNo) {
     }
 }
 function submitData() {//送出票根資料
+    var localStoreId = 'CommentSubmitCnt';// + $('#eventid').val();
+    var limited = 10;
+    if(localStorage.getItem(localStoreId)){
+        if(eval(localStorage.getItem(localStoreId)) > limited){
+            alert('很抱歉，此裝置已填寫回條超過上限次數(' + limited +')。\n\n若您仍需繼續填寫,請先登入系統，謝謝');
+            return;
+        }
+    }
+    var confirmMsg = "";
     var action = 'create';
     if ($("#btnSubmit").text() === '更新資料') {
         action = 'update';
-    }
-    if($('#tickid').val()===''){
-        alert('請輸入門票號碼');
-        $('#tickid').focus();
+    }      
+    if($('#audiencename').val().length <= 1 || (!isNaN($('#audiencename').val()))){
+        alert('請確認姓名是否輸入正確');
+        confirmMsg += '請確認姓名是否輸入正確\n';
+        //$('#audiencename').focus();
+        $('#audiencename').select();
         return;
     }
-    if(!ticknoIsOk($('#tickid').val())){
-        alert('請確認票號是否正確');
-        $('#tickid').focus();
-        return;
-    }    
-    if($('#audiencename').val()===''){
-        alert('請輸入您的姓名');
-        $('#audiencename').focus();
+    if($('#age').val()!=='' && (isNaN($('#age').val()) || $('#age').val() < 1 || $('#age').val() > 140)){
+        alert('請輸入正確的年齡(1~140)');
+        confirmMsg += '年齡資料輸入錯誤\n';
+        $('#age').select();
         return;
     }
-    if($('#reqTel').val()===''){
-        alert('請輸入您的聯絡電話號碼');
-        $('#reqTel').focus();
-        return;
-    }
-    if($("input[name='satisfaction']:checked").val()===''){
+//    if($('#reqTel').val()===''){
+//        alert('請輸入您的聯絡電話號碼');
+//        $('#reqTel').focus();
+//        return;
+//    }
+    //alert('==='+$("input[name='satisfaction']:checked").val()+'===');
+    if(!$("input[name='satisfaction']:checked") || $("input[name='satisfaction']:checked").val()===''){
         alert('請輸入滿意度狀況');
         return;
     }
+    if($('#tickid').val()!=='' && !ticknoIsOk($('#tickid').val())){
+        alert('請確認票號是否正確，若忘記號碼或票券遺失請留空白即可');        
+        $('#tickid').focus();
+        return;
+    }
+    if($('#tickid').val()===''){
+        confirmMsg += '票號為您所持門票上5碼數字，若忘記號碼或票券遺失請留空白即可\n\n';
+    }
     if($('#interestSelected').val()===''){
-        if(!confirm('尚未勾選有興趣課程，若要增加課程項目請按取消')){
-            return;
-        }
-    }else{
-//        if(!confirm('是否確定要送出意見回條資料？')){
+        confirmMsg += '尚未勾選有興趣課程\n';
+//        if(!confirm(confirmMsg)){
 //            return;
 //        }
+    }else{
+        if($('#reqTel').val()===''){
+            confirmMsg += '您有勾選課程但未輸入聯絡電話\n\n您的資料僅作為課程及演出資訊的通知，不作他用，請安心填寫\n';
+//            if(!confirm(confirmMsg)){
+//                return;
+//            }
+        }
+    }
+    if(confirmMsg!=='' && !confirm(confirmMsg + '是否確認送出資料？')){
+        return;
+    }else if(confirmMsg==='' && !confirm('是否確認送出資料？')){
+        return;        
     }
     
     $.ajax({
@@ -113,14 +128,20 @@ function submitData() {//送出票根資料
             audiencecomment: $('#audiencecomment').val(),
             interest: $('#interestSelected').val(),
             satisfaction: $("input[name='satisfaction']:checked").val(),
-            age: $('#age').val()
+            age: $('#age').val(),
+            submitCnt: eval(localStorage.getItem(localStoreId)) + 1
         },
         async: true,
         success: function (data) {
+            //localStorage.setItem('committedCnt',0);
             if(data.infoMsg){
+                if(localStorage.getItem(localStoreId)){
+                    localStorage.setItem(localStoreId, eval(localStorage.getItem(localStoreId))+1);
+                }else{
+                    localStorage.setItem(localStoreId, 1);
+                }
                 alert(data.infoMsg);
-                if (data.infoMsg.indexOf('成功') >= 0) {
-                    $("input").val('');
+                if (data.infoMsg.indexOf('成功') >= 0) {                    
                 }            
             }else{
                 alert(data.exceptionMsg);

@@ -218,16 +218,10 @@
                         <input type="button" class="btn btn-primary" id="btnShowQRCode" value="由觀眾輸入"/>
                     </div>
                 </div>
-            
-            <div>
-                <br>
-                <div class="jqGrid">
-                    <table id="QueryResult" style="display: none"></table>
-                </div>
-                <div id="QueryResultpagger"></div>
-            </div>   
             <div id="divReqUrl" class="panel-footer" style="align-self: center;display:none">               
-                QRCode：<img id='qrcode' src='#' alt="QRCode"/>
+                請觀眾掃描此QRCode，可線上填寫意見回條：<img id='qrcode' src='#' alt="QRCode"/>
+                完整連結：<input id="qrCodeUrl"/>
+                    <input id="btnCopyUrl" class="btn btn-warning" type="button" value="複製連結"/><br>
             </div>
     </section>
 
