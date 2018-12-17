@@ -6,10 +6,8 @@ $(document).ready(function () {
 //        $(location).attr('href', localStorage.getItem("lastOperation"));
 //    }
     
-    var allTicketsNos="";
-    var d = new Date();
-    var d = new Date();
-
+    //var allTicketsNos="";
+    var d = new Date();  
     var month = d.getMonth()+1;
     var day = d.getDate();
     var strTodayDate = d.getFullYear() + '' +
@@ -17,7 +15,6 @@ $(document).ready(function () {
         (day<10 ? '0' : '') + day;
     
     $("#eventid").val(strTodayDate);
-    //alert($("#eventid").val());
     if($("#eventid").val()){//今天是演出日
         localStorage.setItem("lastOperation", 'reply.jsp');        
         getTickCount();
@@ -117,7 +114,7 @@ function ticknoIsOk(ticketNo){
         return ticketNo>=25001 && ticketNo<=30000; 
     }else if($("#eventid").val()==='20181125'){
         return ticketNo>=30001 && ticketNo<=35000; 
-    }else if($("#eventid").val()==='20181129'){
+    }else if($("#eventid").val()==='20181229'){
         return ticketNo>=35001 && ticketNo<=40000; 
     }else if($("#eventid").val()==='20190101'){
         return ticketNo>=1 && ticketNo<=5000; 

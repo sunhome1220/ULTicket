@@ -47,7 +47,19 @@
                                         <a href="index.jsp" >說明</a>
                                     </li>
                                     <li>
-                                        <a href="audienceRecTicQRCode.jsp" >觀眾索票</a>
+                                        <a>觀眾索票<b class=""></b></a>
+                                        <ul>
+                                            <li>
+                                                <a href="audienceRecTicQRCode.jsp" >觀眾索票(測試)</a>
+                                            </li>
+                                            <li>
+                                                <a href="myTickets.jsp" >我的票券(測試)</a>
+                                            </li>
+                                                                                      
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        
                                     </li>
                                     <li>
                                         <a href="requestTicket.jsp" >索票登錄</a>
@@ -62,17 +74,21 @@
                                         <a href="reply.jsp" >票根輸入</a>
                                     </li>
                                     <li>
-                                        <a href="queryTickStatus.jsp" >統計及預估</a>
+                                        <a>統計預估<b class=""></b></a>
+                                        <ul>
+                                            <li>
+                                                <a href="queryTickStatus.jsp" >表格</a>
+                                            </li>
+                                            <li>
+                                                <a href="queryTickStatusChart.jsp" >圖型</a>
+                                            </li>                                                                                      
+                                        </ul>
                                     </li>
+                                    
 <!--                                    <li>
                                         <a href="queryTickStatusChart.jsp" >索票/出席狀況</a>
                                     </li>-->
-                                    <li>
-                                        <a href="replyComment.jsp" >回條輸入</a>
-                                    </li>
-                                    <li>
-                                        <a href="replyCommentAudi.jsp?evid=20181229" >回條2</a>
-                                    </li>
+                                    
                                     
 <!--                                    <li>
                                         <a href="apply.jsp">(未)申辦作業</a>
@@ -83,15 +99,14 @@
                                     
                                     
                                     <li>
-                                        <a>統計資料<b class=""></b></a>
+                                        <a>回條資料<b class=""></b></a>
                                         <ul>
                                             <li>
-                                                <a href="queryTickStatus.jsp">索票狀況</a>
+                                                <a href="replyComment.jsp" >紙本回條資料輸入</a>
                                             </li>
                                             <li>
-                                                <a href="query.jsp">(未)查詢作業</a>
-                                            </li>
-                                                                                      
+                                                <a href="replyCommentAudi.jsp?evid=20181229" >觀眾自行輸入回條</a>
+                                            </li>                                                                                      
                                         </ul>
                                     </li>
                                 </ul>

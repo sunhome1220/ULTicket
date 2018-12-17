@@ -1,5 +1,17 @@
 $(document).ready(function () {
+    var d = new Date();  
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var strTodayDate = d.getFullYear() + '' +
+        (month<10 ? '0' : '') + month + '' +
+        (day<10 ? '0' : '') + day;
+    
     var eventid = getUrlParameter('evid');
+    if(eventid !== strTodayDate){
+        if(!confirm('今天並非是演出日(' + eventid + ')，是否確定要新增資料？')){
+            return;
+        }
+    }
     $("#eventid").val(eventid);
     $("#eventid").attr("disabled", true);
     
